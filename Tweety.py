@@ -79,7 +79,7 @@ class TwitterCVE:
 NewTwitter = TwitterCVE()
 x = NewTwitter.get_new_twitter_accounts("#CVE", 10)
 print(x)
-print(NewTwitter.get_cve_in_tweets(x))
+#print(NewTwitter.get_cve_in_tweets(x))
 #print(x.includes['users'][0])
 #for z in x.includes['users']:
 #    print(z)
