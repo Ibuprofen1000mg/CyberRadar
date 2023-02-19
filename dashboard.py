@@ -3,7 +3,7 @@ from dash import dcc
 from dash import html
 import pandas as pd
 
-data = pd.read_csv("C:/Users/kuhnjess/OneDrive - Boehringer Ingelheim/Documents/5.Semester Theo/Studienarbeit/dashboard_page/avocado.csv")
+data = pd.read_csv("./avocado.csv")
 data = data.query("type == 'conventional' and region == 'Albany'")
 data["Date"] = pd.to_datetime(data["Date"], format="%Y-%m-%d")
 data.sort_values("Date", inplace=True)

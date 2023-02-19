@@ -3,7 +3,8 @@ import configparser
 import os
 import pandas as pd
 import re
-import json
+import numpy as np
+from collections import Counter
 
 class TwitterCVE:
 
@@ -59,8 +60,9 @@ class TwitterCVE:
 
     #Sort collected tweets by frequency
     def sort_tweets_by_cve_frequency(self, list_of_cve):
-        
-        pass
+        print(Counter(list_of_cve).keys()) # equals to list(set(words))
+        print(Counter(list_of_cve).values()) # counts the elements' frequency
+
 
 #Filter Tweets by 
 # NewTwitter = TwitterCVE()
@@ -77,8 +79,18 @@ class TwitterCVE:
 
 ##THis prints a twitter user list with cve referenced in their tweets
 NewTwitter = TwitterCVE()
-x = NewTwitter.get_new_twitter_accounts("#CVE", 10)
-print(x)
+#x = NewTwitter.get_tweets("#CVE", 10)
+#print(x)
+retrieveLast10 = NewTwitter.get_tweets("#CVE", 100)
+list_found_cves_in_tweets = []
+for tweets in retrieveLast10.data:
+    check_cve_regex = re.search('CVE-\d{4}-\d{4,7}', tweets.text)
+    #print(tweets[0])
+    if check_cve_regex != None:
+        list_found_cves_in_tweets.append(check_cve_regex.group())
+
+y = NewTwitter.sort_tweets_by_cve_frequency(list_found_cves_in_tweets)
+
 #print(NewTwitter.get_cve_in_tweets(x))
 #print(x.includes['users'][0])
 #for z in x.includes['users']:
