@@ -10,7 +10,7 @@ class TwitterCVE:
 
     def __init__(self) -> None:
         self.config = configparser.ConfigParser(interpolation=None)
-        self.config.read(os.path.dirname(os.path.abspath(__file__))+"/TwitterCreds.ini")
+        self.config.read(os.path.dirname(os.path.abspath(__file__))+"/Creds.ini")
         self.api_key = self.config['twitter']['ApiKey']
         self.api_key_secret = self.config['twitter']['ApiKeySecret']
         self.access_token = self.config['twitter']['AccessToken']

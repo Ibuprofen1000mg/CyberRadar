@@ -1,0 +1,5 @@
+#Ask for credentials after release
+#Merge Reddit Data with Twitter Data
+#Merge CVE Numbers with CVE API
+#Create CSV Data for Dashboard
+#Check Dashboard Possibilities --> Python Flask framework could be used as well
