@@ -43,21 +43,19 @@ app.layout = html.Div(
                         figure={
                             "data": [
                                 {
-                                    "x": data["Date"],
-                                    "y": data["Total Bags"],
-                                    "type": "lines",
+                                    'labels': data['Date'],
+                                    'values': data['Total Bags'],
+                                    'type': 'pie'
                                 },
                             ],
-                            "layout": {
-                                "title": {
-                                    "text": "Currently open CVEs (not real data)",
-                                    "x": 0.05,
-                                    "xanchor": "left",
+                            'layout': {
+                                'title': {
+                                    'text': 'Currently open CVEs (not real data)',
+                                    'x': 0.05,
+                                    'xanchor': 'left'
                                 },
-                                "xaxis": {"fixedrange": True},
-                                "yaxis": {"fixedrange": True},
-                                "colorway": ["#E12D39"],
-                            },
+                                'colorway': ['#E12D39']
+                            }
                         },
                     ),
                     className="card",
