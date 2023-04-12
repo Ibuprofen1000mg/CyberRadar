@@ -69,9 +69,9 @@ class TwitterCVE:
         Counter(list_of_cve).values() # counts the elements' frequency
 
 
-
+#This block prints the last 100 Tweet-CVEs with their frequencies
 NewTwitter = TwitterCVE()
-retrieveLast10 = NewTwitter.get_tweets("#CVE", 100)
+retrieveLast10 = NewTwitter.get_tweets("#cve -from:RedPacketSec", 100)
 z = NewTwitter.get_cve_in_tweets(retrieveLast10)
 y = NewTwitter.sort_tweets_by_cve_frequency(z)
 
