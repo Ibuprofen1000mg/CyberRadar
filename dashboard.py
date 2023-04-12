@@ -1,3 +1,4 @@
+'''File for creating the webpage of the Cyberradar'''
 import dash
 from dash import dcc
 from dash import html
