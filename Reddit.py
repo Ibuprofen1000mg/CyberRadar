@@ -1,8 +1,5 @@
 import configparser
 import os
-import requests
-import pprint
-
 #This is the reddit api python wrapper
 import praw
 
