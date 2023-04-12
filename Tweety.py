@@ -57,7 +57,7 @@ class TwitterCVE:
         list_found_cves_in_tweets = []
         for tweets in tweets_response.data:
             check_cve_regex = re.search('CVE-\d{4}-\d{4,7}', tweets.text)
-            print(tweets[0])
+            #print(tweets)
             if check_cve_regex != None:
                 list_found_cves_in_tweets.append(check_cve_regex.group())
         return list_found_cves_in_tweets
@@ -69,36 +69,9 @@ class TwitterCVE:
         print(Counter(list_of_cve).values()) # counts the elements' frequency
 
 
-#Filter Tweets by 
-# NewTwitter = TwitterCVE()
-# retrieveLast10 = NewTwitter.get_new_twitter_accounts("#CVE", 10)
-# list_found_cves_in_tweets = []
-# for tweets in retrieveLast10.data:
-#     check_cve_regex = re.search('CVE-\d{4}-\d{4,7}', tweets.text)
-#     print(tweets[0])
-#     if check_cve_regex != None:
-#         list_found_cves_in_tweets.append(check_cve_regex.group())
 
-
-
-
-##THis prints a twitter user list with cve referenced in their tweets
-#New class
 NewTwitter = TwitterCVE()
-#Get last 100 Tweets with #CVE
 retrieveLast10 = NewTwitter.get_tweets("#CVE", 100)
-#list_found_cves_in_tweets = []
-#for tweets in retrieveLast10.data:
-#    check_cve_regex = re.search('CVE-\d{4}-\d{4,7}', tweets.text)
-#    #print(tweets[0])
-#    if check_cve_regex != None:
-#        list_found_cves_in_tweets.append(check_cve_regex.group())
 z = NewTwitter.get_cve_in_tweets(retrieveLast10)
 y = NewTwitter.sort_tweets_by_cve_frequency(z)
 
-#print(NewTwitter.get_cve_in_tweets(x))
-#print(x.includes['users'][0])
-#for z in x.includes['users']:
-#    print(z)
-
-#print(list_found_cves_in_tweets)
