@@ -11,7 +11,7 @@ from Tweety import TwitterCVE
 # data.sort_values("Date", inplace=True)
 
 NewTwitter = TwitterCVE()
-retrieveLast100 = NewTwitter.get_tweets("#CVE", 100)
+retrieveLast100 = NewTwitter.get_tweets("#cve -from:RedPacketSec", 100)
 last100Tweets = NewTwitter.get_cve_in_tweets(retrieveLast100)
 last100TweetsAmount = NewTwitter.sort_tweets_by_cve_frequency(last100Tweets)
 
