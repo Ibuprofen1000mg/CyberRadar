@@ -65,8 +65,8 @@ class TwitterCVE:
     #Sort collected tweets by frequency
     def sort_tweets_by_cve_frequency(self, list_of_cve):
         '''Sorts the number of cves to their frequency'''
-        print(Counter(list_of_cve).keys()) # equals to list(set(words))
-        print(Counter(list_of_cve).values()) # counts the elements' frequency
+        Counter(list_of_cve).keys() # equals to list(set(words))
+        Counter(list_of_cve).values() # counts the elements' frequency
 
 
 
