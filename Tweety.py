@@ -5,10 +5,11 @@ import pandas as pd
 import re
 import numpy as np
 from collections import Counter
+import requests
+import json
 
 class TwitterCVE:
 
-    
     def __init__(self) -> None:
         self.config = configparser.ConfigParser(interpolation=None)
         self.config.read(os.path.dirname(os.path.abspath(__file__))+"/Creds.ini")
@@ -67,11 +68,18 @@ class TwitterCVE:
         '''Sorts the number of cves to their frequency'''
         Counter(list_of_cve).keys() # equals to list(set(words))
         Counter(list_of_cve).values() # counts the elements' frequency
-
+    
+    
 
 #This block prints the last 100 Tweet-CVEs with their frequencies
-NewTwitter = TwitterCVE()
-retrieveLast10 = NewTwitter.get_tweets("#cve -from:RedPacketSec", 100)
-z = NewTwitter.get_cve_in_tweets(retrieveLast10)
-y = NewTwitter.sort_tweets_by_cve_frequency(z)
+#NewTwitter = TwitterCVE()
+#retrieveLast10 = NewTwitter.get_tweets("#cve -from:RedPacketSec", 100)
+#z = NewTwitter.get_cve_in_tweets(retrieveLast10)
+#y = NewTwitter.sort_tweets_by_cve_frequency(z)
+
+
+#NewTwitter = TwitterCVE()
+#NewTwitter.get_twitter_live()
+
+
 
