@@ -1,12 +1,9 @@
 import tweepy
 import configparser
 import os
-import pandas as pd
 import re
-import numpy as np
 from collections import Counter
-import requests
-import json
+
 
 class TwitterCVE:
 
@@ -68,7 +65,7 @@ class TwitterCVE:
         '''Sorts the number of cves to their frequency'''
         Counter(list_of_cve).keys() # equals to list(set(words))
         Counter(list_of_cve).values() # counts the elements' frequency
-    
+        return list_of_cve
     
 
 #This block prints the last 100 Tweet-CVEs with their frequencies

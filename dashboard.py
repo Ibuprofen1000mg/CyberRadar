@@ -3,6 +3,7 @@ from dash import dcc
 from dash import html
 from dash import dash_table
 import pandas as pd
+from collections import Counter
 from Tweety import TwitterCVE
 
 # data = pd.read_csv("./avocado.csv")
@@ -13,7 +14,8 @@ from Tweety import TwitterCVE
 NewTwitter = TwitterCVE()
 retrieveLast100 = NewTwitter.get_tweets("#cve -from:RedPacketSec", 100)
 last100Tweets = NewTwitter.get_cve_in_tweets(retrieveLast100)
-last100TweetsAmount = NewTwitter.sort_tweets_by_cve_frequency(last100Tweets)
+
+print(type(Counter(last100Tweets)))
 
 data = {'Name': ['John', 'Amy', 'Peter', 'Jane'],
         'Age': [23, 45, 31, 28],
@@ -56,16 +58,16 @@ app.layout = html.Div(
                         figure={
                             "data": [
                                 {
-                                    'labels': last100Tweets,
-                                    'values': last100TweetsAmount,
-                                    'type': 'pie'
+                                    'y': list(Counter(last100Tweets).values()),
+                                    'x': list(Counter(last100Tweets).keys()),
+                                    'type': 'bar'
                                 },
                             ],
                             'layout': {
                                 'title': {
                                     'text': 'Currently open CVEs (not real data)',
-                                    'x': 0.05,
-                                    'xanchor': 'left'
+                                    'x': 0.1,
+                                    'xanchor': 'down'
                                 },
                                 'colorway': ['#E12D39']
                             }
@@ -81,8 +83,8 @@ app.layout = html.Div(
                         figure={
                             "data": [
                                 {
-                                    'labels': last100Tweets,
-                                    'values': last100TweetsAmount,
+                                    'labels': 10,
+                                    'values': 10,
                                     'type': 'pie'
                                 },
                             ],
