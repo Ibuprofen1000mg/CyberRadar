@@ -67,7 +67,7 @@ test.get_vendors()
 #test.db_info()
 #test.latest_30_cves()
 
-'''CVE-ID und Titel ausgeben'''
+# '''CVE-ID und Titel ausgeben'''
 
 # OpenCVE offers a public API to retrieve DATA:
 # Documentation can be found at: https://docs.opencve.io/
