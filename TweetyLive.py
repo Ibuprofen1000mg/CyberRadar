@@ -23,9 +23,7 @@ class TwitterLive:
             "https://api.twitter.com/2/tweets/search/stream/rules", auth=self.bearer_oauth
         )
         if response.status_code != 200:
-            raise Exception(
-                "Error: Cannot get rules (HTTP {}): {}".format(response.status_code, response.text)
-            )
+            raise Exception("Error: Cannot get rules (HTTP {}): {}".format(response.status_code, response.text))
         print(json.dumps(response.json()))
         return response.json()
 
