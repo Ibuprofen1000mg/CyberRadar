@@ -30,10 +30,9 @@ external_stylesheets = [
     },
 ]
 
-app = dash.Dash(__name__)
-app.title = "Cyber-Dashboard"
+dash.register_page(__name__)
 
-app.layout = html.Div(
+layout = html.Div(
     children=[
         html.Div(
             children=[
@@ -48,13 +47,6 @@ app.layout = html.Div(
             ],
             className="header",
         ),
-        html.Div(
-            html.Iframe(
-                src="http://www.cvedetails.com/widget.php?numrows=10&vendor_id=0&product_id=0&version_id=0&hasexp=0&opec=1&opov=1&opcsrf=1&opfileinc=1&opgpriv=1&opsqli=1&opxss=1&opdirt=1&opmemc=1&ophttprs=1&opbyp=1&opginf=1&opdos=1&orderby=3&cvssscoremin=0",
-                width="100%",
-                height="300px")
-        )
-        ,
         html.Div(
             style={'display': 'flex', 'flex-wrap': 'wrap'},
             children=[
@@ -152,5 +144,5 @@ app.layout = html.Div(
     ]
 )
 
-if __name__ == "__main__":
-    app.run_server(debug=True)
+# if __name__ == "__main__":
+#     app.run_server(debug=True)
