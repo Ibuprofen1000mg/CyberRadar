@@ -48,9 +48,12 @@ layout = html.Div(
             className="header",
         ),
         html.Div(
-            style={'display': 'flex', 'flex-wrap': 'wrap'},
+            
+            style={'display': 'flex', 'flex-wrap': 'wrap',},
             children=[
                 html.Div(
+                    className="card",
+                    style= {'margin-right': '10px', 'flex': '1'},
                     children=dcc.Graph(
                         id="numbers-chart",
                         config={"displayModeBar": False},
@@ -72,8 +75,6 @@ layout = html.Div(
                             }
                         },
                     ),
-                    className="card",
-                    style={'flex': '1'}
                 ),
                 html.Div(
                     children=dcc.Graph(
