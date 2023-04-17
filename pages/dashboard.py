@@ -1,7 +1,6 @@
 import dash
 from dash import dcc
 from dash import html
-from dash import dash_table
 import pandas as pd
 from collections import Counter
 from Tweety import TwitterCVE
@@ -48,7 +47,6 @@ layout = html.Div(
             className="header",
         ),
         html.Div(
-            
             style={'display': 'flex', 'flex-wrap': 'wrap',},
             children=[
                 html.Div(
@@ -76,74 +74,8 @@ layout = html.Div(
                         },
                     ),
                 ),
-                html.Div(
-                    children=dcc.Graph(
-                        id="numbers-chart_2test",
-                        config={"displayModeBar": False},
-                        figure={
-                            "data": [
-                                {
-                                    'labels': 10,
-                                    'values': 10,
-                                    'type': 'pie'
-                                },
-                            ],
-                            'layout': {
-                                'title': {
-                                    'text': 'Currently open CVEs (not real data)',
-                                    'x': 0.05,
-                                    'xanchor': 'left'
-                                },
-                                'colorway': ['#E12D39']
-                            }
-                        },
-                    ),
-                    className="card",
-                    style={'flex': '1'}
-                ),
-                dash_table.DataTable(
-                    id='table',
-                    columns=[{"name": i, "id": i} for i in df.columns],
-                    data=df.to_dict('records'),
-                     style_cell={'className': 'card'} #styling not working so far
-                )
-                # html.Div(
-                #     children=dcc.Graph(
-                #         id="volume-chart",
-                #         config={"displayModeBar": False},
-                #         figure={
-                #             "data": [
-                #                 {
-                #                     "x": data["Date"],
-                #                     "y": data["Total Volume"],
-                #                     "type": "lines",
-                #                 },
-                #             ],
-                #             "layout": {
-                #                 "title": {
-                #                     "text": "Avocados Sold",
-                #                     "x": 0.05,
-                #                     "xanchor": "left",
-                #                 },
-                #                 "xaxis": {"fixedrange": True},
-                #                 "yaxis": {"fixedrange": True},
-                #                 "colorway": ["#E12D39"],
-                #             },
-                #         },
-                #     ),
-                #     className="card",
-                # ),
             ],
-
-
-
-
-
-            
             className="wrapper",
         )
     ]
 )
-
-# if __name__ == "__main__":
-#     app.run_server(debug=True)
