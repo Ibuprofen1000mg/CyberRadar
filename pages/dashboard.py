@@ -33,19 +33,7 @@ dash.register_page(__name__)
 
 layout = html.Div(
     children=[
-        html.Div(
-            children=[
-                html.P(children="📡", className="header-emoji"),
-                html.H1(
-                    children="Cyber-Radar", className="header-title"
-                ),
-                html.P(
-                    children="This dashboard displayes information about CVEs aggregated from social media",
-                    className="header-description",
-                ),
-            ],
-            className="header",
-        ),
+        
         html.Div(
             style={'display': 'flex', 'flex-wrap': 'wrap',},
             children=[
