@@ -39,14 +39,14 @@ class TwitterCVE:
         '''Returns Tweet-authors given a number of tweets and a query-string'''
         get_username_by_tweet = self.client.search_recent_tweets(
             query=str(query_string),
-            max_results=int(number_of_tweets),          
+            max_results=int(number_of_tweets),
             expansions = 'author_id',
             user_fields = ['username'],
             )
         new_username_list = []
         for x in range(0, number_of_tweets-1):
             print(get_username_by_tweet.includes['users'][x])
-            new_username_list[x] = get_username_by_tweet.includes['users'][x]    
+            new_username_list[x] = get_username_by_tweet.includes['users'][x]
             print(new_username_list[x])
         return new_username_list
 
@@ -66,7 +66,6 @@ class TwitterCVE:
         Counter(list_of_cve).keys() # equals to list(set(words))
         Counter(list_of_cve).values() # counts the elements' frequency
         return list_of_cve
-    
 
 #This block prints the last 100 Tweet-CVEs with their frequencies
 #NewTwitter = TwitterCVE()
@@ -77,6 +76,3 @@ class TwitterCVE:
 
 #NewTwitter = TwitterCVE()
 #NewTwitter.get_twitter_live()
-
-
-

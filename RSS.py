@@ -60,7 +60,6 @@ class RSSFeed:
 
 if __name__ == "__main__":
     newRssReader = RSSFeed()
-    #newRssReader.append_website('http://www.cvedetails.com/widget.php?numrows=10&vendor_id=0&product_id=0&version_id=0&hasexp=1&opec=1&opov=1&opcsrf=1&opfileinc=1&opgpriv=1&opsqli=1&opxss=1&opdirt=1&opmemc=1&ophttprs=1&opbyp=1&opginf=1&opdos=1&orderby=3&cvssscoremin=0')
     #newRssReader.append_website("https://krebsonsecurity.com/feed/")
     newRssReader.parse_websites()
 
