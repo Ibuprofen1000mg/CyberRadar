@@ -43,14 +43,20 @@ def get_cve_severity_and_score(cvenumber):
     request = requests.get(URL + "cve/" + cvenumber, timeout=50).json()
     return request["typical_severity"], request["cvss3"]
 
-def get_cve_severity_and_score2(cvenumber): #cvenumber
-    '''Return the severity and the cvss of a CVE on another API'''
+def get_cve_severity_and_score2(cve):
+    '''
+    Return the severity and the cvss of a CVE on another API
     
-    request = requests.get(URL2 + cvenumber, timeout=50).json()
-    cvenumber = cvenumber.lower()
-    #print(cvenumber)
-    print(request["response"][cvenumber]["details"]["cvssV3_score"], request["response"][cvenumber]["details"]["severity"])
-    return request["response"][cvenumber]["details"]["cvssV3_score"], request["response"][cvenumber]["details"]["severity"]
+    :param str cve: The CVE which shall be queried
+    :return: basic and details information of the CVE
+    :rtype: tuple
+    '''
+    request = requests.get(URL2 + cve, timeout=50).json()
+    cve = cve.lower()
+    basic = request["response"][cve]["basic"]
+    details = request["response"][cve]["details"]
+
+    return basic, details
 
 def db_info():
     '''Get infos about the used databases of the API'''
@@ -68,15 +74,4 @@ def latest_30_cves():
         print(vul.get('summary'))
         print(vul.keys())
 
-
-# test = CVESearch()
-#test.get_vendors()
-#test.get_products_per_vendor()
-#test.get_vulnerabilities_per_product()
-#test.get_cve_info()
-#test.db_info()
-# test.latest_30_cves()
-
-
-get_cve_severity_and_score2("CVE-2023-2033")
-# https://api.cvesearch.com/search?q=CVE-2023-2033
+print(get_cve_severity_and_score2("CVE-2023-2033"))
