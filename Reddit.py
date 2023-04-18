@@ -56,7 +56,7 @@ class RedditCVE:
         except:
             print(f"{cve_string} not found or problem finding string!") 
 
-print(RedditCVE().retrieve_cve_count('CVE-2023-2033'))
+#print(RedditCVE().retrieve_cve_count('CVE-2023-2033'))
 
 # print(Counter(p).keys())
 # print(Counter(p).values())

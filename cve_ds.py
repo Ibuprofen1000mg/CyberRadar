@@ -43,7 +43,7 @@ def get_cve_severity_and_score(cvenumber):
     request = requests.get(URL + "cve/" + cvenumber, timeout=50).json()
     return request["typical_severity"], request["cvss3"]
 
-def get_cve_severity_and_score2(cve):
+def get_cve_info2(cve):
     '''
     Return the severity and the cvss of a CVE on another API
     
@@ -74,4 +74,4 @@ def latest_30_cves():
         print(vul.get('summary'))
         print(vul.keys())
 
-print(get_cve_severity_and_score2("CVE-2023-2033"))
+#print(get_cve_info2("CVE-2023-2033"))

@@ -1,26 +1,42 @@
 '''File to create own rating'''
 import datetime
 import cve_ds
+from Reddit import RedditCVE
 
 class Rating:
     '''Class for rating the different CVEs based on different params'''
 
     def __init__(self) -> None:
         self.time = 0
-        self.mention = 0.1
+        self.mention = 1
 
-    def rate(self, cve: list, reference: int = None):
-        d1 = datetime.datetime(2023,4,17)
-        d2 = datetime.datetime(int(cve['last-modified'][:4]),int(cve['last-modified'][5:7]),int(cve['last-modified'][8:10]))
-        test = [d1,d2]
-        print(d1 == d2)
-        print(test)
-        if not d2.year < d1.year:
-            if d2.month < d1.month-2:
-                self.time = 0.4
+    def rate(self, cve_info, mentions):
+        '''Rating function'''
+        date1 = datetime.date.today()
+        date2 = datetime.datetime(int(cve_info[0]['date_modified'][:4]),int(cve_info[0]['date_modified'][5:7]),int(cve_info[0]['date_modified'][8:10]))
+        if not date2.year < date1.year:
+            print("Year !<")
+            if date2.month < date1.month:
+                print("Month <")
+                self.time = 0.8
+
+        if mentions > 3:
+            self.mention = 1.3
+
+        print(self.time, self.mention)
+
+        if self.time == 0:
+            faktor_1 = 1
+        else:
+            faktor_1 = self.time
+
+        score = round(cve_info[1]["cvssV3_score"] * faktor_1 * self.mention, 1)
+        print(score)
+        if score > 10:
+            score = 10
+        print(cve_info[1]["cvssV3_score"])
+        return score
 
 
-cve_class = cve_ds.CVESearch()
 rate = Rating()
-print(cve_class.get_cve_info("CVE-2021-4228")['last-modified'])
-rate.rate(cve_class.get_cve_info("CVE-2021-4228"))
+print(rate.rate(cve_ds.get_cve_info2("CVE-2023-23397"), RedditCVE().retrieve_cve_count("CVE-2023-23397")))
