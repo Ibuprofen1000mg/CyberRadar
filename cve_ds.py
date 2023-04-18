@@ -3,6 +3,7 @@ import pprint
 import requests
 
 URL = "https://cvepremium.circl.lu/api/"
+URL2 = "https://api.cvesearch.com/search?q="
 
 def get_vendors():
     '''Returns all vendors stored in the databases'''
@@ -42,6 +43,15 @@ def get_cve_severity_and_score(cvenumber):
     request = requests.get(URL + "cve/" + cvenumber, timeout=50).json()
     return request["typical_severity"], request["cvss3"]
 
+def get_cve_severity_and_score2(cvenumber): #cvenumber
+    '''Return the severity and the cvss of a CVE on another API'''
+    
+    request = requests.get(URL2 + cvenumber, timeout=50).json()
+    cvenumber = cvenumber.lower()
+    #print(cvenumber)
+    print(request["response"][cvenumber]["details"]["cvssV3_score"], request["response"][cvenumber]["details"]["severity"])
+    return request["response"][cvenumber]["details"]["cvssV3_score"], request["response"][cvenumber]["details"]["severity"]
+
 def db_info():
     '''Get infos about the used databases of the API'''
 
@@ -66,3 +76,7 @@ def latest_30_cves():
 #test.get_cve_info()
 #test.db_info()
 # test.latest_30_cves()
+
+
+get_cve_severity_and_score2("CVE-2023-2033")
+# https://api.cvesearch.com/search?q=CVE-2023-2033
