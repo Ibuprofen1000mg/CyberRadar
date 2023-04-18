@@ -1,7 +1,9 @@
 import configparser
 import os
+import re
 #This is the reddit api python wrapper
 import praw
+from collections import Counter
 
 class RedditCVE:
 
@@ -14,7 +16,7 @@ class RedditCVE:
         self.client = praw.Reddit(
             client_id=self.own_script,
             client_secret=self.secret,
-            user_agent="CVEFiner"
+            user_agent="CVEFinder"
         )
         print(self.client.read_only)
 
@@ -22,11 +24,42 @@ class RedditCVE:
     def check_api_function(self) -> None:
         return self.client.read_only
     
-    def check_last_hot_in_subreddit(self, subreddit_name, amount_of_posts):
-        for submission in self.client.subreddit(subreddit_name).hot(limit=amount_of_posts):
-            print(submission.selftext)
-            #pprint.pprint(vars(submission))
-            #print("\n")
+    def check_last_new_in_subreddit(self, subreddit_name, amount_of_posts):
+        return self.client.subreddit(subreddit_name).new(limit=amount_of_posts)
+
+    def get_cve_in_reddit(self, reddit_response, global_cve_list)->list:
+        '''Returns CVE REGEX found in an array of reddits'''
+        check_cve_regex = re.search('CVE-\d{4}-\d{4,7}', reddit_response, re.IGNORECASE)
+        if check_cve_regex != None:
+            global_cve_list.append(check_cve_regex.group())
+        return global_cve_list
     
-x = RedditCVE()
-x.check_last_hot_in_subreddit('homelab', 1)
+    def retrieve_reddit_cve_list(self) -> list:
+        cve_list = []
+        try:
+            with open("Subreddits.txt", "r") as reddit_file:
+                for line in reddit_file.readlines():
+                    try:
+                        reddit_string_tuple = self.check_last_new_in_subreddit(line, 100)
+                        for text_values in reddit_string_tuple:
+                            self.get_cve_in_reddit(text_values.title,cve_list)
+                            self.get_cve_in_reddit(text_values.selftext,cve_list)
+                    except:
+                        print(f"Subreddit {line} not available")
+            return cve_list
+        except:
+            print("File Error!")
+
+
+
+print(Counter(RedditCVE().retrieve_reddit_cve_list())['CVE-2023-23397'])
+
+# print(Counter(p).keys())
+# print(Counter(p).values())
+
+# with open("Subreddits.txt", "r") as reddit_file:
+#     for line in reddit_file.readlines():
+#         reddit_string_tuple = x.check_last_new_in_subreddit(line, 10)
+#         for text_values in reddit_string_tuple:
+#             x.get_cve_in_reddit(text_values.title,cve_list)
+#             #print((text_values.title))
