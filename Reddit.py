@@ -50,9 +50,13 @@ class RedditCVE:
         except:
             print("File Error!")
 
+    def retrieve_cve_count(self, cve_string):
+        try:
+            return Counter(self.retrieve_reddit_cve_list())[cve_string]
+        except:
+            print(f"{cve_string} not found or problem finding string") 
 
-
-print(Counter(RedditCVE().retrieve_reddit_cve_list())['CVE-2023-23397'])
+print(RedditCVE().retrieve_cve_count('CVE-2023-2033'))
 
 # print(Counter(p).keys())
 # print(Counter(p).values())
