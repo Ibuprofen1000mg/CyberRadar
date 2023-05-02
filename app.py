@@ -39,3 +39,4 @@ app.layout = html.Div([
 
 if __name__ == '__main__':
 	app.run_server(debug=True)
+	#debug auf False damit es nur noch einmal lädt/hälfte der Zeit braucht zum bauen.
