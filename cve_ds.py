@@ -53,8 +53,11 @@ def get_cve_info2(cve):
     '''
     request = requests.get(URL2 + cve, timeout=50).json()
     cve = cve.lower()
-    basic = request["response"][cve]["basic"]
-    details = request["response"][cve]["details"]
+    try:
+        basic = request["response"][cve]["basic"]
+        details = request["response"][cve]["details"]
+    except KeyError:
+        print("Tja KeyError --> evtl. Loadbalancer verhindert Zugriff...")
 
     return basic, details
 

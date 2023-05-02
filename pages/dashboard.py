@@ -1,12 +1,13 @@
+"""MISSING!!!"""
+from collections import Counter
+
+#import pandas as pd
+import plotly.graph_objs as go
 import dash
 from dash import dcc
 from dash import html
-import pandas as pd
-from collections import Counter
-import plotly.graph_objs as go
-
 import cve_ds
-from Tweety import TwitterCVE
+from tweety import TwitterCVE
 
 external_stylesheets = [
     {
@@ -30,16 +31,17 @@ for x in unfilterd_cve:
     try:
         filtered_score.append(cve_info[1]['cvssV3_score'])
         filtered_severity.append(cve_info[1]['severity'])
-        if (cve_info[1]['severity']=='MEDIUM'):
+        if cve_info[1]['severity']=='MEDIUM':
             values[0] += 1
-        elif (cve_info[1]['severity']=='HIGH'):
+        elif cve_info[1]['severity']=='HIGH':
             values[1] += 1
-        elif (cve_info[1]['severity']=='N/A'):
+        elif cve_info[1]['severity']=='N/A':
             values[2] += 1
-        elif (cve_info[1]['severity']=='CRITICAL'):
+        elif cve_info[1]['severity']=='CRITICAL':
             values[3] += 1
         print(x)
-    except KeyError: continue
+    except KeyError:
+        continue
 
 fig = go.Figure(data=[go.Pie(labels=labels, values=values)], layout={
     'title': 'Severity Distribution'

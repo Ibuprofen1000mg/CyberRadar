@@ -1,12 +1,12 @@
-import tweepy
+"""MISSING!!!"""
 import configparser
 import os
 import re
 from collections import Counter
-
+import tweepy
 
 class TwitterCVE:
-
+    """MISSING!!!"""
     def __init__(self) -> None:
         self.config = configparser.ConfigParser(interpolation=None)
         self.config.read(os.path.dirname(os.path.abspath(__file__))+"/Creds.ini")
@@ -56,7 +56,7 @@ class TwitterCVE:
         for tweets in tweets_response.data:
             check_cve_regex = re.search('CVE-\d{4}-\d{4,7}', tweets.text)
             #print(tweets)
-            if check_cve_regex != None:
+            if check_cve_regex is not None:
                 list_found_cves_in_tweets.append(check_cve_regex.group())
         return list_found_cves_in_tweets
 
