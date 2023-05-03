@@ -48,10 +48,10 @@ class RSSFeed:
                 #print(line)
                 single_feed = feedparser.parse(line)
                 for entry in single_feed.entries:
-                    '''
-                    RSS-Feed BSI: title,title_detail{..},links{..},link,published,published_parsed,summary,summary_detail{..}
-                    RSS-Feed Packetstormsec: title, title_detail{..},links{..},link,id,guidislink,comments,published,published_parsed,summary,summary_detail{..},tags
-                    '''
+#RSS-Feed BSI:
+# title,title_detail{.},links{.},link,published,published_parsed,summary,summary_detail{.}
+#RSS-Feed Packetstormsec:
+# title, title_detail{.},links{.},link,id,guidislink,comments,published,published_parsed,summary,summary_detail{.},tags
                     print(entry.title)
                     print(entry.link)
                     print(entry.published)
