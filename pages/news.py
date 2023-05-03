@@ -7,7 +7,7 @@ import json
 
 dash.register_page(__name__)
 #app.dash.register_page(__name__)
-
+#New Layout
 layout = html.Div(
     id='news_page',children=[
     html.Div(
