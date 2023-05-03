@@ -4,8 +4,7 @@ from collections import Counter
 #import pandas as pd
 import plotly.graph_objs as go
 import dash
-from dash import dcc
-from dash import html
+from dash import dcc, html
 import cve_ds
 from Tweety import TwitterCVE
 
@@ -21,17 +20,38 @@ NewTwitter = TwitterCVE()#
 last100Tweets = NewTwitter.get_cve_in_tweets(NewTwitter.get_tweets("#cve -from:RedPacketSec", 100))
 
 unfilterd_cve = list(Counter(last100Tweets).keys())
+unfilterd_cve_counter = list(Counter(last100Tweets).values())
+
 filtered_score = []
 filtered_severity = []
 labels = ['MEDIUM', 'HIGH', 'N/A', 'CRITICAL']
 values = [0, 0, 0, 0]
 severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
 
+<<<<<<< Updated upstream
 for x in unfilterd_cve:
     cve_info = cve_ds.get_cve_info2(x)
     score = cve_info[1].get('cvssV3_score')
     severity = cve_info[1].get('severity')
     values[severity_map.get(severity, 2)] += 1
+=======
+# for x in unfilterd_cve:
+#     cve_info = cve_ds.get_cve_info2(x)
+#     try:
+#         filtered_score.append(cve_info[1]['cvssV3_score'])
+#         filtered_severity.append(cve_info[1]['severity'])
+#         if cve_info[1]['severity']=='MEDIUM':
+#             values[0] += 1
+#         elif cve_info[1]['severity']=='HIGH':
+#             values[1] += 1
+#         elif cve_info[1]['severity']=='N/A':
+#             values[2] += 1
+#         elif cve_info[1]['severity']=='CRITICAL':
+#             values[3] += 1
+#         #print(x) --> Prints CVEs
+#     except KeyError:
+#         continue
+>>>>>>> Stashed changes
 
 fig = go.Figure(data=[go.Pie(labels=labels, values=values)], layout={
     'title': 'Severity Distribution'
@@ -53,8 +73,8 @@ layout = html.Div(
                         figure={
                             "data": [
                                 {
-                                    'y': list(Counter(last100Tweets).values()),
-                                    'x': list(Counter(last100Tweets).keys()),
+                                    'y': unfilterd_cve_counter,
+                                    'x': unfilterd_cve,
                                     'type': 'bar'
                                 },
                             ],

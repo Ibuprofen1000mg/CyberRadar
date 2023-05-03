@@ -57,6 +57,7 @@ def get_cve_info2(cve):
         basic = request["response"][cve]["basic"]
         details = request["response"][cve]["details"]
     except KeyError:
+        basic,details = "N/A"
         print("Tja KeyError --> evtl. Loadbalancer verhindert Zugriff...")
 
     return basic, details

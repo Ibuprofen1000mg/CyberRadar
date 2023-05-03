@@ -1,7 +1,11 @@
 from dash import Dash, html, dcc
 import dash
+from dash.dependencies import Output, Input
 
-app = Dash(__name__, use_pages=True)
+app = Dash(__name__, use_pages=True, suppress_callback_exceptions=True,
+                meta_tags=[{'name': 'viewport',
+                            'content': 'width=device-width, initial-scale=1.0'}]
+                )
 
 app.layout = html.Div([
 	html.Div(
