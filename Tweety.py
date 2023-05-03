@@ -44,17 +44,17 @@ class TwitterCVE:
             user_fields = ['username'],
             )
         new_username_list = []
-        for x in range(0, number_of_tweets-1):
-            print(get_username_by_tweet.includes['users'][x])
-            new_username_list[x] = get_username_by_tweet.includes['users'][x]
-            print(new_username_list[x])
+        for tweets in range(0, number_of_tweets-1):
+            print(get_username_by_tweet.includes['users'][tweets])
+            new_username_list[tweets] = get_username_by_tweet.includes['users'][tweets]
+            print(new_username_list[tweets])
         return new_username_list
 
     def get_cve_in_tweets(self, tweets_response)->list:
         '''Returns CVE REGEX found in an array of tweets'''
         list_found_cves_in_tweets = []
         for tweets in tweets_response.data:
-            check_cve_regex = re.search('CVE-\d{4}-\d{4,7}', tweets.text)
+            check_cve_regex = re.search('CVE-\\d{4}-\\d{4,7}', tweets.text)
             #print(tweets)
             if check_cve_regex is not None:
                 list_found_cves_in_tweets.append(check_cve_regex.group())

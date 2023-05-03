@@ -6,7 +6,7 @@ import plotly.graph_objs as go
 import dash
 from dash import dcc
 from dash import html
-import cve_ds 
+import cve_ds
 from Tweety import TwitterCVE
 
 external_stylesheets = [

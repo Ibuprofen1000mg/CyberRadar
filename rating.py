@@ -1,7 +1,7 @@
 '''File to create own rating'''
 import datetime
 import cve_ds
-from Reddit import RedditCVE
+from reddit import RedditCVE
 
 class Rating:
     '''Class for rating the different CVEs based on different params'''
@@ -13,7 +13,9 @@ class Rating:
     def rate(self, cve_info, mentions):
         '''Rating function'''
         date1 = datetime.date.today()
-        date2 = datetime.datetime(int(cve_info[0]['date_modified'][:4]),int(cve_info[0]['date_modified'][5:7]),int(cve_info[0]['date_modified'][8:10]))
+        date2 = datetime.datetime(int(cve_info[0]['date_modified'][:4]), \
+                                  int(cve_info[0]['date_modified'][5:7]), \
+                                  int(cve_info[0]['date_modified'][8:10]))
         if not date2.year < date1.year:
             print("Year !<")
             if date2.month < date1.month:

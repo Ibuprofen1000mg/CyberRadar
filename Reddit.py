@@ -33,7 +33,7 @@ class RedditCVE:
 
     def get_cve_in_reddit(self, reddit_response, global_cve_list)->list:
         '''Returns CVE REGEX found in an array of reddits'''
-        check_cve_regex = re.search('CVE-\d{4}-\d{4,7}', reddit_response, re.IGNORECASE)
+        check_cve_regex = re.search('CVE-\\d{4}-\\d{4,7}', reddit_response, re.IGNORECASE)
         if check_cve_regex is not None:
             global_cve_list.append(check_cve_regex.group())
         return global_cve_list
@@ -42,7 +42,7 @@ class RedditCVE:
         """MISSING!!!"""
         cve_list = []
         try:
-            with open("Subreddits.txt", "r") as reddit_file:
+            with open("Subreddits.txt", "r", encoding="utf-8") as reddit_file:
                 for line in reddit_file.readlines():
                     reddit_string_tuple = self.check_last_new_in_subreddit(line, 100)
                     for text_values in reddit_string_tuple:

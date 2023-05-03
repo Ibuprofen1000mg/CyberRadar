@@ -12,19 +12,19 @@ class RSSFeed:
 
     def __init__(self):
         self.websites = []
-        with open(RSS_FILE_NAME, "r") as rss_file:
+        with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
             for line in rss_file.readlines():
                 self.websites += line
 
     def print_rss_file(self) -> None:
         '''Print data inside RSS-Websites file'''
-        with open(RSS_FILE_NAME, "r") as rss_file:
+        with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
             print(rss_file.read())
 
     def append_website(self, *website_string) -> bool:
         '''Add website to RSS-Websites file'''
         try:
-            with open(RSS_FILE_NAME, "a+") as rss_file:
+            with open(RSS_FILE_NAME, "a+", encoding="utf-8") as rss_file:
                 for website in website_string:
                     rss_file.write(website+"\n")
             return True
@@ -33,17 +33,17 @@ class RSSFeed:
 
     def remove_website(self, *website_string):
         '''Remove website from RSS-Websites file'''
-        with open(RSS_FILE_NAME, "r") as rss_file:
+        with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
             lines = rss_file.readlines()
 
-        with open("sample.txt", "w") as rss_file:
+        with open("sample.txt", "w", encoding="utf-8") as rss_file:
             for line in lines:
                 if line.strip("\n") != website_string:
                     rss_file.write(line)
 
     def parse_websites(self):
         '''Parse website(s) in RSS-Websites file'''
-        with open(RSS_FILE_NAME, "r") as rss_file:
+        with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
             for line in rss_file.readlines():
                 #print(line)
                 single_feed = feedparser.parse(line)
