@@ -1,6 +1,7 @@
 '''File for CVE DATA SCIENCE'''
 import pprint
 import requests
+import json
 
 URL = "https://cvepremium.circl.lu/api/"
 URL2 = "https://api.cvesearch.com/search?q="
@@ -51,14 +52,19 @@ def get_cve_info2(cve):
     :return: basic and details information of the CVE
     :rtype: tuple
     '''
-    request = requests.get(URL2 + cve, timeout=50).json()
+    request = requests.get(URL2 + cve, timeout=5).json()
     cve = cve.lower()
     try:
         basic = request["response"][cve]["basic"]
         details = request["response"][cve]["details"]
     except KeyError:
-        basic = "N/A"
-        details = "N/A"
+        request = {}
+        basic = request["basic"] = 'N/A'
+        request["details"] = {}
+        request["details"]['cvssV3_score'] = 'N/A'
+        request["details"]['severity'] = 'N/A'
+        details = request["details"]
+
         print("Tja KeyError --> evtl. Loadbalancer verhindert Zugriff...")
 
     return basic, details
