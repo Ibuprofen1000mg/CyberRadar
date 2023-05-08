@@ -1,7 +1,6 @@
 '''File for CVE DATA SCIENCE'''
 import pprint
 import requests
-import json
 
 URL = "https://cvepremium.circl.lu/api/"
 URL2 = "https://api.cvesearch.com/search?q="
@@ -52,7 +51,7 @@ def get_cve_info2(cve):
     :return: basic and details information of the CVE
     :rtype: tuple
     '''
-    request = requests.get(URL2 + cve, timeout=5).json()
+    request = requests.get(URL2 + cve, timeout=40).json()
     cve = cve.lower()
     try:
         basic = request["response"][cve]["basic"]
