@@ -7,7 +7,7 @@ class Rating:
     '''Class for rating the different CVEs based on different params'''
 
     def __init__(self) -> None:
-        self.time = 0
+        self.time = 1
         self.mention = 1
 
     def rate(self, cve_info, mentions):
@@ -27,12 +27,7 @@ class Rating:
 
         print(self.time, self.mention)
 
-        if self.time == 0:
-            faktor_1 = 1
-        else:
-            faktor_1 = self.time
-
-        score = round(cve_info[1]["cvssV3_score"] * faktor_1 * self.mention, 1)
+        score = round(cve_info[1]["cvssV3_score"] * self.time * self.mention, 1)
         print(score)
         if score > 10:
             score = 10
