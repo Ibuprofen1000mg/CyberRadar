@@ -1,30 +1,22 @@
 '''MISSING!!!'''
 import dash
-from dash import html, dcc, callback, Output, Input, State
+from dash import html, dcc, callback, Output, Input, State, dash_table
 from datetime import datetime
+from collections import defaultdict
 import requests
+import pandas as pd
 import json
 
 dash.register_page(__name__)
-#app.dash.register_page(__name__)
-#New Layout
 layout = html.Div(
     id='news_page',children=[
-    html.Div(
+    html.Table(
         id='last_cve',
         style={
             'textAlign': 'center'
         },
         children=[]
     ),
-    # html.Div(
-    #     html.Embed(
-    #         id="cve-details",
-    #         #Important to remember min. CVE Score von 1 in der Website momentan
-    #         src="https://timeapi.io/api/Time/current/zone?timeZone=Europe/Amsterdam",
-    #         width="100%",
-    #         height="1000px")
-    # ),
     dcc.Interval(id='timer', interval=1*10000, n_intervals=0)
 ])
 
@@ -32,9 +24,19 @@ layout = html.Div(
 @callback(
     Output(component_id="last_cve", component_property="children"),
     Input(component_id="timer", component_property="n_intervals"),
+    State(component_id="last_cve", component_property="children")
 )
-def update_cve_details(timer):
+def update_cve_details(timer, div_children):
     res = requests.get("http://www.cvedetails.com/json-feed.php?numrows=10&vendor_id=0&product_id=0&version_id=0&hasexp=0&opec=0&opov=0&opcsrf=0&opfileinc=0&opgpriv=0&opsqli=0&opxss=0&opdirt=0&opmemc=0&ophttprs=0&opbyp=0&opginf=0&opdos=0&orderby=3&cvssscoremin=0")
-    x = json.loads(res.content)
-    return [(html.H4(x[i]['cve_id'] for i in range(10)))]
-        #return f'http://www.cvedetails.com/widget.php?numrows=10&vendor_id=0&product_id=0&version_id=0&hasexp=0&opec=0&opov=0&opcsrf=0&opfileinc=0&opgpriv=0&opsqli=0&opxss=0&opdirt=0&opmemc=0&ophttprs=0&opbyp=0&opginf=0&opdos=0&orderby=3&cvssscoremin=0'
+    df = json.loads(res.content)
+    dd = defaultdict(list)
+    for d in (df): 
+        for key, value in d.items():
+            dd[key].append(value)
+    temp_dict = dict(dd)
+    temp_dataframe = pd.DataFrame.from_dict(temp_dict)
+    div_child = dash_table.DataTable(
+            temp_dataframe.to_dict('records'),
+            id="table",
+        ),
+    return div_child    
