@@ -11,7 +11,7 @@ dash.register_page(__name__)
 layout = html.Div(
     id='news_page',
     children=[
-    dcc.Interval(id='timer', interval=1*10000, n_intervals=0)
+    dcc.Interval(id='timer', interval=10*60*1000, n_intervals=0)
 ])
 
 
@@ -21,7 +21,7 @@ layout = html.Div(
     State(component_id="news_page", component_property="children")
 )
 def update_cve_details(timer, div_children):
-    res = requests.get("http://www.cvedetails.com/json-feed.php?numrows=10&vendor_id=0&product_id=0&version_id=0&hasexp=0&opec=0&opov=0&opcsrf=0&opfileinc=0&opgpriv=0&opsqli=0&opxss=0&opdirt=0&opmemc=0&ophttprs=0&opbyp=0&opginf=0&opdos=0&orderby=3&cvssscoremin=0")
+    res = requests.get("http://www.cvedetails.com/json-feed.php?numrows=30&vendor_id=0&product_id=0&version_id=0&hasexp=0&opec=0&opov=0&opcsrf=0&opfileinc=0&opgpriv=0&opsqli=0&opxss=0&opdirt=0&opmemc=0&ophttprs=0&opbyp=0&opginf=0&opdos=0&orderby=3&cvssscoremin=0")
     df = json.loads(res.content)
     dd = defaultdict(list)
     for d in (df): 
@@ -32,7 +32,7 @@ def update_cve_details(timer, div_children):
     div_child = dash_table.DataTable(
             temp_dataframe.to_dict('records'),
             id="table",
-            style_cell={'minWidth': 95, 'maxWidth': 500, 'width': 'auto'},
+            style_cell={'minWidth': 95, 'maxWidth': 500, 'width': 'auto', 'textAlign': 'center'},
             style_data={'whiteSpace': 'normal','height': 'auto','lineHeight': '15px'},
             style_table={'overflowX': 'auto'}
         ),
