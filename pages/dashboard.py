@@ -28,14 +28,8 @@ labels = ['MEDIUM', 'HIGH', 'N/A', 'CRITICAL']
 values = [0, 0, 0, 0]
 severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
 
-counter = 0
 for x in unfilterd_cve:
-    print(x)
-    print(counter)
-    counter += 1
     cve_info = cve_ds.get_cve_info2(x)
-    # score = cve_info[1].get('cvssV3_score')
-    # severity = cve_info[1].get('severity')
     score = cve_info[0]
     severity = cve_info[1]
     values[severity_map.get(severity, 2)] += 1
