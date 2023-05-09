@@ -16,7 +16,7 @@ external_stylesheets = [
     },
 ]
 
-NewTwitter = TwitterCVE()#
+NewTwitter = TwitterCVE()
 last100Tweets = NewTwitter.get_cve_in_tweets(NewTwitter.get_tweets("#cve -from:RedPacketSec", 100))
 
 unfilterd_cve = list(Counter(last100Tweets).keys())
@@ -28,7 +28,10 @@ labels = ['MEDIUM', 'HIGH', 'N/A', 'CRITICAL']
 values = [0, 0, 0, 0]
 severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
 
+counter = len(unfilterd_cve)
 for x in unfilterd_cve:
+    print(counter)
+    counter -= 1
     cve_info = cve_ds.get_cve_info2(x)
     score = cve_info[0]
     severity = cve_info[1]
