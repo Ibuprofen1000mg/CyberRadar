@@ -1,11 +1,11 @@
 '''File for CVE DATA SCIENCE'''
 import pprint
+import time
 import requests
-# from time import sleep
 
 URL = "https://cvepremium.circl.lu/api/"
-URL2 = "https://api.cvesearch.com/search?q="
-URL3 = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=" #Test this URL to speed up the start-up time of the website
+URL2 = "https://api.cvesearch.com/search?q=" #Slower API
+URL3 = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=" #Faster API
 
 s = requests.Session()
 
@@ -32,36 +32,36 @@ def get_vulnerabilities_per_product():
     request = requests.get(URL + "search/" + vendor + "/" + product, timeout=5).json()
     pprint.pprint(request)
 
-def get_cve_info(cvenumber):
-    '''Get infos about a certain CVE'''
-    request = requests.get(URL + "cve/" + cvenumber, timeout=50).json()
-    return request
-
 def get_cve_severity_and_score(cvenumber):
     '''Return the severity and the cvss of a CVE'''
     request = requests.get(URL + "cve/" + cvenumber, timeout=50).json()
     return request["typical_severity"], request["cvss3"]
 
-def get_nested(data, *args):
-    if args and data:
-        element  = args[0]
-        if element:
-            value = data.get(element)
-            return value if len(args) == 1 else get_nested(value, *args[1:])
+# def get_nested(data, *args):
+#     if args and data:
+#         element  = args[0]
+#         if element:
+#             value = data.get(element)
+#             return value if len(args) == 1 else get_nested(value, *args[1:])
 
-def get_cve_info2(cve):
+def get_cve_info(cve):
     '''
-    Return the severity and the cvss of a CVE on another API
+    Return the severity and the cvss of a CVE from NIST API
     
     :param str cve: The CVE which shall be queried
     :return: basic and details information of the CVE
     :rtype: tuple
     '''
+    try:
+        request = s.get(URL2 + cve, timeout=40).json()
 
-    request = s.get(URL3 + cve, timeout=40).json()
-
-    cvss30 = request["vulnerabilities"][0]['cve']['metrics'].get('cvssMetricV30')
-    cvss31 = request["vulnerabilities"][0]['cve']['metrics'].get('cvssMetricV31')
+        cvss30 = request["vulnerabilities"][0]['cve']['metrics'].get('cvssMetricV30')
+        print(cvss30)
+        cvss31 = request["vulnerabilities"][0]['cve']['metrics'].get('cvssMetricV31')
+        print(cvss31)
+    except IndexError:
+        cvss30 = None
+        cvss31 = None
 
     if cvss30 is not None:
         score = cvss30[0]['cvssData'].get('baseScore')
@@ -73,6 +73,39 @@ def get_cve_info2(cve):
         score = 0
         severity = "N/A"
 
+    print(score, severity)
+    return score, severity
+
+def get_cve_info2(cve):
+    '''
+    Return the severity and the cvss of a CVE from CVEDetails API
+    
+    :param str cve: The CVE which shall be queried
+    :return: basic and details information of the CVE
+    :rtype: tuple
+    '''
+    cve = cve.lower()
+    print(cve)
+    time.sleep(1)
+    try:
+        request = s.get(URL2 + cve, timeout=40).json()
+
+        details = request["response"][cve].get['details']
+        score = request["response"][cve]['details'].get('cvssV3_score')
+        severity = request["response"][cve]['details'].get('confidence')
+
+        if details is not None:
+            score = details.get('cvssV3_score')
+            severity = details.get('confidence')
+        else:
+            score = 0
+            severity = "N/A"
+
+    except IndexError:
+        score = 0
+        severity = "N/A"
+
+    print(score, severity)
     return score, severity
 
 def db_info():
