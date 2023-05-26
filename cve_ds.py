@@ -101,7 +101,7 @@ def get_cve_info2(cve):
             score = 0
             severity = "N/A"
 
-    except IndexError:
+    except KeyError:
         score = 0
         severity = "N/A"
 
