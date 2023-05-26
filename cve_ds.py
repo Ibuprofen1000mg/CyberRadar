@@ -90,7 +90,7 @@ def get_cve_info2(cve):
     try:
         request = s.get(URL2 + cve, timeout=40).json()
 
-        details = request["response"][cve].get['details']
+        details = request["response"][cve].get('details')
         score = request["response"][cve]['details'].get('cvssV3_score')
         severity = request["response"][cve]['details'].get('confidence')
 
