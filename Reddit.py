@@ -60,10 +60,10 @@ class RedditCVE:
             print(f"{cve_string} not found or problem finding string!")
 
 #print(RedditCVE().retrieve_cve_count('CVE-2023-2033'))
-# if __name__ == "__main__":
-#     p = RedditCVE().retrieve_reddit_cve_list()
-#     print(list(Counter(p).keys()))
-#     print(list(Counter(p).values()))
+#if __name__ == "__main__":
+#    p = RedditCVE().retrieve_reddit_cve_list()
+#    print(list(Counter(p).keys()))
+#    print(list(Counter(p).values()))
 
 # print(Counter(p).keys())
 # print(Counter(p).values())

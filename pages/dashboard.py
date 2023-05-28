@@ -4,9 +4,14 @@ from collections import Counter
 #import pandas as pd
 import plotly.graph_objs as go
 import dash
-from dash import dcc, html
+from dash import dcc, html, callback, Output, Input, State
 import cve_ds
 from Tweety import TwitterCVE
+from Reddit import RedditCVE
+import threading
+import os
+
+dash.register_page(__name__, path="/")
 
 external_stylesheets = [
     {
@@ -15,12 +20,36 @@ external_stylesheets = [
         "rel": "stylesheet",
     },
 ]
-
+#Globals
+reddit_cve = []
+reddit_cve_counter = []
+#TWITTER DATA
 NewTwitter = TwitterCVE()
 last100Tweets = NewTwitter.get_cve_in_tweets(NewTwitter.get_tweets("#cve -from:RedPacketSec", 100))
-
 unfilterd_cve = list(Counter(last100Tweets).keys())
 unfilterd_cve_counter = list(Counter(last100Tweets).values())
+
+#REDDIT DATA
+def reddit_data():
+    file_dir = os.path.dirname(os.path.realpath('__file__'))
+    file_name = os.path.join(file_dir, 'Reddit_data.txt')
+    print(file_name)
+    NewReddit = RedditCVE()
+    lastRedditPosts = NewReddit.retrieve_reddit_cve_list()
+    with open (file_name, "w+") as reddit_file:
+        try:
+            reddit_file.write(str(list(Counter(lastRedditPosts).keys())))
+            reddit_file.write("\n")
+            reddit_file.write(str(list(Counter(lastRedditPosts).values())))
+        except Exception as e:
+            print(e)
+            print("Error Cannot Read File or File empty (Reddit)")
+
+    
+
+thread_reddit_fetch = threading.Thread(target=reddit_data(), args=())
+thread_reddit_fetch.daemon = True
+thread_reddit_fetch.start()
 
 filtered_score = []
 filtered_severity = []
@@ -101,6 +130,59 @@ layout = html.Div(
                 ),
             ],
             className="wrapper",
+        ),
+        #REDDIT CVE
+        html.Div(
+            style={'display': 'flex', 'flexWrap': 'wrap',},
+            id='reddit_page',
+            children=[
+                html.Div(
+                    className="card",
+                    id="reddit_card",
+                    style= {'marginRight': '10px', 'flex': '1'},
+                    children=[],
+                ),
+                    dcc.Interval(id='reddit_timer', interval=60*1000, n_intervals=0),
+            ]
         )
     ]
 )
+
+@callback(
+    Output(component_id="reddit_card", component_property="children"),
+    Input(component_id="reddit_timer", component_property="n_intervals"),
+    State(component_id="reddit_page", component_property="children")
+)
+def update_reddit_data(timer, div_children):
+    reddit_cve = []
+    reddit_cve_counter = []
+    try:
+        file_dir = os.path.dirname(os.path.realpath('__file__'))
+        file_name = os.path.join(file_dir, 'Reddit_data.txt')
+        with open(file_name, "r") as reddit_file:
+                reddit_cve = reddit_file.readline()
+                reddit_cve_counter = reddit_file.readline()
+    except:
+        print("Error cannot read File or File empty in update_reddit_data")
+    div_child = dcc.Graph(
+                        id="numbers-chart",
+                        config={"displayModeBar": False},
+                        figure={
+                            "data": [
+                                {
+                                    'y': reddit_cve_counter.split(),
+                                    'x': reddit_cve.split(),
+                                    'type': 'bar'
+                                },
+                            ],
+                            'layout': {
+                                'title': {
+                                    'text': 'CVEs on Reddit',
+                                    'x': 0.1,
+                                    'xanchor': 'down'
+                                },
+                                'colorway': ['#E12D39']
+                            }
+                        },
+                    )
+    return div_child
