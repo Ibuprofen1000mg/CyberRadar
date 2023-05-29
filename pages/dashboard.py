@@ -45,7 +45,7 @@ def reddit_data():
             print(e)
             print("Error Cannot Read File or File empty (Reddit)")
 
-    
+        
 
 thread_reddit_fetch = threading.Thread(target=reddit_data(), args=())
 thread_reddit_fetch.daemon = True
@@ -65,6 +65,11 @@ for x in unfilterd_cve:
     score = cve_info[0]
     severity = cve_info[1]
     values[severity_map.get(severity, 2)] += 1
+
+def aktuelle_sicherheitslage():
+    """Wertet aktuelle Sicheheitslage aus"""
+    meiste_werte = max(values)
+    return labels[values.index(meiste_werte)]
 
 # for x in unfilterd_cve:
 #     cve_info = cve_ds.get_cve_info2(x)
@@ -128,6 +133,20 @@ layout = html.Div(
                         figure=fig
                     ),
                 ),
+                 html.Div(
+                    className="card",
+                    style= {'marginRight': '10px', 'flex': '1'},
+                    children=[
+                        html.Center(
+                            children=[
+                                html.H2("Aktuelle Sicherheitslage"),
+                                html.P(aktuelle_sicherheitslage())
+                            ]
+                        )
+                    ],
+
+                    
+                ),
             ],
             className="wrapper",
         ),
@@ -135,6 +154,7 @@ layout = html.Div(
         html.Div(
             style={'display': 'flex', 'flexWrap': 'wrap',},
             id='reddit_page',
+            className="wrapper",
             children=[
                 html.Div(
                     className="card",
