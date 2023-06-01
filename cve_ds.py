@@ -124,4 +124,5 @@ def latest_30_cves():
         print(vul.get('summary'))
         print(vul.keys())
 
-get_cve_info2("CVE-2022-23808")
+#Only Debugging Purpose
+#get_cve_info2("CVE-2022-23808")

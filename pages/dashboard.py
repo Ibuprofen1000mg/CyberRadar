@@ -3,11 +3,13 @@ from collections import Counter
 
 #import pandas as pd
 import plotly.graph_objs as go
+import plotly.express as px
 import dash
 from dash import dcc, html, callback, Output, Input, State
 import cve_ds
 from Tweety import TwitterCVE
 from Reddit import RedditCVE
+import Historic
 import threading
 import os
 
@@ -25,7 +27,7 @@ reddit_cve = []
 reddit_cve_counter = []
 #TWITTER DATA
 NewTwitter = TwitterCVE()
-last100Tweets = NewTwitter.get_cve_in_tweets(NewTwitter.get_tweets("#cve -from:RedPacketSec", 100))
+last100Tweets = NewTwitter.get_cve_in_tweets(NewTwitter.get_tweets("#cve -from:RedPacketSec", 10))
 unfilterd_cve = list(Counter(last100Tweets).keys())
 unfilterd_cve_counter = list(Counter(last100Tweets).values())
 
@@ -33,7 +35,6 @@ unfilterd_cve_counter = list(Counter(last100Tweets).values())
 def reddit_data():
     file_dir = os.path.dirname(os.path.realpath('__file__'))
     file_name = os.path.join(file_dir, 'Reddit_data.txt')
-    print(file_name)
     NewReddit = RedditCVE()
     lastRedditPosts = NewReddit.retrieve_reddit_cve_list()
     with open (file_name, "w+") as reddit_file:
@@ -46,9 +47,9 @@ def reddit_data():
             print("Error Cannot Read File or File empty (Reddit)")
 
         
-
-thread_reddit_fetch = threading.Thread(target=reddit_data(), args=())
-thread_reddit_fetch.daemon = True
+#Reddit thread Daemon
+thread_reddit_fetch = threading.Thread(target=reddit_data())
+#thread_reddit_fetch.daemon = True
 thread_reddit_fetch.start()
 
 filtered_score = []
@@ -115,7 +116,7 @@ layout = html.Div(
                             ],
                             'layout': {
                                 'title': {
-                                    'text': 'Currently open CVEs (not real data)',
+                                    'text': 'Currently Trending CVEs on Twitter',
                                     'x': 0.1,
                                     'xanchor': 'down'
                                 },
@@ -164,6 +165,33 @@ layout = html.Div(
                 ),
                     dcc.Interval(id='reddit_timer', interval=60*1000, n_intervals=0),
             ]
+        ),
+        #HISTORIC CVE DATA
+        html.Div(
+            style={'display': 'flex', 'flexWrap': 'wrap',},
+            id='reddit_page',
+            className="wrapper",
+            children=dcc.Graph(
+                        id="numbers-chart",
+                        config={"displayModeBar": False},
+                        figure={
+                            "data": [
+                                {
+                                    'y': Historic.data_array(),
+                                    'x': Historic.dates_array(),
+                                    'type': 'bar'
+                                },
+                            ],
+                            'layout': {
+                                'title': {
+                                    'text': 'Historic CVE Data',
+                                    'x': 0.1,
+                                    'xanchor': 'down'
+                                },
+                                'colorway': ['#0da784']
+                            }
+                        },
+                    ),
         )
     ]
 )
