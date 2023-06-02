@@ -13,7 +13,7 @@ import Historic
 import threading
 import os
 
-dash.register_page(__name__, path="/")
+dash.register_page(__name__, path='/')
 
 external_stylesheets = [
     {
@@ -27,7 +27,7 @@ reddit_cve = []
 reddit_cve_counter = []
 #TWITTER DATA
 NewTwitter = TwitterCVE()
-last100Tweets = NewTwitter.get_cve_in_tweets(NewTwitter.get_tweets("#cve -from:RedPacketSec", 10))
+last100Tweets = NewTwitter.get_cve_in_tweets(NewTwitter.get_tweets("#cve -from:RedPacketSec", 50))
 unfilterd_cve = list(Counter(last100Tweets).keys())
 unfilterd_cve_counter = list(Counter(last100Tweets).values())
 
@@ -153,14 +153,14 @@ layout = html.Div(
         ),
         #REDDIT CVE
         html.Div(
-            style={'display': 'flex', 'flexWrap': 'wrap',},
+            style={'width': '100%', 'margin': '0, 10, 0, 10'},
             id='reddit_page',
-            className="wrapper",
+            className="card",
             children=[
                 html.Div(
                     className="card",
                     id="reddit_card",
-                    style= {'marginRight': '10px', 'flex': '1'},
+                    style= {"marginLeft": "20px", "marginRight": "20px", 'flex': '1'},
                     children=[],
                 ),
                     dcc.Interval(id='reddit_timer', interval=60*1000, n_intervals=0),
@@ -168,30 +168,31 @@ layout = html.Div(
         ),
         #HISTORIC CVE DATA
         html.Div(
-            style={'display': 'flex', 'flexWrap': 'wrap',},
-            id='reddit_page',
-            className="wrapper",
+            style={'width': '100%', 'margin': '0, 10, 0, 10'},
+            id='cve_history',
+            className="card",
             children=dcc.Graph(
-                        id="numbers-chart",
-                        config={"displayModeBar": False},
-                        figure={
-                            "data": [
-                                {
-                                    'y': Historic.data_array(),
-                                    'x': Historic.dates_array(),
-                                    'type': 'bar'
-                                },
-                            ],
-                            'layout': {
-                                'title': {
-                                    'text': 'Historic CVE Data',
-                                    'x': 0.1,
-                                    'xanchor': 'down'
-                                },
-                                'colorway': ['#0da784']
-                            }
+                style={"marginLeft": "20px", "marginRight": "20px", 'flex': '1'},
+                id="numbers-chart",
+                config={"displayModeBar": False},
+                figure={
+                    "data": [
+                        {
+                            'y': Historic.data_array(),
+                            'x': Historic.dates_array(),
+                            'type': 'bar'
                         },
-                    ),
+                    ],
+                    'layout': {
+                        'title': {
+                            'text': 'Historic CVE Data',
+                            'x': 0.1,
+                            'xanchor': 'down'
+                        },
+                        'colorway': ['#0da784']
+                    }
+                },
+            ),
         )
     ]
 )

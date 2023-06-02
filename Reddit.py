@@ -44,7 +44,7 @@ class RedditCVE:
         try:
             with open("Subreddits.txt", "r", encoding="utf-8") as reddit_file:
                 for line in reddit_file.readlines():
-                    reddit_string_tuple = self.check_last_new_in_subreddit(line, 5)
+                    reddit_string_tuple = self.check_last_new_in_subreddit(line, 20)
                     for text_values in reddit_string_tuple:
                         self.get_cve_in_reddit(text_values.title,cve_list)
                         self.get_cve_in_reddit(text_values.selftext,cve_list)
