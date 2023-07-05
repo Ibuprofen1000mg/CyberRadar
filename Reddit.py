@@ -6,7 +6,7 @@ import re
 from collections import Counter
 import praw
 
-
+# author: Nic Holzapfel ?
 class RedditCVE:
     """MISSING!!!"""
     #Configure initials for reddit class --> Credential Data for Access

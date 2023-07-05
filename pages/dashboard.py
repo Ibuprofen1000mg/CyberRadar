@@ -52,12 +52,12 @@ thread_reddit_fetch = threading.Thread(target=reddit_data())
 #thread_reddit_fetch.daemon = True
 thread_reddit_fetch.start()
 
+#author: Jesse Kuhn
 filtered_score = []
 filtered_severity = []
 labels = ['MEDIUM', 'HIGH', 'N/A', 'CRITICAL']
 values = [0, 0, 0, 0]
 severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
-
 # counter = len(unfilterd_cve)
 # for x in unfilterd_cve:
 #     print(counter)
@@ -67,6 +67,7 @@ severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
 #     severity = cve_info[1]
 #     values[severity_map.get(severity, 2)] += 1
 
+# author: ???
 def aktuelle_sicherheitslage():
     """Wertet aktuelle Sicheheitslage aus"""
     meiste_werte = max(values)
@@ -95,6 +96,7 @@ fig = go.Figure(data=[go.Pie(labels=labels, values=values)], layout={
 
 dash.register_page(__name__)
 
+# author: Jesse Kuhn
 layout = html.Div(
     children=[
         html.Div(
@@ -197,6 +199,7 @@ layout = html.Div(
     ]
 )
 
+#author: Nic Holapfel?
 @callback(
     Output(component_id="reddit_card", component_property="children"),
     Input(component_id="reddit_timer", component_property="n_intervals"),
