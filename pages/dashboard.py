@@ -26,10 +26,10 @@ external_stylesheets = [
 reddit_cve = []
 reddit_cve_counter = []
 #TWITTER DATA
-NewTwitter = TwitterCVE()
-last100Tweets = NewTwitter.get_cve_in_tweets(NewTwitter.get_tweets("#cve -from:RedPacketSec", 50))
-unfilterd_cve = list(Counter(last100Tweets).keys())
-unfilterd_cve_counter = list(Counter(last100Tweets).values())
+# NewTwitter = TwitterCVE()
+# last100Tweets = NewTwitter.get_cve_in_tweets(NewTwitter.get_tweets("#cve -from:RedPacketSec", 50))
+# unfilterd_cve = list(Counter(last100Tweets).keys())
+# unfilterd_cve_counter = list(Counter(last100Tweets).values())
 
 #REDDIT DATA
 def reddit_data():
@@ -58,14 +58,14 @@ labels = ['MEDIUM', 'HIGH', 'N/A', 'CRITICAL']
 values = [0, 0, 0, 0]
 severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
 
-counter = len(unfilterd_cve)
-for x in unfilterd_cve:
-    print(counter)
-    counter -= 1
-    cve_info = cve_ds.get_cve_info2(x)
-    score = cve_info[0]
-    severity = cve_info[1]
-    values[severity_map.get(severity, 2)] += 1
+# counter = len(unfilterd_cve)
+# for x in unfilterd_cve:
+#     print(counter)
+#     counter -= 1
+#     cve_info = cve_ds.get_cve_info2(x)
+#     score = cve_info[0]
+#     severity = cve_info[1]
+#     values[severity_map.get(severity, 2)] += 1
 
 def aktuelle_sicherheitslage():
     """Wertet aktuelle Sicheheitslage aus"""
@@ -100,31 +100,31 @@ layout = html.Div(
         html.Div(
             style={'display': 'flex', 'flexWrap': 'wrap',},
             children=[
-                html.Div(
-                    className="card",
-                    style= {'marginRight': '10px', 'flex': '1'},
-                    children=dcc.Graph(
-                        id="numbers-chart",
-                        config={"displayModeBar": False},
-                        figure={
-                            "data": [
-                                {
-                                    'y': unfilterd_cve_counter,
-                                    'x': unfilterd_cve,
-                                    'type': 'bar'
-                                },
-                            ],
-                            'layout': {
-                                'title': {
-                                    'text': 'Currently Trending CVEs on Twitter',
-                                    'x': 0.1,
-                                    'xanchor': 'down'
-                                },
-                                'colorway': ['#E12D39']
-                            }
-                        },
-                    ),
-                ),
+                # html.Div(
+                #     className="card",
+                #     style= {'marginRight': '10px', 'flex': '1'},
+                #     children=dcc.Graph(
+                #         id="numbers-chart",
+                #         config={"displayModeBar": False},
+                #         figure={
+                #             "data": [
+                #                 {
+                #                     'y': unfilterd_cve_counter,
+                #                     'x': unfilterd_cve,
+                #                     'type': 'bar'
+                #                 },
+                #             ],
+                #             'layout': {
+                #                 'title': {
+                #                     'text': 'Currently Trending CVEs on Twitter',
+                #                     'x': 0.1,
+                #                     'xanchor': 'down'
+                #                 },
+                #                 'colorway': ['#E12D39']
+                #             }
+                #         },
+                #     ),
+                # ),
                 html.Div(
                     className="card",
                     style= {'marginRight': '10px', 'flex': '1'},
