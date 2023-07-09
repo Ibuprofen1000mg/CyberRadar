@@ -9,6 +9,7 @@ URL3 = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=" #Faster API
 
 s = requests.Session()
 
+# author: Benjamin Götz?
 def get_vendors():
     '''Returns all vendors stored in the databases'''
 
