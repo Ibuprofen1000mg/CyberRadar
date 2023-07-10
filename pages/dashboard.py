@@ -239,7 +239,6 @@ def update_reddit_data(timer, div_children):
         with open(file_name, "r") as reddit_file:
             reddit_cve = reddit_file.readline().replace("[","").replace("]","")
             reddit_cve_counter = reddit_file.readline().replace("[","").replace("]","")
-        #reddit_cve = reddit_cve[1:-1]
     except:
         print("Error cannot read File or File empty in update_reddit_data")
     div_child = dash.dcc.Graph(
