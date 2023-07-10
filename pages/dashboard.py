@@ -59,11 +59,14 @@ def reddit_data():
 
         
 #Reddit thread Daemon
-thread_reddit_fetch = threading.Thread(target=reddit_data())
-#thread_reddit_fetch.daemon = True
-thread_reddit_fetch.start()
+try:
+    thread_reddit_fetch = threading.Thread(target=reddit_data())
+    #thread_reddit_fetch.daemon = True
+    thread_reddit_fetch.start()
+except:
+    print("Reddit API Error!")
 
-#author: Jesse Kuhn
+#author: Nen Scheiß
 filtered_score = []
 filtered_severity = []
 labels = ['MEDIUM', 'HIGH', 'N/A', 'CRITICAL']
@@ -234,8 +237,9 @@ def update_reddit_data(timer, div_children):
         file_dir = os.path.dirname(os.path.realpath('__file__'))
         file_name = os.path.join(file_dir, 'Reddit_data.txt')
         with open(file_name, "r") as reddit_file:
-                reddit_cve = reddit_file.readline()
-                reddit_cve_counter = reddit_file.readline()
+            reddit_cve = reddit_file.readline().replace("[","").replace("]","")
+            reddit_cve_counter = reddit_file.readline().replace("[","").replace("]","")
+        #reddit_cve = reddit_cve[1:-1]
     except:
         print("Error cannot read File or File empty in update_reddit_data")
     div_child = dash.dcc.Graph(
