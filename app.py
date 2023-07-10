@@ -7,6 +7,7 @@ app = Dash(__name__, use_pages=True, suppress_callback_exceptions=False,
                             'content': 'width=device-width, initial-scale=1.0'}]
                 )
 
+# author: Jesse Kuhn
 app.layout = html.Div([
 	html.Div(
             children=[

@@ -12,6 +12,7 @@ headers = {'Accept': 'application/json'}
 
 s = requests.Session()
 
+# author: Benjamin Götz?
 def get_vendors():
     '''Returns all vendors stored in the databases'''
 

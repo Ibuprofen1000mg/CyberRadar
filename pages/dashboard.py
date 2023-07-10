@@ -5,7 +5,6 @@ from collections import Counter
 import plotly.graph_objs as go
 import plotly.express as px
 import dash
-from dash import dcc, html, callback, Output, Input, State
 import cve_ds
 from Tweety import TwitterCVE
 from Reddit import RedditCVE
@@ -64,11 +63,20 @@ thread_reddit_fetch = threading.Thread(target=reddit_data())
 #thread_reddit_fetch.daemon = True
 thread_reddit_fetch.start()
 
+#author: Jesse Kuhn
 filtered_score = []
 filtered_severity = []
 labels = ['MEDIUM', 'HIGH', 'N/A', 'CRITICAL']
 values = [0, 0, 0, 0]
 severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
+# counter = len(unfilterd_cve)
+# for x in unfilterd_cve:
+#     print(counter)
+#     counter -= 1
+#     cve_info = cve_ds.get_cve_info2(x)
+#     score = cve_info[0]
+#     severity = cve_info[1]
+#     values[severity_map.get(severity, 2)] += 1
 
 counter = len(unfilterd_cve)
 
@@ -110,53 +118,54 @@ fig = go.Figure(data=[go.Pie(labels=labels, values=values)], layout={
 
 dash.register_page(__name__)
 
-layout = html.Div(
+# author: Jesse Kuhn
+layout = dash.html.Div(
     children=[
-        html.Div(
+        dash.html.Div(
             style={'display': 'flex', 'flexWrap': 'wrap',},
             children=[
-                html.Div(
-                    className="card",
-                    style= {'marginRight': '10px', 'flex': '1'},
-                    children=dcc.Graph(
-                        id="numbers-chart",
-                        config={"displayModeBar": False},
-                        figure={
-                            "data": [
-                                {
-                                    'y': unfilterd_cve_counter,
-                                    'x': unfilterd_cve,
-                                    'type': 'bar'
-                                },
-                            ],
-                            'layout': {
-                                'title': {
-                                    'text': 'Currently Trending CVEs on Twitter',
-                                    'x': 0.1,
-                                    'xanchor': 'down'
-                                },
-                                'colorway': ['#E12D39']
-                            }
-                        },
-                    ),
-                ),
-                html.Div(
+                # html.Div(
+                #     className="card",
+                #     style= {'marginRight': '10px', 'flex': '1'},
+                #     children=dcc.Graph(
+                #         id="numbers-chart",
+                #         config={"displayModeBar": False},
+                #         figure={
+                #             "data": [
+                #                 {
+                #                     'y': unfilterd_cve_counter,
+                #                     'x': unfilterd_cve,
+                #                     'type': 'bar'
+                #                 },
+                #             ],
+                #             'layout': {
+                #                 'title': {
+                #                     'text': 'Currently Trending CVEs on Twitter',
+                #                     'x': 0.1,
+                #                     'xanchor': 'down'
+                #                 },
+                #                 'colorway': ['#E12D39']
+                #             }
+                #         },
+                #     ),
+                # ),
+                dash.html.Div(
                     className="card",
                     style= {'marginRight': '10px', 'flex': '1'},
                     children=
-                    dcc.Graph(
+                    dash.dcc.Graph(
                         id='pie-chart',
                         figure=fig
                     ),
                 ),
-                 html.Div(
+                 dash.html.Div(
                     className="card",
                     style= {'marginRight': '10px', 'flex': '1'},
                     children=[
-                        html.Center(
+                        dash.html.Center(
                             children=[
-                                html.H2("Aktuelle Sicherheitslage"),
-                                html.P(aktuelle_sicherheitslage())
+                                dash.html.H2("Aktuelle Sicherheitslage"),
+                                dash.html.P(aktuelle_sicherheitslage())
                             ]
                         )
                     ],
@@ -167,26 +176,26 @@ layout = html.Div(
             className="wrapper",
         ),
         #REDDIT CVE
-        html.Div(
+        dash.html.Div(
             style={'width': '100%', 'margin': '0, 10, 0, 10'},
             id='reddit_page',
             className="card",
             children=[
-                html.Div(
+                dash.html.Div(
                     className="card",
                     id="reddit_card",
                     style= {"marginLeft": "20px", "marginRight": "20px", 'flex': '1'},
                     children=[],
                 ),
-                    dcc.Interval(id='reddit_timer', interval=60*1000, n_intervals=0),
+                    dash.dcc.Interval(id='reddit_timer', interval=60*1000, n_intervals=0),
             ]
         ),
         #HISTORIC CVE DATA
-        html.Div(
+        dash.html.Div(
             style={'width': '100%', 'margin': '0, 10, 0, 10'},
             id='cve_history',
             className="card",
-            children=dcc.Graph(
+            children=dash.dcc.Graph(
                 style={"marginLeft": "20px", "marginRight": "20px", 'flex': '1'},
                 id="numbers-chart",
                 config={"displayModeBar": False},
@@ -212,10 +221,11 @@ layout = html.Div(
     ]
 )
 
-@callback(
-    Output(component_id="reddit_card", component_property="children"),
-    Input(component_id="reddit_timer", component_property="n_intervals"),
-    State(component_id="reddit_page", component_property="children")
+#author: Nic Holapfel?
+@dash.callback(
+    dash.Output(component_id="reddit_card", component_property="children"),
+    dash.Input(component_id="reddit_timer", component_property="n_intervals"),
+    dash.State(component_id="reddit_page", component_property="children")
 )
 def update_reddit_data(timer, div_children):
     reddit_cve = []
@@ -228,7 +238,7 @@ def update_reddit_data(timer, div_children):
                 reddit_cve_counter = reddit_file.readline()
     except:
         print("Error cannot read File or File empty in update_reddit_data")
-    div_child = dcc.Graph(
+    div_child = dash.dcc.Graph(
                         id="numbers-chart",
                         config={"displayModeBar": False},
                         figure={

@@ -7,7 +7,7 @@ from collections import Counter
 import praw
 from prawcore.exceptions import Forbidden
 
-
+# author: Nic Holzapfel ?
 class RedditCVE:
     """MISSING!!!"""
     #Configure initials for reddit class --> Credential Data for Access
