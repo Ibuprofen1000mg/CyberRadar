@@ -58,11 +58,14 @@ def get_cve_info(cve):
     '''
     try:
         request = s.get(URL3 + cve, timeout=40, headers=headers).json()
+
+        description = request["vulnerabilities"][0]['cve']['descriptions'][0].get('value')
         cvss30 = request["vulnerabilities"][0]['cve']['metrics'].get('cvssMetricV30')
         #print(cvss30)
         cvss31 = request["vulnerabilities"][0]['cve']['metrics'].get('cvssMetricV31')
         #print(cvss31)
-    except IndexError or json.decoder.JSONDecodeError or requests.exceptions.JSONDecodeError:
+    except:
+        description = None
         cvss30 = None
         cvss31 = None
 
@@ -76,7 +79,7 @@ def get_cve_info(cve):
         score = 0
         severity = "N/A"
 
-    print(score, severity)
+    print(score, severity, description)
     return score, severity
 
 def get_cve_info2(cve):
@@ -89,7 +92,7 @@ def get_cve_info2(cve):
     '''
     cve = cve.lower()
     print(cve)
-    time.sleep(1)
+    
     try:
         request = s.get(URL2 + cve, timeout=40).json()
 
