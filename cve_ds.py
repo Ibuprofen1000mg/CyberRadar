@@ -2,10 +2,13 @@
 import pprint
 import time
 import requests
+import json
 
 URL = "https://cvepremium.circl.lu/api/"
 URL2 = "https://api.cvesearch.com/search?q=" #Slower API
 URL3 = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=" #Faster API
+
+headers = {'Accept': 'application/json'}
 
 s = requests.Session()
 
@@ -53,13 +56,12 @@ def get_cve_info(cve):
     :rtype: tuple
     '''
     try:
-        request = s.get(URL2 + cve, timeout=40).json()
-
+        request = s.get(URL3 + cve, timeout=40, headers=headers).json()
         cvss30 = request["vulnerabilities"][0]['cve']['metrics'].get('cvssMetricV30')
-        print(cvss30)
+        #print(cvss30)
         cvss31 = request["vulnerabilities"][0]['cve']['metrics'].get('cvssMetricV31')
-        print(cvss31)
-    except IndexError:
+        #print(cvss31)
+    except IndexError or json.decoder.JSONDecodeError or requests.exceptions.JSONDecodeError:
         cvss30 = None
         cvss31 = None
 

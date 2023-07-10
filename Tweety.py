@@ -16,7 +16,7 @@ class TwitterCVE:
         self.access_token_secret = self.config['twitter']['AccessTokenSecret']
         self.bear_token = self.config['twitter']['BearerToken']
         self.client = tweepy.Client(
-            bearer_token=self.bear_token,
+            bearer_token="AAAAAAAAAAAAAAAAAAAAACcDogEAAAAAAJsaU%2FQmVG4upsjYv6qm9pGQfqE%3Dl3YvX3dwGGqN9sYSmheXYhVPt51ZDBz30BUDUCP12bjryYhGW5",
             consumer_key=self.api_key,
             consumer_secret=self.api_key_secret,
             access_token=self.access_token,
@@ -28,27 +28,31 @@ class TwitterCVE:
     #Get Last X Tweets with filered Search
     def get_tweets(self, query_string, number_of_tweets) -> list:
         '''Returns Tweets given a number of tweets and a query-string'''
-        get_tweets_by_x = self.client.search_recent_tweets(
-            query=str(query_string),
-            tweet_fields=['context_annotations'],
-            max_results=int(number_of_tweets)
-            )
-        return get_tweets_by_x
+        try:
+            get_tweets_by_x = self.client.search_recent_tweets(
+                query=str(query_string),
+                tweet_fields=['context_annotations'],
+                max_results=int(number_of_tweets)
+                )
+            return get_tweets_by_x
+        except:
+            print("Twitter API Error")
+        
 
-    def get_new_twitter_accounts(self, query_string, number_of_tweets) -> list:
-        '''Returns Tweet-authors given a number of tweets and a query-string'''
-        get_username_by_tweet = self.client.search_recent_tweets(
-            query=str(query_string),
-            max_results=int(number_of_tweets),
-            expansions = 'author_id',
-            user_fields = ['username'],
-            )
-        new_username_list = []
-        for tweets in range(0, number_of_tweets-1):
-            print(get_username_by_tweet.includes['users'][tweets])
-            new_username_list[tweets] = get_username_by_tweet.includes['users'][tweets]
-            print(new_username_list[tweets])
-        return new_username_list
+    # def get_new_twitter_accounts(self, query_string, number_of_tweets) -> list:
+    #     '''Returns Tweet-authors given a number of tweets and a query-string'''
+    #     get_username_by_tweet = self.client.search_recent_tweets(
+    #         query=str(query_string),
+    #         max_results=int(number_of_tweets),
+    #         expansions = 'author_id',
+    #         user_fields = ['username'],
+    #         )
+    #     new_username_list = []
+    #     for tweets in range(0, number_of_tweets-1):
+    #         print(get_username_by_tweet.includes['users'][tweets])
+    #         new_username_list[tweets] = get_username_by_tweet.includes['users'][tweets]
+    #         print(new_username_list[tweets])
+    #     return new_username_list
 
     def get_cve_in_tweets(self, tweets_response)->list:
         '''Returns CVE REGEX found in an array of tweets'''
@@ -68,8 +72,9 @@ class TwitterCVE:
         return list_of_cve
 
 #This block prints the last 100 Tweet-CVEs with their frequencies
-#NewTwitter = TwitterCVE()
-#retrieveLast10 = NewTwitter.get_tweets("#cve -from:RedPacketSec", 100)
+# NewTwitter = TwitterCVE()
+# retrieveLast10 = NewTwitter.get_tweets("#cve", 10)
+# print(retrieveLast10)
 #z = NewTwitter.get_cve_in_tweets(retrieveLast10)
 #y = NewTwitter.sort_tweets_by_cve_frequency(z)
 

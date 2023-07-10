@@ -5,6 +5,7 @@ import re
 #This is the reddit api python wrapper
 from collections import Counter
 import praw
+from prawcore.exceptions import Forbidden
 
 
 class RedditCVE:
@@ -18,7 +19,7 @@ class RedditCVE:
         self.client = praw.Reddit(
             client_id=self.own_script,
             client_secret=self.secret,
-            user_agent="CVEFinder"
+            user_agent="android:com.example.cyberradar:v1.2.3"
         )
         print(self.client.read_only)
 
@@ -44,7 +45,7 @@ class RedditCVE:
         try:
             with open("Subreddits.txt", "r", encoding="utf-8") as reddit_file:
                 for line in reddit_file.readlines():
-                    reddit_string_tuple = self.check_last_new_in_subreddit(line, 20)
+                    reddit_string_tuple = self.check_last_new_in_subreddit(line, 5)
                     for text_values in reddit_string_tuple:
                         self.get_cve_in_reddit(text_values.title,cve_list)
                         self.get_cve_in_reddit(text_values.selftext,cve_list)
@@ -60,10 +61,10 @@ class RedditCVE:
             print(f"{cve_string} not found or problem finding string!")
 
 #print(RedditCVE().retrieve_cve_count('CVE-2023-2033'))
-#if __name__ == "__main__":
-#    p = RedditCVE().retrieve_reddit_cve_list()
-#    print(list(Counter(p).keys()))
-#    print(list(Counter(p).values()))
+if __name__ == "__main__":
+   p = RedditCVE().retrieve_reddit_cve_list()
+   print(list(Counter(p).keys()))
+   print(list(Counter(p).values()))
 
 # print(Counter(p).keys())
 # print(Counter(p).values())

@@ -26,10 +26,22 @@ external_stylesheets = [
 reddit_cve = []
 reddit_cve_counter = []
 #TWITTER DATA
-NewTwitter = TwitterCVE()
-last100Tweets = NewTwitter.get_cve_in_tweets(NewTwitter.get_tweets("#cve -from:RedPacketSec", 50))
-unfilterd_cve = list(Counter(last100Tweets).keys())
-unfilterd_cve_counter = list(Counter(last100Tweets).values())
+try:
+    NewTwitter = TwitterCVE()
+    last100Tweets = NewTwitter.get_cve_in_tweets(NewTwitter.get_tweets("#cve -from:RedPacketSec", 50))
+    unfilterd_cve = list(Counter(last100Tweets).keys())
+    unfilterd_cve_counter = list(Counter(last100Tweets).values())
+except:
+    unfilterd_cve = []
+    unfilterd_cve_counter = []
+    try:
+        file_dir = os.path.dirname(os.path.realpath('__file__'))
+        file_name = os.path.join(file_dir, 'Twitter_data.txt')
+        with open(file_name, "r") as twitter_file:
+            unfilterd_cve = (twitter_file.readline().split(", "))
+            unfilterd_cve_counter = (twitter_file.readline().split(","))
+    except:
+        print("Error cannot read File or File empty in Twitter_data.txt")
 
 #REDDIT DATA
 def reddit_data():
@@ -59,10 +71,13 @@ values = [0, 0, 0, 0]
 severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
 
 counter = len(unfilterd_cve)
+
 for x in unfilterd_cve:
     print(counter)
-    counter -= 1
-    cve_info = cve_ds.get_cve_info2(x)
+    counter-=1
+    if counter == 3:
+        break
+    cve_info = cve_ds.get_cve_info(x)
     score = cve_info[0]
     severity = cve_info[1]
     values[severity_map.get(severity, 2)] += 1
