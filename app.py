@@ -26,7 +26,7 @@ app.layout = html.Div([
     html.Div(
         [
             html.Div(
-                style={'flex-wrap': 'wrap', },
+                style={'flex-wrap': 'wrap'},
                 children=[
                     dcc.Link(
                         f"{page['name']} - {page['path']}", href=page["relative_path"],

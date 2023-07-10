@@ -1,7 +1,7 @@
 """MISSING!!!"""
 from collections import Counter
 
-#import pandas as pd
+import pandas as pd
 import plotly.graph_objs as go
 import plotly.express as px
 import dash
@@ -11,6 +11,11 @@ from Reddit import RedditCVE
 import Historic
 import threading
 import os
+
+df = pd.DataFrame({'col1': [1, 2],
+                   'col2': [0.5, 0.75]},
+                  index=['row1', 'row2'])
+
 
 dash.register_page(__name__, path='/')
 
@@ -60,9 +65,10 @@ def reddit_data():
         
 #Reddit thread Daemon
 try:
-    thread_reddit_fetch = threading.Thread(target=reddit_data())
+    print("No Exception")
+    #thread_reddit_fetch = threading.Thread(target=reddit_data())
     #thread_reddit_fetch.daemon = True
-    thread_reddit_fetch.start()
+    #thread_reddit_fetch.start()
 except:
     print("Reddit API Error!")
 
@@ -127,31 +133,31 @@ layout = dash.html.Div(
         dash.html.Div(
             style={'display': 'flex', 'flexWrap': 'wrap',},
             children=[
-                # html.Div(
-                #     className="card",
-                #     style= {'marginRight': '10px', 'flex': '1'},
-                #     children=dcc.Graph(
-                #         id="numbers-chart",
-                #         config={"displayModeBar": False},
-                #         figure={
-                #             "data": [
-                #                 {
-                #                     'y': unfilterd_cve_counter,
-                #                     'x': unfilterd_cve,
-                #                     'type': 'bar'
-                #                 },
-                #             ],
-                #             'layout': {
-                #                 'title': {
-                #                     'text': 'Currently Trending CVEs on Twitter',
-                #                     'x': 0.1,
-                #                     'xanchor': 'down'
-                #                 },
-                #                 'colorway': ['#E12D39']
-                #             }
-                #         },
-                #     ),
-                # ),
+                dash.html.Div(
+                    className="card",
+                    style= {'marginRight': '10px', 'flex': '1'},
+                    children=dash.dcc.Graph(
+                        id="numbers-chart",
+                        config={"displayModeBar": False},
+                        figure={
+                            "data": [
+                                {
+                                    'y': unfilterd_cve_counter,
+                                    'x': unfilterd_cve,
+                                    'type': 'bar'
+                                },
+                            ],
+                            'layout': {
+                                'title': {
+                                    'text': 'Currently Trending CVEs on Twitter',
+                                    'x': 0.1,
+                                    'xanchor': 'down'
+                                },
+                                'colorway': ['#E12D39']
+                            }
+                        },
+                    ),
+                ),
                 dash.html.Div(
                     className="card",
                     style= {'marginRight': '10px', 'flex': '1'},
@@ -219,6 +225,25 @@ layout = dash.html.Div(
                         'colorway': ['#0da784']
                     }
                 },
+            ),
+        ),
+        #DATA TABLE
+
+        dash.html.Div(
+            style={'width': '100%', 'margin': '0, 10, 0, 10'},
+            id='data_table',
+            className="card",
+            children=dash.dash_table.DataTable(
+
+                    
+                    columns=[{"name": i, "id": i} for i in df.columns],
+                    data=df.to_dict('records'),
+                #columns=[
+                    #{"name":'CVE', "id":'CVE'},
+                    #{"name":'Severity', "id":'Severity'},
+                    #{"name":'Description', "id":'Description'} 
+                #    ],
+                #data={'CVE': pd.DataFrame(unfilterd_cve)},
             ),
         )
     ]
