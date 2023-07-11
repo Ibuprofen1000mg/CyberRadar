@@ -10,7 +10,7 @@ import cve_ds
 from Tweety import TwitterCVE
 from Reddit import RedditCVE
 import Historic
-from rating import Rating
+import rating
 
 dash.register_page(__name__, path='/dashboard')
 
@@ -71,7 +71,7 @@ except:
 
 #author: Nen Scheiß
 filtered_score = []
-personal_score = []
+personal_rating = []
 filtered_severity = []
 labels = ['MEDIUM', 'HIGH', 'N/A', 'CRITICAL']
 values = [0, 0, 0, 0]
@@ -91,7 +91,7 @@ for x in unfilterd_cve:
     counter-=1
     cve_info = cve_ds.get_cve_info(x)
     score = cve_info[0]
-    #personal_score.append(Rating.rate(x, 20))
+    personal_rating.append(rating.rate(cve_info, counter))
     filtered_score.append(cve_info[0])
     severity = cve_info[1]
     filtered_severity.append(cve_info[1])
@@ -101,7 +101,7 @@ for x in unfilterd_cve:
 #Dataframe
 df = pd.DataFrame({'CVE': [x for x in unfilterd_cve],
             'Score': [x for x in filtered_score],
-            #'Personal Rating': [],
+            'Personal Rating': [x for x in personal_rating],
             'Severity': [x for x in filtered_severity],
             'Description': [x for x in cve_descriptions]},
             index=[*range(0, len(unfilterd_cve), 1)])

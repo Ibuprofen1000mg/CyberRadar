@@ -41,13 +41,6 @@ def get_cve_severity_and_score(cvenumber):
     request = requests.get(URL + "cve/" + cvenumber, timeout=50).json()
     return request["typical_severity"], request["cvss3"]
 
-# def get_nested(data, *args):
-#     if args and data:
-#         element  = args[0]
-#         if element:
-#             value = data.get(element)
-#             return value if len(args) == 1 else get_nested(value, *args[1:])
-
 def get_cve_info(cve):
     '''
     Return the severity and the cvss of a CVE from NIST API
@@ -59,15 +52,16 @@ def get_cve_info(cve):
     try:
         request = s.get(URL3 + cve, timeout=40, headers=headers).json()
 
-        description = request["vulnerabilities"][0]['cve']['descriptions'][0].get('value')
         cvss30 = request["vulnerabilities"][0]['cve']['metrics'].get('cvssMetricV30')
-        #print(cvss30)
         cvss31 = request["vulnerabilities"][0]['cve']['metrics'].get('cvssMetricV31')
-        #print(cvss31)
+        description = request["vulnerabilities"][0]['cve']['descriptions'][0].get('value')
+        last_modified = request["vulnerabilities"][0]['cve'].get('lastModified')
+
     except:
-        description = None
         cvss30 = None
         cvss31 = None
+        description = None
+        last_modified = None
 
     if cvss30 is not None:
         score = cvss30[0]['cvssData'].get('baseScore')
@@ -80,8 +74,8 @@ def get_cve_info(cve):
         severity = "N/A"
 
     print(cve)
-    print(score, severity)
-    return score, severity, description
+    print(score, severity, last_modified)
+    return score, severity, description, last_modified
 
 def get_cve_info2(cve):
     '''
