@@ -1,6 +1,7 @@
 """MISSING!!!"""
 from collections import Counter
-
+import threading
+import os
 import pandas as pd
 import plotly.graph_objs as go
 import plotly.express as px
@@ -9,8 +10,6 @@ import cve_ds
 from Tweety import TwitterCVE
 from Reddit import RedditCVE
 import Historic
-import threading
-import os
 
 df = pd.DataFrame({'col1': [1, 2],
                    'col2': [0.5, 0.75]},
@@ -26,6 +25,7 @@ external_stylesheets = [
         "rel": "stylesheet",
     },
 ]
+
 #Globals
 reddit_cve = []
 reddit_cve_counter = []
@@ -62,7 +62,6 @@ def reddit_data():
             print(e)
             print("Error Cannot Read File or File empty (Reddit)")
 
-        
 #Reddit thread Daemon
 try:
     print("No Exception")
@@ -86,7 +85,6 @@ severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
 #     score = cve_info[0]
 #     severity = cve_info[1]
 #     values[severity_map.get(severity, 2)] += 1
-
 counter = len(unfilterd_cve)
 
 for x in unfilterd_cve:
@@ -131,7 +129,8 @@ dash.register_page(__name__)
 layout = dash.html.Div(
     children=[
         dash.html.Div(
-            style={'display': 'flex', 'flexWrap': 'wrap',},
+            style={'display': 'flex', 'flexWrap': 'wrap', 'marginLeft': '20px', 'marginRight': '20px',
+                   'max-width': '100%', 'padding': '0px'},
             children=[
                 dash.html.Div(
                     className="card",
@@ -167,9 +166,9 @@ layout = dash.html.Div(
                         figure=fig
                     ),
                 ),
-                 dash.html.Div(
+                dash.html.Div(
                     className="card",
-                    style= {'marginRight': '10px', 'flex': '1'},
+                    style= { 'flex': '1'},
                     children=[
                         dash.html.Center(
                             children=[
@@ -178,8 +177,6 @@ layout = dash.html.Div(
                             ]
                         )
                     ],
-
-                    
                 ),
             ],
             className="wrapper",
@@ -188,7 +185,7 @@ layout = dash.html.Div(
         dash.html.Div(
             style={'width': '100%', 'margin': '0, 10, 0, 10'},
             id='reddit_page',
-            className="card",
+            #className="card",
             children=[
                 dash.html.Div(
                     className="card",
@@ -201,43 +198,40 @@ layout = dash.html.Div(
         ),
         #HISTORIC CVE DATA
         dash.html.Div(
-            style={'width': '100%', 'margin': '0, 10, 0, 10'},
-            id='cve_history',
-            className="card",
-            children=dash.dcc.Graph(
-                style={"marginLeft": "20px", "marginRight": "20px", 'flex': '1'},
-                id="numbers-chart",
-                config={"displayModeBar": False},
-                figure={
-                    "data": [
-                        {
-                            'y': Historic.data_array(),
-                            'x': Historic.dates_array(),
-                            'type': 'bar'
-                        },
-                    ],
-                    'layout': {
-                        'title': {
-                            'text': 'Historic CVE Data',
-                            'x': 0.1,
-                            'xanchor': 'down'
-                        },
-                        'colorway': ['#0da784']
-                    }
-                },
-            ),
+                style={'width': '100%', 'margin': '0, 10, 0, 10'},
+                id='cve_history',
+                children=dash.dcc.Graph(
+                    style={"marginLeft": "20px", "marginRight": "20px", 'flex': '1'},
+                    className="card",
+                    id="numbers-chart",
+                    config={"displayModeBar": False},
+                    figure={
+                        "data": [
+                            {
+                                'y': Historic.data_array(),
+                                'x': Historic.dates_array(),
+                                'type': 'bar'
+                            },
+                        ],
+                        'layout': {
+                            'title': {
+                                'text': 'Historic CVE Data',
+                                'x': 0.1,
+                                'xanchor': 'down'
+                            },
+                            'colorway': ['#0da784']
+                        }
+                    },
+                ),  
         ),
         #DATA TABLE
-
         dash.html.Div(
-            style={'width': '100%', 'margin': '0, 10, 0, 10'},
+            style={'max-width': '1479px', "margin": "0px 20px 24px 20px",
+            "box-shadow": "0 4px 6px 0 rgba(0, 0, 0, 0.18)",  'flex': '1'},
             id='data_table',
-            className="card",
             children=dash.dash_table.DataTable(
-
-                    
-                    columns=[{"name": i, "id": i} for i in df.columns],
-                    data=df.to_dict('records'),
+                columns=[{"name": i, "id": i} for i in df.columns],
+                data=df.to_dict('records'),
                 #columns=[
                     #{"name":'CVE', "id":'CVE'},
                     #{"name":'Severity', "id":'Severity'},
