@@ -1,0 +1,14 @@
+https://exchange.xforce.ibmcloud.com/activity/list?filter=Vulnerabilities
+https://vulners.com/search?query=bulletinFamily:exploit%20order:published
+https://vulners.com/search?query=bulletinFamily:unix%20order:published
+https://vulners.com/search?query=type:cve%20order:published
+https://vulners.com/search?query=type:msrc%20OR%20type:mscve%20order:published
+https://www.opencve.io/cve
+https://isc.sans.edu/
+https://talosintelligence.com/vulnerability_reports
+https://www.cyber.gc.ca/en/alerts-advisories
+https://attackerkb.com/
+https://www.cvedetails.com/vulnerability-list/year-2023/month-7/July.html
+https://www.cisa.gov/known-exploited-vulnerabilities-catalog
+https://vuldb.com/?live.recent
+https://cxsecurity.com/wlb/

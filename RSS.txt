@@ -1,3 +1,7 @@
 https://www.bsi.bund.de/SiteGlobals/Functions/RSSFeed/RSSNewsfeed/RSSNewsfeed.xml
 https://rss.packetstormsecurity.com/files/tags/exploit/
 https://krebsonsecurity.com/feed/
+https://isc.sans.edu/dailypodcast.xml
+https://threatpost.com/feed
+https://www.cisa.gov/cybersecurity-advisories/all.xml
+https://vuldb.com/?rss.recent

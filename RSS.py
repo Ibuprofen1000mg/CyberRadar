@@ -1,5 +1,8 @@
 '''File for retrieving data from RSS feeds of different websites'''
 import feedparser
+import re
+from collections import Counter
+
 
 RSS_FILE_NAME = "./RSS.txt"
 
@@ -41,9 +44,19 @@ class RSSFeed:
                 if line.strip("\n") != website_string:
                     rss_file.write(line)
 
+    def get_cve_in_RSS(self, cve_number, cve_array):
+        '''Returns CVE REGEX found in an array of tweets'''
+        check_cve_regex = re.search('CVE-\\d{4}-\\d{4,7}', cve_number)
+            #print(tweets)
+        if check_cve_regex is not None:
+            cve_array.append(check_cve_regex.group())
+  
+  
+  
     def parse_websites(self):
         '''Parse website(s) in RSS-Websites file'''
         with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
+            cve_array = []
             for line in rss_file.readlines():
                 #print(line)
                 single_feed = feedparser.parse(line)
@@ -52,21 +65,16 @@ class RSSFeed:
 # title,title_detail{.},links{.},link,published,published_parsed,summary,summary_detail{.}
 #RSS-Feed Packetstormsec:
 # title, title_detail{.},links{.},link,id,guidislink,comments,published,published_parsed,summary,summary_detail{.},tags
-                    print(entry.title)
-                    print(entry.link)
-                    print(entry.published)
-                    print(entry.summary)
-                    print('---------------------')
+                    # print(entry.title)
+                    # print(entry.link)
+                    # print(entry.published)
+                    # print(entry.summary)
+                    # print('---------------------')
+                    self.get_cve_in_RSS(entry.title, cve_array)
+                    self.get_cve_in_RSS(entry.summary, cve_array)
+            x = cve_array
+            print(list(zip(Counter(x).keys(), Counter(x).values())))
 
 if __name__ == "__main__":
     newRssReader = RSSFeed()
-    #newRssReader.append_website("https://krebsonsecurity.com/feed/")
     newRssReader.parse_websites()
-
-    #https://dev.to/mr_destructive/feedparser-python-package-for-reading-rss-feeds-5fnc
-
-    #Fetch Websites
-    #Add new Websites to a list
-    #Remove Websites from list
-    #REGEX
-    
