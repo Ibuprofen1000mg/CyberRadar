@@ -168,7 +168,7 @@ layout = dash.html.Div(
                 ),
                 dash.html.Div(
                     className="card",
-                    style= { 'flex': '1'},
+                    style= {'flex': '1'},
                     children=[
                         dash.html.Center(
                             children=[
