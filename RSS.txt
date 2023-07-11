@@ -5,3 +5,4 @@ https://isc.sans.edu/dailypodcast.xml
 https://threatpost.com/feed
 https://www.cisa.gov/cybersecurity-advisories/all.xml
 https://vuldb.com/?rss.recent
+https://www.heise.de/security/rss/alert-news.rdf

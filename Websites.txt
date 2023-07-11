@@ -12,3 +12,5 @@ https://www.cvedetails.com/vulnerability-list/year-2023/month-7/July.html
 https://www.cisa.gov/known-exploited-vulnerabilities-catalog
 https://vuldb.com/?live.recent
 https://cxsecurity.com/wlb/
+https://www.arubanetworks.com/de/supportservices/sicherheitsmitteilungen/
+https://packetstormsecurity.com/
