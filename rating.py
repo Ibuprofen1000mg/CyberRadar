@@ -19,11 +19,12 @@ def rate(cve_info, mentions):
         date2 = datetime.datetime(int(cve_info[3][:4]), \
                                     int(cve_info[3][5:7]), \
                                     int(cve_info[3][8:10]))
-        if not date2.year < date1.year:
+        if date2.year < date1.year:
             print("Year !<")
-            if date2.month < date1.month:
+            time = 1.2
+        elif date2.month < date1.month:
                 print("Month <")
-                time = 0.8
+                time = 1.1
 
     if mentions > 10:
         mention = 1.3
@@ -35,5 +36,5 @@ def rate(cve_info, mentions):
         print(score)
     elif score == 0 and mentions > 10:
         score = 5
-        
+
     return score
