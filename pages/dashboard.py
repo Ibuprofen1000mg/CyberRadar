@@ -16,7 +16,7 @@ df = pd.DataFrame({'col1': [1, 2],
                   index=['row1', 'row2'])
 
 
-dash.register_page(__name__, path='/')
+dash.register_page(__name__, path='/dashboard')
 
 external_stylesheets = [
     {

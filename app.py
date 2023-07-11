@@ -30,7 +30,7 @@ app.layout = html.Div([
                 style={'flex-wrap': 'wrap'},
                 children=[
                     dcc.Link(
-                        f"{page['name']} - {page['path']}", href=page["relative_path"],
+                        f"{page['name']}", href=page["relative_path"],
                         style={'display': 'inline-block', 'width': '50%', 'text-align': 'center'},
                     )
                     for page in dash.page_registry.values()
