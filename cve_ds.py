@@ -79,8 +79,9 @@ def get_cve_info(cve):
         score = 0
         severity = "N/A"
 
-    print(score, severity, description)
-    return score, severity
+    print(cve)
+    print(score, severity)
+    return score, severity, description
 
 def get_cve_info2(cve):
     '''

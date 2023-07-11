@@ -10,11 +10,7 @@ import cve_ds
 from Tweety import TwitterCVE
 from Reddit import RedditCVE
 import Historic
-
-df = pd.DataFrame({'col1': [1, 2],
-                   'col2': [0.5, 0.75]},
-                  index=['row1', 'row2'])
-
+from rating import Rating
 
 dash.register_page(__name__, path='/dashboard')
 
@@ -29,6 +25,8 @@ external_stylesheets = [
 #Globals
 reddit_cve = []
 reddit_cve_counter = []
+cve_descriptions = []
+
 #TWITTER DATA
 try:
     NewTwitter = TwitterCVE()
@@ -73,6 +71,7 @@ except:
 
 #author: Nen Scheiß
 filtered_score = []
+personal_score = []
 filtered_severity = []
 labels = ['MEDIUM', 'HIGH', 'N/A', 'CRITICAL']
 values = [0, 0, 0, 0]
@@ -90,12 +89,22 @@ counter = len(unfilterd_cve)
 for x in unfilterd_cve:
     print(counter)
     counter-=1
-    if counter == 3:
-        break
     cve_info = cve_ds.get_cve_info(x)
     score = cve_info[0]
+    #personal_score.append(Rating.rate(x, 20))
+    filtered_score.append(cve_info[0])
     severity = cve_info[1]
+    filtered_severity.append(cve_info[1])
+    cve_descriptions.append(cve_info[2])
     values[severity_map.get(severity, 2)] += 1
+
+#Dataframe
+df = pd.DataFrame({'CVE': [x for x in unfilterd_cve],
+            'Score': [x for x in filtered_score],
+            #'Personal Rating': [],
+            'Severity': [x for x in filtered_severity],
+            'Description': [x for x in cve_descriptions]},
+            index=[*range(0, len(unfilterd_cve), 1)])
 
 def aktuelle_sicherheitslage():
     """Wertet aktuelle Sicheheitslage aus"""
@@ -226,18 +235,12 @@ layout = dash.html.Div(
         ),
         #DATA TABLE
         dash.html.Div(
-            style={'max-width': '1479px', "margin": "0px 20px 24px 20px",
-            "box-shadow": "0 4px 6px 0 rgba(0, 0, 0, 0.18)",  'flex': '1'},
+            style={'width': '100%', 'margin': '0, 10, 0, 10'},
             id='data_table',
             children=dash.dash_table.DataTable(
-                columns=[{"name": i, "id": i} for i in df.columns],
                 data=df.to_dict('records'),
-                #columns=[
-                    #{"name":'CVE', "id":'CVE'},
-                    #{"name":'Severity', "id":'Severity'},
-                    #{"name":'Description', "id":'Description'} 
-                #    ],
-                #data={'CVE': pd.DataFrame(unfilterd_cve)},
+                columns=[{"name": i, "id": i} for i in df.columns],
+                style_cell={'textAlign': 'left', 'width': '20px','max-width': '100px'}
             ),
         )
     ]
