@@ -8,6 +8,8 @@ app = Dash(__name__, use_pages=True, suppress_callback_exceptions=False,
     ]
 )
 
+app.title = 'Cyber-Radar'
+
 # author: Jesse Kuhn
 app.layout = html.Div([
 	html.Div(
@@ -30,14 +32,25 @@ app.layout = html.Div([
                 style={'flex-wrap': 'wrap'},
                 children=[
                     dcc.Link(
-                        f"{page['name']}", href=page["relative_path"],
+                        f"{dash.page_registry['pages.dashboard']['name']}", href=dash.page_registry['pages.dashboard']["relative_path"],
+                        style={'display': 'inline-block', 'width': '50%', 'text-align': 'center'},
+                    ),
+                    dcc.Link(
+                        f"{dash.page_registry['pages.news']['name']}", href=dash.page_registry['pages.news']["relative_path"],
                         style={'display': 'inline-block', 'width': '50%', 'text-align': 'center'},
                     )
-                    for page in dash.page_registry.values()
+                    
                 ]
             )
         ]
     ),
+    # dash.html.Div(
+    #     style= {"text-align": "center"},
+    #     children= [
+    #         html.H1("Welcome to our Cyber-Radar"),
+    #         html.H2("If you want to have a look at current threats go to the Dashboard page. If you want to see news about the current CVEs go to the News page")
+    #     ]
+    # ),
 	dash.page_container
 ])
 
