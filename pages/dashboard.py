@@ -295,7 +295,9 @@ layout = dash.html.Div(
         ),
         #DATA TABLE
         dash.html.Div(
-            style={'width': '100%', 'margin': '0, 10, 0, 10'},
+            style={'width': '100%', 'margin': '0, 10, 0, 10', 'marginLeft': '20px', 
+                   'marginRight': '20px', 'flex': '1', 'overflow-wrap': 'break-word', 'inline-size': '150px', 'max-width': '100px'},
+            className="card",
             id='data_table',
             children=dash.dash_table.DataTable(
                 data=df.to_dict('records'),
