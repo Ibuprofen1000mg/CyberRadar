@@ -43,8 +43,6 @@ def get_cve_info(cve):
         score = 0
         severity = "N/A"
 
-    print(cve)
-    print(score, severity, last_modified)
     return score, severity, description, last_modified
 
 def get_cve_info2(cve):
@@ -60,22 +58,18 @@ def get_cve_info2(cve):
     try:
         request = s.get(URL2 + cve, timeout=40).json()
 
-        details = request["response"][cve].get('details')
         score = request["response"][cve]['details'].get('cvssV3_score')
-        severity = request["response"][cve]['details'].get('confidence')
+        severity = request["response"][cve]['details'].get('severity')
+        description = request["response"][cve]['basic'].get('description')
+        last_modified = request["response"][cve]['basic'].get('date_modified')
 
-        if details is not None:
-            score = details.get('cvssV3_score')
-            severity = details.get('confidence')
-        else:
-            score = 0
-            severity = "N/A"
+    except:
+        score = None
+        severity = None
+        description = None
+        last_modified = None
 
-    except KeyError:
-        score = 0
-        severity = "N/A"
-
-    return score, severity
+    return score, severity, description, last_modified
 
 def get_cve_info3(cve):
     '''
@@ -90,22 +84,18 @@ def get_cve_info3(cve):
     try:
         request = s.get(URL3 + "cve/" + cve, timeout=40).json()
 
-        details = request["response"][cve].get('details')
-        score = request["cvss3"]
-        severity = request["typical_severity"]
+        score = request.get("cvss3")
+        severity = request["access"].get("complexity")
+        description = request.get("summary")
+        last_modified = request.get("last-modified")
 
-        if details is not None:
-            score = details.get('cvssV3_score')
-            severity = details.get('confidence')
-        else:
-            score = 0
-            severity = "N/A"
+    except:
+        score = None
+        severity = None
+        description = None
+        last_modified = None
 
-    except KeyError:
-        score = 0
-        severity = "N/A"
-
-    return score, severity
+    return score, severity, description, last_modified
 
 
 ### Functions for potential further development
@@ -149,4 +139,4 @@ def latest_30_cves():
         print(vul.keys())
 
 #Only Debugging Purpose
-#get_cve_info2("CVE-2022-23808")
+# print(get_cve_info("CVE-2022-23808"))
