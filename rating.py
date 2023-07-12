@@ -1,9 +1,5 @@
 '''File to create own rating'''
 import datetime
-import cve_ds
-from Reddit import RedditCVE
-
-
 
 def rate(cve_info, mentions):
     '''Rating function'''
@@ -13,9 +9,7 @@ def rate(cve_info, mentions):
 
     date1 = datetime.date.today()
 
-    date2 = cve_info[3]
-
-    if date2 != None:
+    if cve_info[3] is not None:
         date2 = datetime.datetime(int(cve_info[3][:4]), \
                                     int(cve_info[3][5:7]), \
                                     int(cve_info[3][8:10]))
@@ -23,8 +17,8 @@ def rate(cve_info, mentions):
             print("Year !<")
             time = 1.2
         elif date2.month < date1.month:
-                print("Month <")
-                time = 1.1
+            print("Month <")
+            time = 1.1
 
     if mentions > 10:
         mention = 1.3
