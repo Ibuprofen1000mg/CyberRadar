@@ -11,8 +11,10 @@ from Tweety import TwitterCVE
 from Reddit import RedditCVE
 import Historic
 import rating
+import RSS
+import WebCrawl
 
-dash.register_page(__name__, path='/dashboard')
+dash.register_page(__name__, path='/')
 
 external_stylesheets = [
     {
@@ -26,6 +28,8 @@ external_stylesheets = [
 reddit_cve = []
 reddit_cve_counter = []
 cve_descriptions = []
+cve_rss_feed = RSS.parse_websites()
+cve_web_feed = WebCrawl.parse_websites()
 
 #TWITTER DATA
 try:
@@ -204,6 +208,62 @@ layout = dash.html.Div(
                 ),
                     dash.dcc.Interval(id='reddit_timer', interval=60*1000, n_intervals=0),
             ]
+        ),
+        #RSS CVE
+        dash.html.Div(
+                style={'width': '100%', 'margin': '0, 10, 0, 10'},
+                id='cve_rss',
+                children=dash.dcc.Graph(
+                    style={"marginLeft": "20px", "marginRight": "20px", 'flex': '1'},
+                    className="card",
+                    id="numbers-chart",
+                    config={"displayModeBar": False},
+                    figure={
+                        "data": [
+                            {
+                                'y': list(Counter(cve_rss_feed).values()),
+                                'x':  list(Counter(cve_rss_feed).keys()),
+                                'type': 'bar'
+                            },
+                        ],
+                        'layout': {
+                            'title': {
+                                'text': 'RSS CVE Data',
+                                'x': 0.1,
+                                'xanchor': 'down'
+                            },
+                            'colorway': ['#0CD33F']
+                        }
+                    },
+                ),  
+        ),
+        #WebsiteCrawl CVE
+        dash.html.Div(
+                style={'width': '100%', 'margin': '0, 10, 0, 10'},
+                id='cve_website',
+                children=dash.dcc.Graph(
+                    style={"marginLeft": "20px", "marginRight": "20px", 'flex': '1'},
+                    className="card",
+                    id="numbers-chart",
+                    config={"displayModeBar": False},
+                    figure={
+                        "data": [
+                            {
+                                'y': list(Counter(cve_web_feed).values()),
+                                'x':  list(Counter(cve_web_feed).keys()),
+                                'type': 'bar'
+                            },
+                        ],
+                        'layout': {
+                            'title': {
+                                'text': 'WebsiteCrawl CVE Data',
+                                'x': 0.1,
+                                'xanchor': 'down'
+                            },
+                            'colorway': ['#DAF400']
+                        }
+                    },
+                ),  
         ),
         #HISTORIC CVE DATA
         dash.html.Div(
