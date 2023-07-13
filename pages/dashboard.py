@@ -6,7 +6,7 @@ import pandas as pd
 import plotly.graph_objs as go
 import dash
 import cve_ds
-from Tweety import TwitterCVE
+import Tweety
 import Reddit
 import Historic
 import rating
@@ -40,8 +40,7 @@ severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
 
 #TWITTER DATA
 try:
-    NewTwitter = TwitterCVE()
-    last100Tweets = NewTwitter.get_cve_in_tweets(NewTwitter.get_tweets("#cve -from:RedPacketSec", 50))
+    last100Tweets = Tweety.get_cve_in_tweets(Tweety.get_tweets("#cve -from:RedPacketSec", 50))
     unfiltered_cve = list(Counter(last100Tweets).keys())
     unfiltered_cve_counter = list(Counter(last100Tweets).values())
 except:
