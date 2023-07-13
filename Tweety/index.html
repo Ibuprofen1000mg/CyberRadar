@@ -107,97 +107,8 @@
 <a id="Tweety"></a>
   <div class="doc doc-contents first">
   
-      <p>This File contains neccessary elements and functions to connect to the Twitter API and retireve Data
+      <p>This File contains elements and functions to connect to the Twitter API and retrieve Data
 <strong>author</strong>: Nic Holzapfel</p>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="Tweety.TwitterCVE" class="doc doc-heading">
-        <code>TwitterCVE</code>
-
-
-</h2>
-
-
-  <div class="doc doc-contents ">
-
-  
-      <p>This class generates a client to connect to the Twitter API. By connecting to the API, a user can fetch data from twitter feeds for further analysis</p>
-
-
-        <details class="quote">
-          <summary>Source code in <code>Tweety.py</code></summary>
-          <pre class="highlight"><code class="language-python">class TwitterCVE:
-    """This class generates a client to connect to the Twitter API. By connecting to the API, a user can fetch data from twitter feeds for further analysis
-    """
-    def __init__(self) -&gt; None:
-        self.config = configparser.ConfigParser(interpolation=None)
-        self.config.read(os.path.dirname(os.path.abspath(__file__))+"/Configuration/Creds.ini")
-        self.api_key = self.config['twitter']['ApiKey']
-        self.api_key_secret = self.config['twitter']['ApiKeySecret']
-        self.access_token = self.config['twitter']['AccessToken']
-        self.access_token_secret = self.config['twitter']['AccessTokenSecret']
-        self.bear_token = self.config['twitter']['BearerToken']
-        self.client = tweepy.Client(
-            bearer_token=self.bear_token,
-            consumer_key=self.api_key,
-            consumer_secret=self.api_key_secret,
-            access_token=self.access_token,
-            access_token_secret=self.access_token_secret
-        )
-        self.auth = tweepy.OAuthHandler(self.api_key, self.api_key_secret)
-        self.auth.set_access_token(self.access_token, self.access_token_secret)
-
-    def get_tweets(self, query_string: str, number_of_tweets: int) -&gt; list:
-        """Returns Tweets given a number of tweets and a query-string
-
-        Args:
-            query_string (str): The query-string for tweets to be searched
-            number_of_tweets (int): The amount of tweets to be returned
-
-        Returns:
-            list: Found amount of tweets based on the requested query
-        """
-        try:
-            get_tweets_by_x = self.client.search_recent_tweets(
-                query=str(query_string),
-                tweet_fields=['context_annotations'],
-                max_results=int(number_of_tweets)
-                )
-            return get_tweets_by_x
-        except:
-            print("Twitter API Error/Faulty Credentials: Using Textfile Data")
-
-    def get_cve_in_tweets(self, tweets_response)-&gt;list:
-        """Returns CVE REGEX found in an array of tweets
-
-        Args:
-            tweets_response (_type_): Enter the Tweet Queries to be searched for a CVE Regex Pattern
-
-        Returns:
-            list: Found CVEs inside the Tweets
-        """
-        list_found_cves_in_tweets = []
-        for tweets in tweets_response.data:
-            check_cve_regex = re.search('CVE-\\d{4}-\\d{4,7}', tweets.text)
-            #print(tweets)
-            if check_cve_regex is not None:
-                list_found_cves_in_tweets.append(check_cve_regex.group())
-        return list_found_cves_in_tweets</code></pre>
-        </details>
 
   
 
@@ -215,10 +126,10 @@
 
 
 
-<h3 id="Tweety.TwitterCVE.get_cve_in_tweets" class="doc doc-heading">
-<code class="highlight language-python">get_cve_in_tweets(tweets_response)</code>
+<h2 id="Tweety.get_cve_in_tweets" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_cve_in_tweets</span><span class="p">(</span><span class="n">tweets_response</span><span class="p">)</span></code>
 
-</h3>
+</h2>
 
 
   <div class="doc doc-contents ">
@@ -272,22 +183,36 @@
 </table>
       <details class="quote">
         <summary>Source code in <code>Tweety.py</code></summary>
-        <pre class="highlight"><code class="language-python">def get_cve_in_tweets(self, tweets_response)-&gt;list:
-    """Returns CVE REGEX found in an array of tweets
-
-    Args:
-        tweets_response (_type_): Enter the Tweet Queries to be searched for a CVE Regex Pattern
-
-    Returns:
-        list: Found CVEs inside the Tweets
-    """
-    list_found_cves_in_tweets = []
-    for tweets in tweets_response.data:
-        check_cve_regex = re.search('CVE-\\d{4}-\\d{4,7}', tweets.text)
-        #print(tweets)
-        if check_cve_regex is not None:
-            list_found_cves_in_tweets.append(check_cve_regex.group())
-    return list_found_cves_in_tweets</code></pre>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#__codelineno-0-60">60</a></span>
+<span class="normal"><a href="#__codelineno-0-61">61</a></span>
+<span class="normal"><a href="#__codelineno-0-62">62</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="k">def</span> <span class="nf">get_cve_in_tweets</span><span class="p">(</span><span class="n">tweets_response</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">list</span><span class="p">:</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns CVE REGEX found in an array of tweets</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a>
+<a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="sd">    Args:</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">        tweets_response (_type_): Enter the Tweet Queries to be searched for a CVE Regex Pattern</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a>
+<a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="sd">    Returns:</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">        list: Found CVEs inside the Tweets</span>
+<a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57"></a>    <span class="n">list_found_cves_in_tweets</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58"></a>    <span class="k">for</span> <span class="n">tweets</span> <span class="ow">in</span> <span class="n">tweets_response</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a>        <span class="n">check_cve_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;CVE-</span><span class="se">\\</span><span class="s1">d</span><span class="si">{4}</span><span class="s1">-</span><span class="se">\\</span><span class="s1">d{4,7}&#39;</span><span class="p">,</span> <span class="n">tweets</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+<a id="__codelineno-0-60" name="__codelineno-0-60"></a>        <span class="k">if</span> <span class="n">check_cve_regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-61" name="__codelineno-0-61"></a>            <span class="n">list_found_cves_in_tweets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">check_cve_regex</span><span class="o">.</span><span class="n">group</span><span class="p">())</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62"></a>    <span class="k">return</span> <span class="n">list_found_cves_in_tweets</span>
+</code></pre></div></td></tr></table></div>
       </details>
   </div>
 
@@ -297,10 +222,10 @@
 
 
 
-<h3 id="Tweety.TwitterCVE.get_tweets" class="doc doc-heading">
-<code class="highlight language-python">get_tweets(query_string, number_of_tweets)</code>
+<h2 id="Tweety.get_tweets" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_tweets</span><span class="p">(</span><span class="n">query_string</span><span class="p">,</span> <span class="n">number_of_tweets</span><span class="p">)</span></code>
 
-</h3>
+</h2>
 
 
   <div class="doc doc-contents ">
@@ -362,38 +287,48 @@
 </table>
       <details class="quote">
         <summary>Source code in <code>Tweety.py</code></summary>
-        <pre class="highlight"><code class="language-python">def get_tweets(self, query_string: str, number_of_tweets: int) -&gt; list:
-    """Returns Tweets given a number of tweets and a query-string
-
-    Args:
-        query_string (str): The query-string for tweets to be searched
-        number_of_tweets (int): The amount of tweets to be returned
-
-    Returns:
-        list: Found amount of tweets based on the requested query
-    """
-    try:
-        get_tweets_by_x = self.client.search_recent_tweets(
-            query=str(query_string),
-            tweet_fields=['context_annotations'],
-            max_results=int(number_of_tweets)
-            )
-        return get_tweets_by_x
-    except:
-        print("Twitter API Error/Faulty Credentials: Using Textfile Data")</code></pre>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="k">def</span> <span class="nf">get_tweets</span><span class="p">(</span><span class="n">query_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">number_of_tweets</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns Tweets given a number of tweets and a query-string</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    Args:</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">        query_string (str): The query-string for tweets to be searched</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        number_of_tweets (int): The amount of tweets to be returned</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34"></a>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">    Returns:</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">        list: Found amount of tweets based on the requested query</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a>        <span class="n">get_tweets_by_x</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_recent_tweets</span><span class="p">(</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a>            <span class="n">query</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">query_string</span><span class="p">),</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a>            <span class="n">tweet_fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;context_annotations&#39;</span><span class="p">],</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a>            <span class="n">max_results</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">number_of_tweets</span><span class="p">)</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a>            <span class="p">)</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a>        <span class="k">return</span> <span class="n">get_tweets_by_x</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a>    <span class="k">except</span><span class="p">:</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Twitter API Error/Faulty Credentials: Using Textfile Data&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
       </details>
   </div>
 
 </div>
-
-
-
-  </div>
-
-  </div>
-
-</div>
-
 
 
 
