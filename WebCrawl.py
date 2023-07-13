@@ -2,16 +2,14 @@
 import re
 import requests
 from bs4 import BeautifulSoup
-from collections import Counter
 
-"""Global Variables used in this class"""
 WEBSITES_FILE_NAME = "./Textfiles/Websites.txt"
 header = {
     'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
 }
 cve_array = []
 
-def get_cve_in_Website(string_to_search:str) -> list:
+def get_cve_in_website(string_to_search:str) -> list:
     """Returns CVE REGEX found in an array of tweets
 
     Args:
@@ -32,11 +30,11 @@ def parse_websites() -> list:
     with open(WEBSITES_FILE_NAME, "r", encoding="utf-8") as web_file:
         for url in web_file.readlines():
             try:
-                x = requests.get(url, headers=header)
-                soup = BeautifulSoup(x.content.decode('utf-8'),  "html.parser")
-                x = (get_cve_in_Website(soup.text.upper()))
-                if x:
-                    cve_array.extend(x)
+                download_website = requests.get(url, headers=header, timeout=5)
+                soup = BeautifulSoup(download_website.content.decode('utf-8'),  "html.parser")
+                download_website = (get_cve_in_website(soup.text.upper()))
+                if download_website:
+                    cve_array.extend(download_website)
             except:
                 print(f"Website Error with {url}")
     return cve_array
