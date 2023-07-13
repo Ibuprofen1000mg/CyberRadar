@@ -1,8 +1,6 @@
 '''File for retrieving data from RSS feeds of different websites'''
 import re
 import feedparser
-from collections import Counter
-
 
 RSS_FILE_NAME = "./Textfiles/RSS.txt"
 
@@ -34,15 +32,12 @@ def remove_website(*website_string:str):
             if line.strip("\n") != website_string:
                 rss_file.write(line)
 
-def get_cve_in_RSS(cve_number, cve_array):
+def get_cve_in_rss(cve_number, cve_array):
     '''Returns CVE REGEX found in an array of tweets'''
     check_cve_regex = re.search('CVE-\\d{4}-\\d{4,7}', cve_number)
         #print(tweets)
     if check_cve_regex is not None:
         cve_array.append(check_cve_regex.group())
-
-def return_list():
-    return cve_list
 
 def parse_websites():
     '''Parse website(s) in RSS-Websites file'''
@@ -52,6 +47,6 @@ def parse_websites():
             #print(line)
             single_feed = feedparser.parse(line)
             for entry in single_feed.entries:
-                get_cve_in_RSS(entry.title, cve_array)
-                get_cve_in_RSS(entry.summary, cve_array)
+                get_cve_in_rss(entry.title, cve_array)
+                get_cve_in_rss(entry.summary, cve_array)
     return cve_array

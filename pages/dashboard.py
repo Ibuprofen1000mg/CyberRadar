@@ -1,10 +1,9 @@
 """MISSING!!!"""
 from collections import Counter
-import threading
+# import threading --> for further development
 import os
 import pandas as pd
 import plotly.graph_objs as go
-#import plotly.express as px
 import dash
 import cve_ds
 from Tweety import TwitterCVE
@@ -30,6 +29,14 @@ reddit_cve_counter = []
 cve_descriptions = []
 cve_rss_feed = RSS.parse_websites()
 cve_web_feed = WebCrawl.parse_websites()
+
+# GLOBALS
+filtered_score = []
+personal_rating = []
+filtered_severity = []
+labels = ['MEDIUM', 'HIGH', 'N/A', 'CRITICAL']
+values = [0, 0, 0, 0]
+severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
 
 #TWITTER DATA
 try:
@@ -78,20 +85,6 @@ sum_score = 0
 sum_personal_score = 0
 relevant_cve = 0
 
-filtered_score = []
-personal_rating = []
-filtered_severity = []
-labels = ['MEDIUM', 'HIGH', 'N/A', 'CRITICAL']
-values = [0, 0, 0, 0]
-severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
-# counter = len(unfiltered_cve)
-# for x in unfiltered_cve:
-#     print(counter)
-#     counter -= 1
-#     cve_info = cve_ds.get_cve_info2(x)
-#     score = cve_info[0]
-#     severity = cve_info[1]
-#     values[severity_map.get(severity, 2)] += 1
 counter = len(unfiltered_cve)
 
 for x in unfiltered_cve:
@@ -139,23 +132,6 @@ def aktuelle_sicherheitslage(sum):
         sec_lvl = "SEVERE"
 
     return sec_lvl
-
-# for x in unfiltered_cve:
-#     cve_info = cve_ds.get_cve_info2(x)
-#     try:
-#         filtered_score.append(cve_info[1]['cvssV3_score'])
-#         filtered_severity.append(cve_info[1]['severity'])
-#         if cve_info[1]['severity']=='MEDIUM':
-#             values[0] += 1
-#         elif cve_info[1]['severity']=='HIGH':
-#             values[1] += 1
-#         elif cve_info[1]['severity']=='N/A':
-#             values[2] += 1
-#         elif cve_info[1]['severity']=='CRITICAL':
-#             values[3] += 1
-#         #print(x) --> Prints CVEs
-#     except KeyError:
-#         continue
 
 fig = go.Figure(data=[go.Pie(labels=labels, values=values)], layout={
     'title': 'Severity Distribution'
@@ -225,7 +201,6 @@ layout = dash.html.Div(
         dash.html.Div(
             style={'width': '100%', 'margin': '0, 10, 0, 10'},
             id='reddit_page',
-            #className="card",
             children=[
                 dash.html.Div(
                     className="card",
