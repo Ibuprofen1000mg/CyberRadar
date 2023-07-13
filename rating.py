@@ -1,4 +1,6 @@
-'''This file is for the personal rating algorithm'''
+'''This file is for the personal rating algorithm
+__author__: Benjamin Götz
+'''
 import datetime
 
 def rate(cve_info:tuple, mentions:int) -> int:
