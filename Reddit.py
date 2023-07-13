@@ -1,8 +1,4 @@
-    """_summary_
-
-    Returns:
-        _type_: _description_
-    """
+"""File Description"""
 import configparser
 import os
 import re
