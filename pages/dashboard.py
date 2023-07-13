@@ -59,7 +59,7 @@ except:
     try:
         file_dir = os.path.dirname(os.path.realpath('__file__'))
         file_name = os.path.join(file_dir, 'Textfiles\Twitter_data.txt')
-        with open(file_name, "r") as twitter_file:
+        with open(file_name, "r", encoding="utf-8") as twitter_file:
             unfiltered_cve = (twitter_file.readline().split(", "))
             unfiltered_cve_counter = (twitter_file.readline().split(","))
     except:
@@ -70,7 +70,7 @@ def reddit_data():
     file_dir = os.path.dirname(os.path.realpath('__file__'))
     file_name = os.path.join(file_dir, 'Textfiles\Reddit_data.txt')
     lastRedditPosts = Reddit.retrieve_reddit_cve_list()
-    with open (file_name, "w+") as reddit_file:
+    with open (file_name, "w+", encoding="utf-8") as reddit_file:
         try:
             reddit_file.write(str(list(Counter(lastRedditPosts).keys())))
             reddit_file.write("\n")
@@ -149,7 +149,7 @@ dash.register_page(__name__)
 layout = dash.html.Div(
     children=[
         dash.html.Div(
-            style={'display': 'flex', 'flexWrap': 'wrap', 'marginLeft': '20px', 
+            style={'display': 'flex', 'flexWrap': 'wrap', 'marginLeft': '20px',
                    'marginRight': '20px', 'max-width': '100%', 'padding': '0px'},
             children=[
                 dash.html.Div(

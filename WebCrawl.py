@@ -5,7 +5,8 @@ from bs4 import BeautifulSoup
 
 WEBSITES_FILE_NAME = "./Textfiles/Websites.txt"
 header = {
-    'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
+    'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
+                    (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
 }
 cve_array = []
 
