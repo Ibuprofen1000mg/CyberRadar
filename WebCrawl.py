@@ -18,7 +18,6 @@ def get_cve_in_website(string_to_search:str) -> list:
     Returns:
         _type_: List containing found CVE given a string
     """
-    print(type(re.findall('CVE-\\d{4}-\\d{4,7}', string_to_search)))
     return re.findall('CVE-\\d{4}-\\d{4,7}', string_to_search)
 
 def parse_websites() -> list:
