@@ -14,10 +14,8 @@ def rate(cve_info, mentions):
                                     int(cve_info[3][5:7]), \
                                     int(cve_info[3][8:10]))
         if date2.year < date1.year:
-            print("Year !<")
             time = 1.2
         elif date2.month < date1.month:
-            print("Month <")
             time = 1.1
 
     if mentions > 10:
