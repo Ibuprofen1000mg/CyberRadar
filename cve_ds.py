@@ -27,7 +27,7 @@ def get_cve_info(cve):
         description = request["vulnerabilities"][0]['cve']['descriptions'][0].get('value')
         last_modified = request["vulnerabilities"][0]['cve'].get('lastModified')
 
-    except:
+    except requests.exceptions.JSONDecodeError:
         cvss30 = None
         cvss31 = None
         description = None
@@ -63,7 +63,7 @@ def get_cve_info2(cve):
         description = request["response"][cve]['basic'].get('description')
         last_modified = request["response"][cve]['basic'].get('date_modified')
 
-    except:
+    except requests.exceptions.JSONDecodeError:
         score = None
         severity = None
         description = None
@@ -90,7 +90,7 @@ def get_cve_info3(cve:str):
         description = request.get("summary")
         last_modified = request.get("last-modified")
 
-    except:
+    except requests.exceptions.JSONDecodeError:
         score = None
         severity = None
         description = None
@@ -138,6 +138,3 @@ def latest_30_cves():
         print(vul.get('id'))
         print(vul.get('summary'))
         print(vul.keys())
-
-#Only Debugging Purpose
-#print(type(get_cve_info3("CVE-2022-23808")))
