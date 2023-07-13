@@ -1,3 +1,8 @@
+"""_summary_
+
+Returns:
+    _type_: _description_
+"""
 import requests
 from bs4 import BeautifulSoup
 import datetime
@@ -17,7 +22,12 @@ for x in data:
 for x in range(1999, today.year+1):
     datasets.append(x)
 
-def dates_array():
+def dates_array() -> list:
+    """Returns a list containing Years from 1999 until today
+
+    Returns:
+        list: List containing years
+    """
     return datasets
 
 def data_array():
