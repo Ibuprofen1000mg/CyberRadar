@@ -1,8 +1,3 @@
-"""_summary_
-
-Returns:
-    _type_: _description_
-"""
 import requests
 from bs4 import BeautifulSoup
 import datetime
