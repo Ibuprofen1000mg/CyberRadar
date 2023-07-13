@@ -127,7 +127,7 @@
 
 
 <h2 id="rating.rate" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">rate</span><span class="p">(</span><span class="n">cve_info</span><span class="p">,</span> <span class="n">mentions</span><span class="p">)</span></code>
+<code class="highlight language-python">rate(cve_info, mentions)</code>
 
 </h2>
 
@@ -194,88 +194,47 @@ calculated together with the CVSS score</p>
 </table>
       <details class="quote">
         <summary>Source code in <code>rating.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-0-10">10</a></span>
-<span class="normal"><a href="#__codelineno-0-11">11</a></span>
-<span class="normal"><a href="#__codelineno-0-12">12</a></span>
-<span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span>
-<span class="normal"><a href="#__codelineno-0-27">27</a></span>
-<span class="normal"><a href="#__codelineno-0-28">28</a></span>
-<span class="normal"><a href="#__codelineno-0-29">29</a></span>
-<span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span>
-<span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span>
-<span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span>
-<span class="normal"><a href="#__codelineno-0-42">42</a></span>
-<span class="normal"><a href="#__codelineno-0-43">43</a></span>
-<span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="k">def</span> <span class="nf">rate</span><span class="p">(</span><span class="n">cve_info</span><span class="p">:</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">mentions</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="sd">    Function to create a personal rating based on </span>
-<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="sd">    the times the CVE was mentioned</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="sd">    the date the CVE was last modified</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="sd">    calculated together with the CVSS score</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13"></a>
-<a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="sd">        cve_info (tuple): contains CVSS score [0] &amp; last modified date [3]</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">        mentions (int): times the CVE was mentioned</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">    Returns:</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">        int: personal score</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a>    <span class="n">time</span> <span class="o">=</span> <span class="mi">1</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="n">mention</span> <span class="o">=</span> <span class="mi">1</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="n">score</span> <span class="o">=</span> <span class="n">cve_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="n">date1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a>
-<a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="k">if</span> <span class="n">cve_info</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28"></a>        <span class="n">date2</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">cve_info</span><span class="p">[</span><span class="mi">3</span><span class="p">][:</span><span class="mi">4</span><span class="p">]),</span> \
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a>                                    <span class="nb">int</span><span class="p">(</span><span class="n">cve_info</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">5</span><span class="p">:</span><span class="mi">7</span><span class="p">]),</span> \
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a>                                    <span class="nb">int</span><span class="p">(</span><span class="n">cve_info</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">8</span><span class="p">:</span><span class="mi">10</span><span class="p">]))</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a>        <span class="k">if</span> <span class="n">date2</span><span class="o">.</span><span class="n">year</span> <span class="o">&lt;</span> <span class="n">date1</span><span class="o">.</span><span class="n">year</span><span class="p">:</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a>            <span class="n">time</span> <span class="o">=</span> <span class="mf">1.2</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a>        <span class="k">elif</span> <span class="n">date2</span><span class="o">.</span><span class="n">month</span> <span class="o">&lt;</span> <span class="n">date1</span><span class="o">.</span><span class="n">month</span><span class="p">:</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a>            <span class="n">time</span> <span class="o">=</span> <span class="mf">1.1</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="k">if</span> <span class="n">mentions</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a>        <span class="n">mention</span> <span class="o">=</span> <span class="mf">1.3</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="k">if</span> <span class="n">score</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="n">score</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">cve_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">time</span> <span class="o">*</span> <span class="n">mention</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a>        <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a>            <span class="n">score</span> <span class="o">=</span> <span class="mi">10</span>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="k">elif</span> <span class="n">score</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">mentions</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a>        <span class="n">score</span> <span class="o">=</span> <span class="mi">5</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a>    <span class="k">return</span> <span class="n">score</span>
-</code></pre></div></td></tr></table></div>
+        <pre class="highlight"><code class="language-python">def rate(cve_info:tuple, mentions:int) -&gt; int:
+    """
+    Function to create a personal rating based on 
+    the times the CVE was mentioned
+    the date the CVE was last modified
+    calculated together with the CVSS score
+
+
+    Args:
+        cve_info (tuple): contains CVSS score [0] &amp; last modified date [3]
+        mentions (int): times the CVE was mentioned
+
+    Returns:
+        int: personal score
+    """
+    time = 1
+    mention = 1
+    score = cve_info[0]
+
+    date1 = datetime.date.today()
+
+    if cve_info[3] is not None:
+        date2 = datetime.datetime(int(cve_info[3][:4]), \
+                                    int(cve_info[3][5:7]), \
+                                    int(cve_info[3][8:10]))
+        if date2.year &lt; date1.year:
+            time = 1.2
+        elif date2.month &lt; date1.month:
+            time = 1.1
+
+    if mentions &gt; 10:
+        mention = 1.3
+
+    if score != 0:
+        score = round(cve_info[0] * time * mention, 1)
+        if score &gt; 10:
+            score = 10
+    elif score == 0 and mentions &gt; 10:
+        score = 5
+
+    return score</code></pre>
       </details>
   </div>
 

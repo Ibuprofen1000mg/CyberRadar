@@ -126,7 +126,7 @@
 
 
 <h2 id="Reddit.check_api_function" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">check_api_function</span><span class="p">()</span></code>
+<code class="highlight language-python">check_api_function()</code>
 
 </h2>
 
@@ -137,12 +137,9 @@
 
       <details class="quote">
         <summary>Source code in <code>Reddit.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="k">def</span> <span class="nf">check_api_function</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;MISSING!!!&quot;&quot;&quot;</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">read_only</span>
-</code></pre></div></td></tr></table></div>
+        <pre class="highlight"><code class="language-python">def check_api_function() -&gt; None:
+    """MISSING!!!"""
+    return client.read_only</code></pre>
       </details>
   </div>
 
@@ -153,7 +150,7 @@
 
 
 <h2 id="Reddit.check_last_new_in_subreddit" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">check_last_new_in_subreddit</span><span class="p">(</span><span class="n">subreddit_name</span><span class="p">,</span> <span class="n">amount_of_posts</span><span class="p">)</span></code>
+<code class="highlight language-python">check_last_new_in_subreddit(subreddit_name, amount_of_posts)</code>
 
 </h2>
 
@@ -164,12 +161,9 @@
 
       <details class="quote">
         <summary>Source code in <code>Reddit.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-27">27</a></span>
-<span class="normal"><a href="#__codelineno-0-28">28</a></span>
-<span class="normal"><a href="#__codelineno-0-29">29</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="k">def</span> <span class="nf">check_last_new_in_subreddit</span><span class="p">(</span><span class="n">subreddit_name</span><span class="p">,</span> <span class="n">amount_of_posts</span><span class="p">):</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;MISSING!!!&quot;&quot;&quot;</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">subreddit</span><span class="p">(</span><span class="n">subreddit_name</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="n">amount_of_posts</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+        <pre class="highlight"><code class="language-python">def check_last_new_in_subreddit(subreddit_name, amount_of_posts):
+    """MISSING!!!"""
+    return client.subreddit(subreddit_name).new(limit=amount_of_posts)</code></pre>
       </details>
   </div>
 
@@ -180,7 +174,7 @@
 
 
 <h2 id="Reddit.get_cve_in_reddit" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_cve_in_reddit</span><span class="p">(</span><span class="n">reddit_response</span><span class="p">,</span> <span class="n">global_cve_list</span><span class="p">)</span></code>
+<code class="highlight language-python">get_cve_in_reddit(reddit_response, global_cve_list)</code>
 
 </h2>
 
@@ -191,18 +185,12 @@
 
       <details class="quote">
         <summary>Source code in <code>Reddit.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span>
-<span class="normal"><a href="#__codelineno-0-36">36</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="k">def</span> <span class="nf">get_cve_in_reddit</span><span class="p">(</span><span class="n">reddit_response</span><span class="p">,</span> <span class="n">global_cve_list</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">list</span><span class="p">:</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;Returns CVE REGEX found in an array of reddits&#39;&#39;&#39;</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a>    <span class="n">check_cve_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;CVE-</span><span class="se">\\</span><span class="s1">d</span><span class="si">{4}</span><span class="s1">-</span><span class="se">\\</span><span class="s1">d{4,7}&#39;</span><span class="p">,</span> <span class="n">reddit_response</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="k">if</span> <span class="n">check_cve_regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a>        <span class="n">global_cve_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">check_cve_regex</span><span class="o">.</span><span class="n">group</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="k">return</span> <span class="n">global_cve_list</span>
-</code></pre></div></td></tr></table></div>
+        <pre class="highlight"><code class="language-python">def get_cve_in_reddit(reddit_response, global_cve_list)-&gt;list:
+    '''Returns CVE REGEX found in an array of reddits'''
+    check_cve_regex = re.search('CVE-\\d{4}-\\d{4,7}', reddit_response, re.IGNORECASE)
+    if check_cve_regex is not None:
+        global_cve_list.append(check_cve_regex.group().upper())
+    return global_cve_list</code></pre>
       </details>
   </div>
 
@@ -213,7 +201,7 @@
 
 
 <h2 id="Reddit.retrieve_cve_count" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">retrieve_cve_count</span><span class="p">(</span><span class="n">cve_string</span><span class="p">)</span></code>
+<code class="highlight language-python">retrieve_cve_count(cve_string)</code>
 
 </h2>
 
@@ -224,18 +212,12 @@
 
       <details class="quote">
         <summary>Source code in <code>Reddit.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-52">52</a></span>
-<span class="normal"><a href="#__codelineno-0-53">53</a></span>
-<span class="normal"><a href="#__codelineno-0-54">54</a></span>
-<span class="normal"><a href="#__codelineno-0-55">55</a></span>
-<span class="normal"><a href="#__codelineno-0-56">56</a></span>
-<span class="normal"><a href="#__codelineno-0-57">57</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="k">def</span> <span class="nf">retrieve_cve_count</span><span class="p">(</span><span class="n">cve_string</span><span class="p">):</span>
-<a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;MISSING!!!&quot;&quot;&quot;</span>
-<a id="__codelineno-0-54" name="__codelineno-0-54"></a>    <span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-55" name="__codelineno-0-55"></a>        <span class="k">return</span> <span class="n">Counter</span><span class="p">(</span><span class="n">retrieve_reddit_cve_list</span><span class="p">())[</span><span class="n">cve_string</span><span class="p">]</span>
-<a id="__codelineno-0-56" name="__codelineno-0-56"></a>    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-<a id="__codelineno-0-57" name="__codelineno-0-57"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cve_string</span><span class="si">}</span><span class="s2"> not found or problem finding string!&quot;</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+        <pre class="highlight"><code class="language-python">def retrieve_cve_count(cve_string):
+    """MISSING!!!"""
+    try:
+        return Counter(retrieve_reddit_cve_list())[cve_string]
+    except TypeError:
+        print(f"{cve_string} not found or problem finding string!")</code></pre>
       </details>
   </div>
 
@@ -246,7 +228,7 @@
 
 
 <h2 id="Reddit.retrieve_reddit_cve_list" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">retrieve_reddit_cve_list</span><span class="p">()</span></code>
+<code class="highlight language-python">retrieve_reddit_cve_list()</code>
 
 </h2>
 
@@ -257,32 +239,19 @@
 
       <details class="quote">
         <summary>Source code in <code>Reddit.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span>
-<span class="normal"><a href="#__codelineno-0-42">42</a></span>
-<span class="normal"><a href="#__codelineno-0-43">43</a></span>
-<span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span>
-<span class="normal"><a href="#__codelineno-0-50">50</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="k">def</span> <span class="nf">retrieve_reddit_cve_list</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;MISSING!!!&quot;&quot;&quot;</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="n">cve_list</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;Textfiles/Subreddits.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reddit_file</span><span class="p">:</span>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a>            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">reddit_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a>                <span class="n">reddit_string_tuple</span> <span class="o">=</span> <span class="n">check_last_new_in_subreddit</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a>                <span class="k">for</span> <span class="n">text_values</span> <span class="ow">in</span> <span class="n">reddit_string_tuple</span><span class="p">:</span>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a>                    <span class="n">get_cve_in_reddit</span><span class="p">(</span><span class="n">text_values</span><span class="o">.</span><span class="n">title</span><span class="p">,</span><span class="n">cve_list</span><span class="p">)</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a>                    <span class="n">get_cve_in_reddit</span><span class="p">(</span><span class="n">text_values</span><span class="o">.</span><span class="n">text</span><span class="p">,</span><span class="n">cve_list</span><span class="p">)</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="k">return</span> <span class="n">cve_list</span>
-<a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;File Error!&quot;</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+        <pre class="highlight"><code class="language-python">def retrieve_reddit_cve_list() -&gt; list:
+    """MISSING!!!"""
+    cve_list = []
+    try:
+        with open("Textfiles/Subreddits.txt", "r", encoding="utf-8") as reddit_file:
+            for line in reddit_file.readlines():
+                reddit_string_tuple = check_last_new_in_subreddit(line, 5)
+                for text_values in reddit_string_tuple:
+                    get_cve_in_reddit(text_values.title,cve_list)
+                    get_cve_in_reddit(text_values.text,cve_list)
+        return cve_list
+    except FileNotFoundError:
+        print("File Error!")</code></pre>
       </details>
   </div>
 
