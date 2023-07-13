@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>RSS - Cyber-Radar Documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "RSS";
+        var mkdocs_page_input_path = "RSS.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Cyber-Radar Documentation
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Welcome to MkDocs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../App/">App</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Cve_ds/">Cve ds</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Historic/">Historic</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">RSS</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Rating/">Rating</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Reddit/">Reddit</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Tweety/">Tweety</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../WebCrawl/">WebCrawl</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Cyber-Radar Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+      <li>RSS</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="rss">RSS</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+<a id="RSS"></a>
+  <div class="doc doc-contents first">
+  
+      <p>File for retrieving data from RSS feeds of different websites</p>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="RSS.append_website" class="doc doc-heading">
+<code class="highlight language-python">append_website(*website_string)</code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Add website to RSS-Websites file</p>
+
+      <details class="quote">
+        <summary>Source code in <code>RSS.py</code></summary>
+        <pre class="highlight"><code class="language-python">def append_website(*website_string) -&gt; bool:
+    '''Add website to RSS-Websites file'''
+    try:
+        with open(RSS_FILE_NAME, "a+", encoding="utf-8") as rss_file:
+            for website in website_string:
+                rss_file.write(website+"\n")
+        return True
+    except OSError:
+        print(f"Error could not append {website_string} to {RSS_FILE_NAME} file")</code></pre>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="RSS.get_cve_in_RSS" class="doc doc-heading">
+<code class="highlight language-python">get_cve_in_RSS(cve_number, cve_array)</code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Returns CVE REGEX found in an array of tweets</p>
+
+      <details class="quote">
+        <summary>Source code in <code>RSS.py</code></summary>
+        <pre class="highlight"><code class="language-python">def get_cve_in_RSS(cve_number, cve_array):
+    '''Returns CVE REGEX found in an array of tweets'''
+    check_cve_regex = re.search('CVE-\\d{4}-\\d{4,7}', cve_number)
+        #print(tweets)
+    if check_cve_regex is not None:
+        cve_array.append(check_cve_regex.group())</code></pre>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="RSS.parse_websites" class="doc doc-heading">
+<code class="highlight language-python">parse_websites()</code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Parse website(s) in RSS-Websites file</p>
+
+      <details class="quote">
+        <summary>Source code in <code>RSS.py</code></summary>
+        <pre class="highlight"><code class="language-python">def parse_websites():
+    '''Parse website(s) in RSS-Websites file'''
+    with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
+        cve_array = []
+        for line in rss_file.readlines():
+            #print(line)
+            single_feed = feedparser.parse(line)
+            for entry in single_feed.entries:
+                get_cve_in_RSS(entry.title, cve_array)
+                get_cve_in_RSS(entry.summary, cve_array)
+    return cve_array</code></pre>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="RSS.print_rss_file" class="doc doc-heading">
+<code class="highlight language-python">print_rss_file()</code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Print data inside RSS-Websites file</p>
+
+      <details class="quote">
+        <summary>Source code in <code>RSS.py</code></summary>
+        <pre class="highlight"><code class="language-python">def print_rss_file() -&gt; None:
+    '''Print data inside RSS-Websites file'''
+    with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
+        print(rss_file.read())</code></pre>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="RSS.remove_website" class="doc doc-heading">
+<code class="highlight language-python">remove_website(*website_string)</code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Remove website from RSS-Websites file</p>
+
+      <details class="quote">
+        <summary>Source code in <code>RSS.py</code></summary>
+        <pre class="highlight"><code class="language-python">def remove_website(*website_string):
+    '''Remove website from RSS-Websites file'''
+    with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
+        lines = rss_file.readlines()
+
+    with open("sample.txt", "w", encoding="utf-8") as rss_file:
+        for line in lines:
+            if line.strip("\n") != website_string:
+                rss_file.write(line)</code></pre>
+      </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Historic/" class="btn btn-neutral float-left" title="Historic"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Rating/" class="btn btn-neutral float-right" title="Rating">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Historic/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Rating/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
