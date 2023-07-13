@@ -74,6 +74,11 @@ except:
     print("Reddit API Error!")
 
 #author: Nen Scheiß
+# Current Security-Level
+sum_score = 0
+sum_personal_score = 0
+relevant_cve = 0
+
 filtered_score = []
 personal_rating = []
 filtered_severity = []
@@ -95,7 +100,14 @@ for x in unfilterd_cve:
     counter-=1
     cve_info = cve_ds.get_cve_info(x)
     score = cve_info[0]
-    personal_rating.append(rating.rate(cve_info, counter))
+    personal_score = rating.rate(cve_info, counter)
+    personal_rating.append(personal_score)
+    
+    if score > 0:
+        sum_score += score
+        relevant_cve += 1
+        sum_personal_score += personal_score
+
     filtered_score.append(cve_info[0])
     severity = cve_info[1]
     filtered_severity.append(cve_info[1])
@@ -110,10 +122,24 @@ df = pd.DataFrame({'CVE': [x for x in unfilterd_cve],
             'Description': [x for x in cve_descriptions]},
             index=[*range(0, len(unfilterd_cve), 1)])
 
-def aktuelle_sicherheitslage():
+def aktuelle_sicherheitslage(sum):
     """Wertet aktuelle Sicheheitslage aus"""
-    meiste_werte = max(values)
-    return labels[values.index(meiste_werte)]
+    # meiste_werte = max(values)
+    value = sum / relevant_cve
+    sec_lvl = "LOW"
+
+    if value < 2:
+        sec_lvl = "LOW"
+    elif value < 4:
+        sec_lvl = "GUARDED"
+    elif value < 6:
+        sec_lvl = "ELEVATED"
+    elif value < 8:
+        sec_lvl = "HIGH"
+    else:
+        sec_lvl = "SEVERE"
+
+    return sec_lvl
 
 # for x in unfilterd_cve:
 #     cve_info = cve_ds.get_cve_info2(x)
@@ -185,8 +211,10 @@ layout = dash.html.Div(
                     children=[
                         dash.html.Center(
                             children=[
-                                dash.html.H2("Aktuelle Sicherheitslage"),
-                                dash.html.P(aktuelle_sicherheitslage())
+                                dash.html.H2("General Securitylevel"),
+                                dash.html.P(aktuelle_sicherheitslage(sum_score)),
+                                dash.html.H2("Personal Securitylevel"),
+                                dash.html.P(aktuelle_sicherheitslage(sum_personal_score))
                             ]
                         )
                     ],
