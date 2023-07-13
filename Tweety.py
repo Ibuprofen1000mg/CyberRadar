@@ -1,12 +1,16 @@
-"""MISSING!!!"""
+"""This File contains neccessary elements and functions to connect to the Twitter API and retireve Data
+__author__: Nic Holzapfel
+"""
+#########Imports#########
 import configparser
 import os
 import re
-from collections import Counter
 import tweepy
+#########################
 
 class TwitterCVE:
-    """MISSING!!!"""
+    """This class generates a client to connect to the Twitter API. By connecting to the API, a user can fetch data from twitter feeds for further analysis
+    """
     def __init__(self) -> None:
         self.config = configparser.ConfigParser(interpolation=None)
         self.config.read(os.path.dirname(os.path.abspath(__file__))+"/Configuration/Creds.ini")
@@ -25,9 +29,16 @@ class TwitterCVE:
         self.auth = tweepy.OAuthHandler(self.api_key, self.api_key_secret)
         self.auth.set_access_token(self.access_token, self.access_token_secret)
 
-    #Get Last X Tweets with filered Search
-    def get_tweets(self, query_string, number_of_tweets) -> list:
-        '''Returns Tweets given a number of tweets and a query-string'''
+    def get_tweets(self, query_string: str, number_of_tweets: int) -> list:
+        """Returns Tweets given a number of tweets and a query-string
+
+        Args:
+            query_string (str): The query-string for tweets to be searched
+            number_of_tweets (int): The amount of tweets to be returned
+
+        Returns:
+            list: Found amount of tweets based on the requested query
+        """
         try:
             get_tweets_by_x = self.client.search_recent_tweets(
                 query=str(query_string),
@@ -36,26 +47,17 @@ class TwitterCVE:
                 )
             return get_tweets_by_x
         except:
-            print("Twitter API Error")
+            print("Twitter API Error/Faulty Credentials: Using Textfile Data")
         
-
-    # def get_new_twitter_accounts(self, query_string, number_of_tweets) -> list:
-    #     '''Returns Tweet-authors given a number of tweets and a query-string'''
-    #     get_username_by_tweet = self.client.search_recent_tweets(
-    #         query=str(query_string),
-    #         max_results=int(number_of_tweets),
-    #         expansions = 'author_id',
-    #         user_fields = ['username'],
-    #         )
-    #     new_username_list = []
-    #     for tweets in range(0, number_of_tweets-1):
-    #         print(get_username_by_tweet.includes['users'][tweets])
-    #         new_username_list[tweets] = get_username_by_tweet.includes['users'][tweets]
-    #         print(new_username_list[tweets])
-    #     return new_username_list
-
     def get_cve_in_tweets(self, tweets_response)->list:
-        '''Returns CVE REGEX found in an array of tweets'''
+        """Returns CVE REGEX found in an array of tweets
+
+        Args:
+            tweets_response (_type_): Enter the Tweet Queries to be searched for a CVE Regex Pattern
+
+        Returns:
+            list: Found CVEs inside the Tweets
+        """
         list_found_cves_in_tweets = []
         for tweets in tweets_response.data:
             check_cve_regex = re.search('CVE-\\d{4}-\\d{4,7}', tweets.text)
@@ -64,20 +66,3 @@ class TwitterCVE:
                 list_found_cves_in_tweets.append(check_cve_regex.group())
         return list_found_cves_in_tweets
 
-    #Sort collected tweets by frequency
-    def sort_tweets_by_cve_frequency(self, list_of_cve):
-        '''Sorts the number of cves to their frequency'''
-        Counter(list_of_cve).keys() # equals to list(set(words))
-        Counter(list_of_cve).values() # counts the elements' frequency
-        return list_of_cve
-
-#This block prints the last 100 Tweet-CVEs with their frequencies
-# NewTwitter = TwitterCVE()
-# retrieveLast10 = NewTwitter.get_tweets("#cve", 10)
-# print(retrieveLast10)
-#z = NewTwitter.get_cve_in_tweets(retrieveLast10)
-#y = NewTwitter.sort_tweets_by_cve_frequency(z)
-
-
-#NewTwitter = TwitterCVE()
-#NewTwitter.get_twitter_live()
