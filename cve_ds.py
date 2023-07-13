@@ -71,14 +71,15 @@ def get_cve_info2(cve):
 
     return score, severity, description, last_modified
 
-def get_cve_info3(cve):
-    '''
-    Return the severity and the cvss of a CVE from CVEDetails API
-    
-    :param str cve: The CVE which shall be queried
-    :return: basic and details information of the CVE
-    :rtype: tuple
-    '''
+def get_cve_info3(cve:str):
+    """_summary_
+
+    Args:
+        cve (str): _description_
+
+    Returns:
+        _type_: _description_
+    """
     cve = cve.lower()
 
     try:
@@ -108,7 +109,7 @@ def get_vendors():
     print(request.get('vendor')[10]) #List
 
 def get_products_per_vendor():
-    '''Get all the products associated to a vendor with known CVEs'''
+    """Get all the products associated to a vendor with known CVEs"""
 
     vendor = input("For which VENDOR do you want to know the products?")
     request = requests.get(URL3 + "browse/" + vendor, timeout=50).json()
@@ -139,4 +140,4 @@ def latest_30_cves():
         print(vul.keys())
 
 #Only Debugging Purpose
-# print(get_cve_info("CVE-2022-23808"))
+#print(type(get_cve_info3("CVE-2022-23808")))

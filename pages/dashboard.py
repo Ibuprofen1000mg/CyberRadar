@@ -4,7 +4,7 @@ import threading
 import os
 import pandas as pd
 import plotly.graph_objs as go
-import plotly.express as px
+#import plotly.express as px
 import dash
 import cve_ds
 from Tweety import TwitterCVE
@@ -35,17 +35,17 @@ cve_web_feed = WebCrawl.parse_websites()
 try:
     NewTwitter = TwitterCVE()
     last100Tweets = NewTwitter.get_cve_in_tweets(NewTwitter.get_tweets("#cve -from:RedPacketSec", 50))
-    unfilterd_cve = list(Counter(last100Tweets).keys())
-    unfilterd_cve_counter = list(Counter(last100Tweets).values())
+    unfiltered_cve = list(Counter(last100Tweets).keys())
+    unfiltered_cve_counter = list(Counter(last100Tweets).values())
 except:
-    unfilterd_cve = []
-    unfilterd_cve_counter = []
+    unfiltered_cve = []
+    unfiltered_cve_counter = []
     try:
         file_dir = os.path.dirname(os.path.realpath('__file__'))
         file_name = os.path.join(file_dir, 'Textfiles\Twitter_data.txt')
         with open(file_name, "r") as twitter_file:
-            unfilterd_cve = (twitter_file.readline().split(", "))
-            unfilterd_cve_counter = (twitter_file.readline().split(","))
+            unfiltered_cve = (twitter_file.readline().split(", "))
+            unfiltered_cve_counter = (twitter_file.readline().split(","))
     except:
         print("Error cannot read File or File empty in Twitter_data.txt")
 
@@ -53,8 +53,8 @@ except:
 def reddit_data():
     file_dir = os.path.dirname(os.path.realpath('__file__'))
     file_name = os.path.join(file_dir, 'Textfiles\Reddit_data.txt')
-    NewReddit = RedditCVE()
-    lastRedditPosts = NewReddit.retrieve_reddit_cve_list()
+    new_reddit = RedditCVE()
+    lastRedditPosts = new_reddit.retrieve_reddit_cve_list()
     with open (file_name, "w+") as reddit_file:
         try:
             reddit_file.write(str(list(Counter(lastRedditPosts).keys())))
@@ -85,24 +85,24 @@ filtered_severity = []
 labels = ['MEDIUM', 'HIGH', 'N/A', 'CRITICAL']
 values = [0, 0, 0, 0]
 severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
-# counter = len(unfilterd_cve)
-# for x in unfilterd_cve:
+# counter = len(unfiltered_cve)
+# for x in unfiltered_cve:
 #     print(counter)
 #     counter -= 1
 #     cve_info = cve_ds.get_cve_info2(x)
 #     score = cve_info[0]
 #     severity = cve_info[1]
 #     values[severity_map.get(severity, 2)] += 1
-counter = len(unfilterd_cve)
+counter = len(unfiltered_cve)
 
-for x in unfilterd_cve:
+for x in unfiltered_cve:
     print(counter)
     counter-=1
     cve_info = cve_ds.get_cve_info(x)
     score = cve_info[0]
     personal_score = rating.rate(cve_info, counter)
     personal_rating.append(personal_score)
-    
+
     if score > 0:
         sum_score += score
         relevant_cve += 1
@@ -115,12 +115,12 @@ for x in unfilterd_cve:
     values[severity_map.get(severity, 2)] += 1
 
 #Dataframe
-df = pd.DataFrame({'CVE': [x for x in unfilterd_cve],
+df = pd.DataFrame({'CVE': [x for x in unfiltered_cve],
             'Score': [x for x in filtered_score],
             'Personal Rating': [x for x in personal_rating],
             'Severity': [x for x in filtered_severity],
             'Description': [x for x in cve_descriptions]},
-            index=[*range(0, len(unfilterd_cve), 1)])
+            index=[*range(0, len(unfiltered_cve), 1)])
 
 def aktuelle_sicherheitslage(sum):
     """Wertet aktuelle Sicheheitslage aus"""
@@ -141,7 +141,7 @@ def aktuelle_sicherheitslage(sum):
 
     return sec_lvl
 
-# for x in unfilterd_cve:
+# for x in unfiltered_cve:
 #     cve_info = cve_ds.get_cve_info2(x)
 #     try:
 #         filtered_score.append(cve_info[1]['cvssV3_score'])
@@ -168,8 +168,8 @@ dash.register_page(__name__)
 layout = dash.html.Div(
     children=[
         dash.html.Div(
-            style={'display': 'flex', 'flexWrap': 'wrap', 'marginLeft': '20px', 'marginRight': '20px',
-                   'max-width': '100%', 'padding': '0px'},
+            style={'display': 'flex', 'flexWrap': 'wrap', 'marginLeft': '20px', 
+                   'marginRight': '20px', 'max-width': '100%', 'padding': '0px'},
             children=[
                 dash.html.Div(
                     className="card",
@@ -180,8 +180,8 @@ layout = dash.html.Div(
                         figure={
                             "data": [
                                 {
-                                    'y': unfilterd_cve_counter,
-                                    'x': unfilterd_cve,
+                                    'y': unfiltered_cve_counter,
+                                    'x': unfiltered_cve,
                                     'type': 'bar'
                                 },
                             ],
@@ -263,7 +263,7 @@ layout = dash.html.Div(
                             'colorway': ['#0CD33F']
                         }
                     },
-                ),  
+                ),
         ),
         #WebsiteCrawl CVE
         dash.html.Div(
@@ -291,7 +291,7 @@ layout = dash.html.Div(
                             'colorway': ['#DAF400']
                         }
                     },
-                ),  
+                ),
         ),
         #HISTORIC CVE DATA
         dash.html.Div(
@@ -319,16 +319,16 @@ layout = dash.html.Div(
                             'colorway': ['#0da784']
                         }
                     },
-                ),  
+                ),
         ),
         #DATA TABLE
         dash.html.Div(
-             style={'marginLeft': '20px', 
-                   'marginRight': '20px',},
+             style={'marginLeft': '20px', 'marginRight': '20px',},
             className="card",
             id='data_table',
             children=dash.dash_table.DataTable(
-                style_table= {'width': '100%', 'margin': '0, 10, 0, 10',  'flex': '1', 'overflow-x': 'auto'},
+                style_table= {'width': '100%', 'margin': '0, 10, 0, 10',  'flex': '1',
+                              'overflow-x': 'auto'},
                 data=df.to_dict('records'),
                 columns=[{"name": i, "id": i} for i in df.columns],
                 style_cell={'textAlign': 'left', 'padding': '4px'}
