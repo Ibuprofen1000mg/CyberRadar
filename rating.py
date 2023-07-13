@@ -1,8 +1,21 @@
-'''File to create own rating'''
+'''This file is for the personal rating algorithm'''
 import datetime
 
-def rate(cve_info, mentions):
-    '''Rating function'''
+def rate(cve_info:tuple, mentions:int) -> int:
+    """
+    Function to create a personal rating based on 
+    the times the CVE was mentioned
+    the date the CVE was last modified
+    calculated together with the CVSS score
+
+
+    Args:
+        cve_info (tuple): contains CVSS score [0] & last modified date [3]
+        mentions (int): times the CVE was mentioned
+
+    Returns:
+        int: personal score
+    """
     time = 1
     mention = 1
     score = cve_info[0]
@@ -25,7 +38,6 @@ def rate(cve_info, mentions):
         score = round(cve_info[0] * time * mention, 1)
         if score > 10:
             score = 10
-        print(score)
     elif score == 0 and mentions > 10:
         score = 5
 
