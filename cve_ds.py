@@ -1,24 +1,26 @@
-# Author: Benjamin Götz
-'''File for CVE DATA SCIENCE'''
+'''File to retrieve data about the CVEs, vendors & products from different databases
+__author__: Benjamin Götz
+'''
 import pprint
 import requests
 
+# GLOBALS --> API URLs
 URL = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=" #Faster API
 URL2 = "https://api.cvesearch.com/search?q=" #Slower API
 URL3 = "https://cvepremium.circl.lu/api/"
 
 headers = {'Accept': 'application/json'}
-
 s = requests.Session()
 
-def get_cve_info(cve):
-    '''
-    Return the severity and the cvss of a CVE from NIST API
-    
-    :param str cve: The CVE which shall be queried
-    :return: basic and details information of the CVE
-    :rtype: tuple
-    '''
+def get_cve_info(cve:str) -> tuple:
+    """Return the CVSS score, severity, description & last_modified date of CVEs from NIST API
+
+    Args:
+        cve (str): CVE code e.g. CVE-2019-12345
+
+    Returns:
+        tuple: CVSS score, severity, description & last_modified date
+    """
     try:
         request = s.get(URL + cve, timeout=40, headers=headers).json()
 
@@ -45,14 +47,15 @@ def get_cve_info(cve):
 
     return score, severity, description, last_modified
 
-def get_cve_info2(cve):
-    '''
-    Return the severity and the cvss of a CVE from CVEDetails API
-    
-    :param str cve: The CVE which shall be queried
-    :return: basic and details information of the CVE
-    :rtype: tuple
-    '''
+def get_cve_info2(cve:str) -> tuple:
+    """Return the CVSS score, severity, description & last_modified date of CVEs from CVEDetails API
+
+    Args:
+        cve (str): CVE code e.g. CVE-2019-12345
+
+    Returns:
+        tuple: CVSS score, severity, description & last_modified date
+    """
     cve = cve.lower()
 
     try:
@@ -71,14 +74,14 @@ def get_cve_info2(cve):
 
     return score, severity, description, last_modified
 
-def get_cve_info3(cve:str):
-    """_summary_
+def get_cve_info3(cve:str) -> tuple:
+    """Return the CVSS score, severity, description & last_modified date of CVEs from CVEPremium API
 
     Args:
-        cve (str): _description_
+        cve (str): CVE code e.g. CVE-2019-12345
 
     Returns:
-        _type_: _description_
+        tuple: CVSS score, severity, description & last_modified date
     """
     cve = cve.lower()
 
@@ -99,7 +102,7 @@ def get_cve_info3(cve:str):
     return score, severity, description, last_modified
 
 
-### Functions for potential further development
+### Functions for potential further development --> All based on CVEPremium API
 def get_vendors():
     '''Returns all vendors stored in the databases'''
 
@@ -126,13 +129,13 @@ def get_vulnerabilities_per_product():
 def db_info():
     '''Get infos about the used databases of the API'''
 
-    request = requests.get(URL + 'dbinfo', timeout=50).json()
+    request = requests.get(URL3 + 'dbinfo', timeout=50).json()
     pprint.pprint(request)
 
 def latest_30_cves():
     '''Print newest 30 CVEs which were uploaded to the DBs'''
 
-    request = requests.get(URL + 'last', timeout=50).json()
+    request = requests.get(URL3 + 'last', timeout=50).json()
     pprint.pprint(request)
     for vul in request:
         print(vul.get('id'))
