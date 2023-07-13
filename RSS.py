@@ -23,8 +23,9 @@ def append_website(*website_string) -> bool:
     except OSError:
         print(f"Error could not append {website_string} to {RSS_FILE_NAME} file")
 
-def remove_website(*website_string):
-    '''Remove website from RSS-Websites file'''
+def remove_website(*website_string:str):
+    """Remove website from RSS-Websites file
+    """
     with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
         lines = rss_file.readlines()
 
