@@ -42,7 +42,7 @@ except:
     unfilterd_cve_counter = []
     try:
         file_dir = os.path.dirname(os.path.realpath('__file__'))
-        file_name = os.path.join(file_dir, 'Twitter_data.txt')
+        file_name = os.path.join(file_dir, 'Textfiles\Twitter_data.txt')
         with open(file_name, "r") as twitter_file:
             unfilterd_cve = (twitter_file.readline().split(", "))
             unfilterd_cve_counter = (twitter_file.readline().split(","))
@@ -52,7 +52,7 @@ except:
 #REDDIT DATA
 def reddit_data():
     file_dir = os.path.dirname(os.path.realpath('__file__'))
-    file_name = os.path.join(file_dir, 'Reddit_data.txt')
+    file_name = os.path.join(file_dir, 'Textfiles\Reddit_data.txt')
     NewReddit = RedditCVE()
     lastRedditPosts = NewReddit.retrieve_reddit_cve_list()
     with open (file_name, "w+") as reddit_file:
@@ -320,7 +320,7 @@ def update_reddit_data(timer, div_children):
     reddit_cve_counter = []
     try:
         file_dir = os.path.dirname(os.path.realpath('__file__'))
-        file_name = os.path.join(file_dir, 'Reddit_data.txt')
+        file_name = os.path.join(file_dir, 'Textfiles\Reddit_data.txt')
         with open(file_name, "r") as reddit_file:
             reddit_cve = reddit_file.readline().replace("[","").replace("]","")
             reddit_cve_counter = reddit_file.readline().replace("[","").replace("]","")

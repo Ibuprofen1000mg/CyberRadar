@@ -9,14 +9,14 @@ class TwitterCVE:
     """MISSING!!!"""
     def __init__(self) -> None:
         self.config = configparser.ConfigParser(interpolation=None)
-        self.config.read(os.path.dirname(os.path.abspath(__file__))+"/Creds.ini")
+        self.config.read(os.path.dirname(os.path.abspath(__file__))+"/Configuration/Creds.ini")
         self.api_key = self.config['twitter']['ApiKey']
         self.api_key_secret = self.config['twitter']['ApiKeySecret']
         self.access_token = self.config['twitter']['AccessToken']
         self.access_token_secret = self.config['twitter']['AccessTokenSecret']
         self.bear_token = self.config['twitter']['BearerToken']
         self.client = tweepy.Client(
-            bearer_token="AAAAAAAAAAAAAAAAAAAAACcDogEAAAAAAJsaU%2FQmVG4upsjYv6qm9pGQfqE%3Dl3YvX3dwGGqN9sYSmheXYhVPt51ZDBz30BUDUCP12bjryYhGW5",
+            bearer_token=self.bear_token,
             consumer_key=self.api_key,
             consumer_secret=self.api_key_secret,
             access_token=self.access_token,

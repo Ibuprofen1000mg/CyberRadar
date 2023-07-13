@@ -13,7 +13,7 @@ class RedditCVE:
     #Configure initials for reddit class --> Credential Data for Access
     def __init__(self) -> None:
         self.config = configparser.ConfigParser(interpolation=None)
-        self.config.read(os.path.dirname(os.path.abspath(__file__))+"/Creds.ini")
+        self.config.read(os.path.dirname(os.path.abspath(__file__))+"/Configuration/Creds.ini")
         self.own_script = self.config['reddit']['OwnScript']
         self.secret = self.config['reddit']['Secret']
         self.client = praw.Reddit(
@@ -43,7 +43,7 @@ class RedditCVE:
         """MISSING!!!"""
         cve_list = []
         try:
-            with open("Subreddits.txt", "r", encoding="utf-8") as reddit_file:
+            with open("Textfiles/Subreddits.txt", "r", encoding="utf-8") as reddit_file:
                 for line in reddit_file.readlines():
                     reddit_string_tuple = self.check_last_new_in_subreddit(line, 5)
                     for text_values in reddit_string_tuple:
@@ -60,18 +60,7 @@ class RedditCVE:
         except TypeError:
             print(f"{cve_string} not found or problem finding string!")
 
-#print(RedditCVE().retrieve_cve_count('CVE-2023-2033'))
 if __name__ == "__main__":
    p = RedditCVE().retrieve_reddit_cve_list()
    print(list(Counter(p).keys()))
    print(list(Counter(p).values()))
-
-# print(Counter(p).keys())
-# print(Counter(p).values())
-
-# with open("Subreddits.txt", "r") as reddit_file:
-#     for line in reddit_file.readlines():
-#         reddit_string_tuple = x.check_last_new_in_subreddit(line, 10)
-#         for text_values in reddit_string_tuple:
-#             x.get_cve_in_reddit(text_values.title,cve_list)
-#             #print((text_values.title))

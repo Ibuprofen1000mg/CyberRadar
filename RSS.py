@@ -4,7 +4,7 @@ import feedparser
 from collections import Counter
 
 
-RSS_FILE_NAME = "./RSS.txt"
+RSS_FILE_NAME = "./Textfiles/RSS.txt"
 
 cve_list = []
 
@@ -51,15 +51,6 @@ def parse_websites():
             #print(line)
             single_feed = feedparser.parse(line)
             for entry in single_feed.entries:
-#RSS-Feed BSI:
-# title,title_detail{.},links{.},link,published,published_parsed,summary,summary_detail{.}
-#RSS-Feed Packetstormsec:
-# title, title_detail{.},links{.},link,id,guidislink,comments,published,published_parsed,summary,summary_detail{.},tags
-                # print(entry.title)
-                # print(entry.link)
-                # print(entry.published)
-                # print(entry.summary)
-                # print('---------------------')
                 get_cve_in_RSS(entry.title, cve_array)
                 get_cve_in_RSS(entry.summary, cve_array)
     return cve_array
