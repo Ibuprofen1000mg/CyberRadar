@@ -295,14 +295,14 @@ layout = dash.html.Div(
         ),
         #DATA TABLE
         dash.html.Div(
-            style={'width': '100%', 'margin': '0, 10, 0, 10', 'marginLeft': '20px', 
-                   'marginRight': '20px', 'flex': '1', 'overflow-wrap': 'break-word', 'inline-size': '150px', 'max-width': '100px'},
+            style={'width': '97.5%', 'margin': '0, 10, 0, 10', 'marginLeft': '20px', 
+                   'marginRight': '20px', 'flex': '1', 'overflow-x': 'auto'},
             className="card",
             id='data_table',
             children=dash.dash_table.DataTable(
                 data=df.to_dict('records'),
                 columns=[{"name": i, "id": i} for i in df.columns],
-                style_cell={'textAlign': 'left', 'width': '20px','max-width': '100px'}
+                style_cell={'textAlign': 'left'}
             ),
         )
     ]
