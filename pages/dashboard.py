@@ -1,4 +1,6 @@
-"""MISSING!!!"""
+"""File for the implementation of the dashboard --> Frontend and data processing
+__author__: Nic Holzapfel, Benjamin Götz, Jesse Kuhn
+"""
 from collections import Counter
 # import threading --> for further development
 import os
@@ -23,22 +25,30 @@ external_stylesheets = [
     },
 ]
 
-#Globals
+# GLOBALS
+### Reddit
 reddit_cve = []
 reddit_cve_counter = []
+
+### General CVE variables
+filtered_score = []
+filtered_severity = []
 cve_descriptions = []
+personal_rating = []
 cve_rss_feed = RSS.parse_websites()
 cve_web_feed = WebCrawl.parse_websites()
-
-# GLOBALS
-filtered_score = []
-personal_rating = []
-filtered_severity = []
 labels = ['MEDIUM', 'HIGH', 'N/A', 'CRITICAL']
 values = [0, 0, 0, 0]
 severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
 
-#TWITTER DATA
+### Current Security-Level
+sum_score = 0
+sum_personal_score = 0
+relevant_cve = 0
+
+
+# TWITTER DATA
+# Author: Nic Holzapfel
 try:
     last100Tweets = Tweety.get_cve_in_tweets(Tweety.get_tweets("#cve -from:RedPacketSec", 50))
     unfiltered_cve = list(Counter(last100Tweets).keys())
@@ -55,7 +65,7 @@ except:
     except:
         print("Error cannot read File or File empty in Twitter_data.txt")
 
-#REDDIT DATA
+# REDDIT DATA
 def reddit_data():
     file_dir = os.path.dirname(os.path.realpath('__file__'))
     file_name = os.path.join(file_dir, 'Textfiles\Reddit_data.txt')
@@ -70,20 +80,15 @@ def reddit_data():
             print("Error Cannot Read File or File empty (Reddit)")
 
 #Reddit thread Daemon
-try:
-    print("No Exception")
-    #thread_reddit_fetch = threading.Thread(target=reddit_data())
-    #thread_reddit_fetch.daemon = True
-    #thread_reddit_fetch.start()
-except:
-    print("Reddit API Error!")
+# try:
+#     print("No Exception")
+#     #thread_reddit_fetch = threading.Thread(target=reddit_data())
+#     #thread_reddit_fetch.daemon = True
+#     #thread_reddit_fetch.start()
+# except:
+#     print("Reddit API Error!")
 
-#author: Nen Scheiß
-# Current Security-Level
-sum_score = 0
-sum_personal_score = 0
-relevant_cve = 0
-
+# Author: Nic Holzapfel, Benjamin Götz, Jesse Kuhn
 counter = len(unfiltered_cve)
 
 for x in unfiltered_cve:
@@ -105,14 +110,7 @@ for x in unfiltered_cve:
     cve_descriptions.append(cve_info[2])
     values[severity_map.get(severity, 2)] += 1
 
-#Dataframe
-df = pd.DataFrame({'CVE': [x for x in unfiltered_cve],
-            'Score': [x for x in filtered_score],
-            'Personal Rating': [x for x in personal_rating],
-            'Severity': [x for x in filtered_severity],
-            'Description': [x for x in cve_descriptions]},
-            index=[*range(0, len(unfiltered_cve), 1)])
-
+# Author: Nic Holzapfel, Benjamin Götz
 def aktuelle_sicherheitslage(sum):
     """Wertet aktuelle Sicheheitslage aus"""
     # meiste_werte = max(values)
@@ -132,13 +130,22 @@ def aktuelle_sicherheitslage(sum):
 
     return sec_lvl
 
+# DATAFRAME
+# Author: Benjamin Götz
+df = pd.DataFrame({'CVE': [x for x in unfiltered_cve],
+            'Score': [x for x in filtered_score],
+            'Personal Rating': [x for x in personal_rating],
+            'Severity': [x for x in filtered_severity],
+            'Description': [x for x in cve_descriptions]},
+            index=[*range(0, len(unfiltered_cve), 1)])
+
+# Author: Jesse Kuhn
 fig = go.Figure(data=[go.Pie(labels=labels, values=values)], layout={
     'title': 'Severity Distribution'
 })
 
 dash.register_page(__name__)
 
-# author: Jesse Kuhn
 layout = dash.html.Div(
     children=[
         dash.html.Div(
@@ -197,6 +204,7 @@ layout = dash.html.Div(
             className="wrapper",
         ),
         #REDDIT CVE
+        # Author: Nic Holzapfel
         dash.html.Div(
             style={'width': '100%', 'margin': '0, 10, 0, 10'},
             id='reddit_page',
@@ -211,6 +219,7 @@ layout = dash.html.Div(
             ]
         ),
         #RSS CVE
+        # Author: Nic Holzapfel, Benjamin Götz
         dash.html.Div(
                 style={'width': '100%', 'margin': '0, 10, 0, 10'},
                 id='cve_rss',
@@ -239,6 +248,7 @@ layout = dash.html.Div(
                 ),
         ),
         #WebsiteCrawl CVE
+        # Author: Nic Holzapfel, Benjamin Götz
         dash.html.Div(
                 style={'width': '100%', 'margin': '0, 10, 0, 10'},
                 id='cve_website',
@@ -267,6 +277,7 @@ layout = dash.html.Div(
                 ),
         ),
         #HISTORIC CVE DATA
+        # Author: Nic Holzapfel
         dash.html.Div(
                 style={'width': '100%', 'margin': '0, 10, 0, 10'},
                 id='cve_history',
@@ -295,6 +306,7 @@ layout = dash.html.Div(
                 ),
         ),
         #DATA TABLE
+        # Author: Benjamin Götz
         dash.html.Div(
              style={'marginLeft': '20px', 'marginRight': '20px',},
             className="card",
@@ -310,7 +322,7 @@ layout = dash.html.Div(
     ]
 )
 
-#author: Nic Holapfel?
+#author: Nic Holapfel
 @dash.callback(
     dash.Output(component_id="reddit_card", component_property="children"),
     dash.Input(component_id="reddit_timer", component_property="n_intervals"),
