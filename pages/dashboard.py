@@ -8,7 +8,7 @@ import plotly.graph_objs as go
 import dash
 import cve_ds
 from Tweety import TwitterCVE
-from Reddit import RedditCVE
+import Reddit
 import Historic
 import rating
 import RSS
@@ -53,8 +53,7 @@ except:
 def reddit_data():
     file_dir = os.path.dirname(os.path.realpath('__file__'))
     file_name = os.path.join(file_dir, 'Textfiles\Reddit_data.txt')
-    new_reddit = RedditCVE()
-    lastRedditPosts = new_reddit.retrieve_reddit_cve_list()
+    lastRedditPosts = Reddit.retrieve_reddit_cve_list()
     with open (file_name, "w+") as reddit_file:
         try:
             reddit_file.write(str(list(Counter(lastRedditPosts).keys())))
