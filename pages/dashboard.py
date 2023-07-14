@@ -15,8 +15,20 @@ import rating
 import RSS
 import WebCrawl
 
+# Author: Jesse Kuhn
+""" Registrating the page in the registry of the app; The page can be called and routing is enabled
+
+Returns:
+    _type_: _description_
+"""
 dash.register_page(__name__, path='/')
 
+# Author: Jesse Kuhn
+""" integrating a special style for css usage
+
+Returns:
+    _type_: _description_
+"""
 external_stylesheets = [
     {
         "href": "https://fonts.googleapis.com/css2?"
@@ -25,12 +37,12 @@ external_stylesheets = [
     },
 ]
 
-# GLOBALS
-### Reddit
+### GLOBALS ###
+# Reddit
 reddit_cve = []
 reddit_cve_counter = []
 
-### General CVE variables
+# General CVE variables
 filtered_score = []
 filtered_severity = []
 cve_descriptions = []
@@ -41,14 +53,18 @@ labels = ['MEDIUM', 'HIGH', 'N/A', 'CRITICAL']
 values = [0, 0, 0, 0]
 severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
 
-### Current Security-Level
+# Current Security-Level
 sum_score = 0
 sum_personal_score = 0
 relevant_cve = 0
 
 
-# TWITTER DATA
 # Author: Nic Holzapfel
+""" TWITTER DATA
+
+Returns:
+    _type_: _description_
+"""
 try:
     last100Tweets = Tweety.get_cve_in_tweets(Tweety.get_tweets("#cve -from:RedPacketSec", 50))
     unfiltered_cve = list(Counter(last100Tweets).keys())
@@ -89,8 +105,12 @@ def reddit_data():
 #     print("Reddit API Error!")
 
 # Author: Nic Holzapfel, Benjamin Götz, Jesse Kuhn
-counter = len(unfiltered_cve)
+""" Pulling data from the CVE database and configuring variables that can be used for the diagrams
 
+Returns:
+    _type_: _description_
+"""
+counter = len(unfiltered_cve)
 for x in unfiltered_cve:
     print(counter)
     counter-=1
@@ -98,12 +118,10 @@ for x in unfiltered_cve:
     score = cve_info[0]
     personal_score = rating.rate(cve_info, counter)
     personal_rating.append(personal_score)
-
     if score > 0:
         sum_score += score
         relevant_cve += 1
         sum_personal_score += personal_score
-
     filtered_score.append(cve_info[0])
     severity = cve_info[1]
     filtered_severity.append(cve_info[1])
@@ -111,6 +129,11 @@ for x in unfiltered_cve:
     values[severity_map.get(severity, 2)] += 1
 
 # Author: Nic Holzapfel, Benjamin Götz
+""" desc...
+
+Returns:
+    _type_: _description_
+"""
 def aktuelle_sicherheitslage(sum):
     """Wertet aktuelle Sicheheitslage aus"""
     # meiste_werte = max(values)
@@ -130,8 +153,12 @@ def aktuelle_sicherheitslage(sum):
 
     return sec_lvl
 
-# DATAFRAME
 # Author: Benjamin Götz
+""" DATAFRAME
+
+Returns:
+    _type_: _description_
+"""
 df = pd.DataFrame({'CVE': [x for x in unfiltered_cve],
             'Score': [x for x in filtered_score],
             'Personal Rating': [x for x in personal_rating],
@@ -140,12 +167,21 @@ df = pd.DataFrame({'CVE': [x for x in unfiltered_cve],
             index=[*range(0, len(unfiltered_cve), 1)])
 
 # Author: Jesse Kuhn
+""" Configurations for the pie chart about severity distribution
+
+Returns:
+    _type_: _description_
+"""
 fig = go.Figure(data=[go.Pie(labels=labels, values=values)], layout={
     'title': 'Severity Distribution'
 })
 
-dash.register_page(__name__)
+# Author: Jesse Kuhn
+""" The blueprint of the webpage, coded with python dash which enables html and css properties
 
+Returns:
+    _type_: _description_
+"""
 layout = dash.html.Div(
     children=[
         dash.html.Div(
@@ -188,25 +224,28 @@ layout = dash.html.Div(
                 ),
                 dash.html.Div(
                     className="card",
-                    style= {'flex': '1', 'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'},
+                    style= {'flex': '1', 'display': 'flex',
+                        'flex-direction': 'column', 'justify-content': 'center'},
                     children=[
                         dash.html.Center(
                             style={'height': '50%', 'align-items': 'center'},
                             children= [
-                                dash.html.H2("General Securitylevel", style={'text-decoration': 'underline', 'height': '25%'}),
+                                dash.html.H2("General Securitylevel", 
+                                    style={'text-decoration': 'underline', 'height': '25%'}),
                                 dash.html.P(
                                     aktuelle_sicherheitslage(sum_score),
-                                    style={"color": "red", "font-weight": "bold", 'height': '25%'}
+                                    style={"color": "red", 'height': '25%'}
                                 ),
                             ],
                         ),
                         dash.html.Center(
                             style={'height': '50%', 'align-items': 'center'},
                             children= [
-                                    dash.html.H2("Personal Securitylevel", style={'text-decoration': 'underline', 'height': '25%'}),
+                                    dash.html.H2("Personal Securitylevel",
+                                        style={'text-decoration': 'underline', 'height': '25%'}),
                                     dash.html.P(
                                         aktuelle_sicherheitslage(sum_personal_score),
-                                        style={"color": "red", "font-weight": "bold", 'height': '25%'}
+                                        style={"color": "red", 'height': '25%'}
                                     )
                             ]
                         )
@@ -291,31 +330,31 @@ layout = dash.html.Div(
         #HISTORIC CVE DATA
         # Author: Nic Holzapfel
         dash.html.Div(
-                style={'width': '100%', 'margin': '0, 10, 0, 10'},
-                id='cve_history',
-                children=dash.dcc.Graph(
-                    style={"marginLeft": "20px", "marginRight": "20px", 'flex': '1'},
-                    className="card",
-                    id="numbers-chart",
-                    config={"displayModeBar": False},
-                    figure={
-                        "data": [
-                            {
-                                'y': Historic.data_array(),
-                                'x': Historic.dates_array(),
-                                'type': 'bar'
-                            },
-                        ],
-                        'layout': {
-                            'title': {
-                                'text': 'Historic CVE Data',
-                                'x': 0.1,
-                                'xanchor': 'down'
-                            },
-                            'colorway': ['#0da784']
-                        }
-                    },
-                ),
+            style={'width': '100%', 'margin': '0, 10, 0, 10'},
+            id='cve_history',
+            children=dash.dcc.Graph(
+                style={"marginLeft": "20px", "marginRight": "20px", 'flex': '1'},
+                className="card",
+                id="numbers-chart",
+                config={"displayModeBar": False},
+                figure={
+                    "data": [
+                        {
+                            'y': Historic.data_array(),
+                            'x': Historic.dates_array(),
+                            'type': 'bar'
+                        },
+                    ],
+                    'layout': {
+                        'title': {
+                            'text': 'Historic CVE Data',
+                            'x': 0.1,
+                            'xanchor': 'down'
+                        },
+                        'colorway': ['#0da784']
+                    }
+                },
+            ),
         ),
         #DATA TABLE
         # Author: Benjamin Götz
@@ -335,6 +374,11 @@ layout = dash.html.Div(
 )
 
 #author: Nic Holapfel
+""" 
+
+Returns:
+    _type_: _description_
+"""
 @dash.callback(
     dash.Output(component_id="reddit_card", component_property="children"),
     dash.Input(component_id="reddit_timer", component_property="n_intervals"),
@@ -352,24 +396,24 @@ def update_reddit_data(timer, div_children):
     except:
         print("Error cannot read File or File empty in update_reddit_data")
     div_child = dash.dcc.Graph(
-                        id="numbers-chart",
-                        config={"displayModeBar": False},
-                        figure={
-                            "data": [
-                                {
-                                    'y': reddit_cve_counter.split(),
-                                    'x': reddit_cve.split(),
-                                    'type': 'bar'
-                                },
-                            ],
-                            'layout': {
-                                'title': {
-                                    'text': 'CVEs on Reddit',
-                                    'x': 0.1,
-                                    'xanchor': 'down'
-                                },
-                                'colorway': ['#E12D39']
-                            }
-                        },
-                    )
+        id="numbers-chart",
+        config={"displayModeBar": False},
+        figure={
+            "data": [
+                {
+                    'y': reddit_cve_counter.split(),
+                    'x': reddit_cve.split(),
+                    'type': 'bar'
+                },
+            ],
+            'layout': {
+                'title': {
+                    'text': 'CVEs on Reddit',
+                    'x': 0.1,
+                    'xanchor': 'down'
+                },
+                'colorway': ['#E12D39']
+            }
+        },
+    )
     return div_child
