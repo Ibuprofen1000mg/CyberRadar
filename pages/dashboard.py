@@ -188,14 +188,26 @@ layout = dash.html.Div(
                 ),
                 dash.html.Div(
                     className="card",
-                    style= {'flex': '1'},
+                    style= {'flex': '1', 'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center'},
                     children=[
                         dash.html.Center(
-                            children=[
-                                dash.html.H2("General Securitylevel"),
-                                dash.html.P(aktuelle_sicherheitslage(sum_score)),
-                                dash.html.H2("Personal Securitylevel"),
-                                dash.html.P(aktuelle_sicherheitslage(sum_personal_score))
+                            style={'height': '50%', 'align-items': 'center'},
+                            children= [
+                                dash.html.H2("General Securitylevel", style={'text-decoration': 'underline', 'height': '25%'}),
+                                dash.html.P(
+                                    aktuelle_sicherheitslage(sum_score),
+                                    style={"color": "red", "font-weight": "bold", 'height': '25%'}
+                                ),
+                            ],
+                        ),
+                        dash.html.Center(
+                            style={'height': '50%', 'align-items': 'center'},
+                            children= [
+                                    dash.html.H2("Personal Securitylevel", style={'text-decoration': 'underline', 'height': '25%'}),
+                                    dash.html.P(
+                                        aktuelle_sicherheitslage(sum_personal_score),
+                                        style={"color": "red", "font-weight": "bold", 'height': '25%'}
+                                    )
                             ]
                         )
                     ],
