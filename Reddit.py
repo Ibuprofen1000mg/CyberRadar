@@ -1,11 +1,14 @@
-"""File Description"""
+"""This File contains elements and functions to connect to the Reddit API and retrieve Data
+__author__: Nic Holzapfel
+"""
+#########Imports#########
 import configparser
 import os
 import re
-#This is the reddit api python wrapper
 from collections import Counter
 import praw
 from prawcore.exceptions import Forbidden
+##########################
 
 # author: Nic Holzapfel ?
 
@@ -21,10 +24,14 @@ client = praw.Reddit(
 
 #Function to check if API Access with Tokens is working
 def check_api_function() -> None:
-    """MISSING!!!"""
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     return client.read_only
 
-def check_last_new_in_subreddit(subreddit_name, amount_of_posts):
+def check_last_new_in_subreddit(subreddit_name:str, amount_of_posts):
     """MISSING!!!"""
     return client.subreddit(subreddit_name).new(limit=amount_of_posts)
 
@@ -36,7 +43,11 @@ def get_cve_in_reddit(reddit_response, global_cve_list)->list:
     return global_cve_list
 
 def retrieve_reddit_cve_list() -> list:
-    """MISSING!!!"""
+    """_summary_
+
+    Returns:
+        list: _description_
+    """
     cve_list = []
     try:
         with open("Textfiles/Subreddits.txt", "r", encoding="utf-8") as reddit_file:
@@ -49,8 +60,15 @@ def retrieve_reddit_cve_list() -> list:
     except FileNotFoundError:
         print("File Error!")
 
-def retrieve_cve_count(cve_string):
-    """MISSING!!!"""
+def retrieve_cve_count(cve_string:str):
+    """_summary_
+
+    Args:
+        cve_string (str): _description_
+
+    Returns:
+        _type_: _description_
+    """
     try:
         return Counter(retrieve_reddit_cve_list())[cve_string]
     except TypeError:

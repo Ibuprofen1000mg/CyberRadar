@@ -1,3 +1,4 @@
+"""Main file to host the website"""
 ######################################################################
 __author__ = "Benjamin G., Nic H., Jesse K."
 __credits__ = ["Benjamin G., Nic H., Jesse K."]
