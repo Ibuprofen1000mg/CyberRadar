@@ -3,6 +3,5 @@ __pycache__
 pages\__pycache__
 Creds.ini
 Configuration\Creds.ini
-site\*
 site
-site/*
+.html

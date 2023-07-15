@@ -167,20 +167,16 @@ df = pd.DataFrame({'CVE': [x for x in unfiltered_cve],
             index=[*range(0, len(unfiltered_cve), 1)])
 
 # Author: Jesse Kuhn
-""" Configurations for the pie chart about severity distribution
-
-Returns:
-    _type_: _description_
+""" 
+Configurations for the pie chart about severity distribution
 """
 fig = go.Figure(data=[go.Pie(labels=labels, values=values)], layout={
     'title': 'Severity Distribution'
 })
 
 # Author: Jesse Kuhn
-""" The blueprint of the webpage, coded with python dash which enables html and css properties
-
-Returns:
-    _type_: _description_
+""" 
+The blueprint of the webpage, coded with python dash which enables html and css properties
 """
 layout = dash.html.Div(
     children=[
@@ -255,7 +251,7 @@ layout = dash.html.Div(
             className="wrapper",
         ),
         #REDDIT CVE
-        # Author: Nic Holzapfel
+        #Author: Nic Holzapfel
         dash.html.Div(
             style={'width': '100%', 'margin': '0, 10, 0, 10'},
             id='reddit_page',
@@ -270,7 +266,7 @@ layout = dash.html.Div(
             ]
         ),
         #RSS CVE
-        # Author: Nic Holzapfel, Benjamin Götz
+        #Author: Nic Holzapfel, Benjamin Götz
         dash.html.Div(
                 style={'width': '100%', 'margin': '0, 10, 0, 10'},
                 id='cve_rss',
@@ -299,7 +295,7 @@ layout = dash.html.Div(
                 ),
         ),
         #WebsiteCrawl CVE
-        # Author: Nic Holzapfel, Benjamin Götz
+        #Author: Nic Holzapfel, Benjamin Götz
         dash.html.Div(
                 style={'width': '100%', 'margin': '0, 10, 0, 10'},
                 id='cve_website',
@@ -328,7 +324,7 @@ layout = dash.html.Div(
                 ),
         ),
         #HISTORIC CVE DATA
-        # Author: Nic Holzapfel
+        #Author: Nic Holzapfel
         dash.html.Div(
             style={'width': '100%', 'margin': '0, 10, 0, 10'},
             id='cve_history',
@@ -373,18 +369,22 @@ layout = dash.html.Div(
     ]
 )
 
-#author: Nic Holapfel
-""" 
-
-Returns:
-    _type_: _description_
-"""
+#Author: Nic Holapfel
 @dash.callback(
     dash.Output(component_id="reddit_card", component_property="children"),
     dash.Input(component_id="reddit_timer", component_property="n_intervals"),
     dash.State(component_id="reddit_page", component_property="children")
 )
 def update_reddit_data(timer, div_children):
+    """Updates Reddit Data as Thread Daemon
+
+    Args:
+        timer: Set timer interval to update the data from reddit
+        div_children: input where to append a div-child to
+
+    Returns:
+        _type_: returns a full html div component with reddit data as a graph
+    """
     reddit_cve = []
     reddit_cve_counter = []
     try:

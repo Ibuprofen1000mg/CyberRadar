@@ -1,5 +1,5 @@
-'''This file is for the personal rating algorithm
-__author__: Benjamin Götz
+'''This file is for the personal rating algorithm\n
+__Author__: Benjamin Götz\n
 '''
 import datetime
 

@@ -1,5 +1,5 @@
-'''File to retrieve data about the CVEs, vendors & products from different databases
-__author__: Benjamin Götz
+'''File to retrieve data about the CVEs, vendors & products from different databases\n
+__Author__: Benjamin Götz\n
 '''
 import pprint
 import requests

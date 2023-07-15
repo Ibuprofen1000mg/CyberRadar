@@ -1,5 +1,5 @@
-"""This File contains elements and functions to connect to the Twitter API and retrieve Data
-__author__: Nic Holzapfel
+"""This File contains elements and functions to connect to the Twitter API and retrieve Data\n
+__Author__: Nic Holzapfel\n
 """
 #########Imports#########
 import configparser

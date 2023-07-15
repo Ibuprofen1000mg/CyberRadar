@@ -1,6 +1,6 @@
 """
 File for the generation of the historic CVE data\n
-__Author__ = "Nic Holzapfel"\n
+__Author__: Nic Holzapfel\n
 """
 import datetime
 import requests

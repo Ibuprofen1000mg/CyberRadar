@@ -1,5 +1,5 @@
 """File for retrieving data from RSS feeds of different websites\n
-__Author__ = "Nic Holzapfel"\n
+__Author__: Nic Holzapfel\n
 """
 
 import re
