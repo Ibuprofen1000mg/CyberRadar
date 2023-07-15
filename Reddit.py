@@ -7,7 +7,6 @@ import os
 import re
 from collections import Counter
 import praw
-from prawcore.exceptions import Forbidden
 ##########################
 
 config = configparser.ConfigParser(interpolation=None)
