@@ -20,18 +20,17 @@ for x in range(1999, today.year+1):
     datasets.append(x)
 
 def dates_array() -> list:
-    """Returns a list containing Years from 1999 until today
-
+    """Returns a list of years from 1999 up to today
     Returns:
-        list: List containing years
+        list: Years from 1999 to today
     """
     return datasets
 
-def data_array():
-    """_summary_
+def data_array() -> list:
+    """Returns a list removing tabs and newline character feeds
 
     Returns:
-        _type_: _description_
+        list: 
     """
     strip_list = [ x.replace('\t', '').replace('\n', '') for x in cve_data ]
     return strip_list
