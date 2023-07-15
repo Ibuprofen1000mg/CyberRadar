@@ -108,6 +108,7 @@
   <div class="doc doc-contents first">
   
       <p>File for retrieving data from RSS feeds of different websites</p>
+<p><strong>Author</strong> = "Nic Holzapfel"</p>
 
   
 
@@ -135,10 +136,36 @@
   
       <p>Add website to RSS-Websites file</p>
 
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+<b>bool</b>(                <code>bool</code>
+)            –
+            <div class="doc-md-description">
+              <p>Checks if appending was successful</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
       <details class="quote">
         <summary>Source code in <code>RSS.py</code></summary>
         <pre class="highlight"><code class="language-python">def append_website(*website_string) -&gt; bool:
-    '''Add website to RSS-Websites file'''
+    """Add website to RSS-Websites file
+
+    Returns:
+        bool: Checks if appending was successful
+    """
     try:
         with open(RSS_FILE_NAME, "a+", encoding="utf-8") as rss_file:
             for website in website_string:
@@ -156,23 +183,49 @@
 
 
 <h2 id="RSS.get_cve_in_rss" class="doc doc-heading">
-<code class="highlight language-python">get_cve_in_rss(cve_number, cve_array)</code>
+<code class="highlight language-python">get_cve_in_rss(cve_number)</code>
 
 </h2>
 
 
   <div class="doc doc-contents ">
   
-      <p>Returns CVE REGEX found in an array of tweets</p>
+      <p>Returns CVE REGEX found in an array</p>
 
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b>cve_number</b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>Input string to search for REGEX Pattern</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
       <details class="quote">
         <summary>Source code in <code>RSS.py</code></summary>
-        <pre class="highlight"><code class="language-python">def get_cve_in_rss(cve_number, cve_array):
-    '''Returns CVE REGEX found in an array of tweets'''
+        <pre class="highlight"><code class="language-python">def get_cve_in_rss(cve_number:str):
+    """Returns CVE REGEX found in an array
+
+    Args:
+        cve_number (str): Input string to search for REGEX Pattern
+    """
     check_cve_regex = re.search('CVE-\\d{4}-\\d{4,7}', cve_number)
-        #print(tweets)
     if check_cve_regex is not None:
-        cve_array.append(check_cve_regex.group())</code></pre>
+        cve_list.append(check_cve_regex.group())</code></pre>
       </details>
   </div>
 
@@ -190,20 +243,21 @@
 
   <div class="doc doc-contents ">
   
-      <p>Parse website(s) in RSS-Websites file</p>
+      <p>Main code function to tun through all websites</p>
 
       <details class="quote">
         <summary>Source code in <code>RSS.py</code></summary>
         <pre class="highlight"><code class="language-python">def parse_websites():
-    '''Parse website(s) in RSS-Websites file'''
+    """Main code function to tun through all websites
+    """
     with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
         cve_array = []
         for line in rss_file.readlines():
             #print(line)
             single_feed = feedparser.parse(line)
             for entry in single_feed.entries:
-                get_cve_in_rss(entry.title, cve_array)
-                get_cve_in_rss(entry.summary, cve_array)
+                get_cve_in_rss(entry.title)
+                get_cve_in_rss(entry.summary)
     return cve_array</code></pre>
       </details>
   </div>
@@ -227,7 +281,8 @@
       <details class="quote">
         <summary>Source code in <code>RSS.py</code></summary>
         <pre class="highlight"><code class="language-python">def print_rss_file() -&gt; None:
-    '''Print data inside RSS-Websites file'''
+    """Print data inside RSS-Websites file
+    """
     with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
         print(rss_file.read())</code></pre>
       </details>
@@ -249,10 +304,36 @@
   
       <p>Remove website from RSS-Websites file</p>
 
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b>website_string</b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>Enter all Website strings to be removed from the Textfile</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
       <details class="quote">
         <summary>Source code in <code>RSS.py</code></summary>
         <pre class="highlight"><code class="language-python">def remove_website(*website_string:str):
     """Remove website from RSS-Websites file
+
+    Args:
+        website_string (str): Enter all Website strings to be removed from the Textfile
     """
     with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
         lines = rss_file.readlines()
