@@ -1,5 +1,5 @@
-"""This File contains elements and functions to connect to the Reddit API and retrieve Data
-__Author__: Nic Holzapfel
+"""This File contains elements and functions to connect to the Reddit API and retrieve Data\n
+__Author__: Nic Holzapfel\n
 """
 #########Imports#########
 import configparser

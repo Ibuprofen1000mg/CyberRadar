@@ -1,4 +1,7 @@
-'''File for retrieving data from RSS feeds of different websites'''
+"""File for retrieving data from RSS feeds of different websites\n
+__Author__ = "Nic Holzapfel"\n
+"""
+
 import re
 import feedparser
 
@@ -7,12 +10,17 @@ RSS_FILE_NAME = "./Textfiles/RSS.txt"
 cve_list = []
 
 def print_rss_file() -> None:
-    '''Print data inside RSS-Websites file'''
+    """Print data inside RSS-Websites file
+    """
     with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
         print(rss_file.read())
 
 def append_website(*website_string) -> bool:
-    '''Add website to RSS-Websites file'''
+    """Add website to RSS-Websites file
+
+    Returns:
+        bool: Checks if appending was successful
+    """
     try:
         with open(RSS_FILE_NAME, "a+", encoding="utf-8") as rss_file:
             for website in website_string:
@@ -23,6 +31,9 @@ def append_website(*website_string) -> bool:
 
 def remove_website(*website_string:str):
     """Remove website from RSS-Websites file
+
+    Args:
+        website_string (str): Enter all Website strings to be removed from the Textfile
     """
     with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
         lines = rss_file.readlines()
@@ -32,21 +43,25 @@ def remove_website(*website_string:str):
             if line.strip("\n") != website_string:
                 rss_file.write(line)
 
-def get_cve_in_rss(cve_number, cve_array):
-    '''Returns CVE REGEX found in an array of tweets'''
+def get_cve_in_rss(cve_number:str):
+    """Returns CVE REGEX found in an array
+
+    Args:
+        cve_number (str): Input string to search for REGEX Pattern
+    """
     check_cve_regex = re.search('CVE-\\d{4}-\\d{4,7}', cve_number)
-        #print(tweets)
     if check_cve_regex is not None:
-        cve_array.append(check_cve_regex.group())
+        cve_list.append(check_cve_regex.group())
 
 def parse_websites():
-    '''Parse website(s) in RSS-Websites file'''
+    """Main code function to tun through all websites
+    """
     with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
         cve_array = []
         for line in rss_file.readlines():
             #print(line)
             single_feed = feedparser.parse(line)
             for entry in single_feed.entries:
-                get_cve_in_rss(entry.title, cve_array)
-                get_cve_in_rss(entry.summary, cve_array)
+                get_cve_in_rss(entry.title)
+                get_cve_in_rss(entry.summary)
     return cve_array
