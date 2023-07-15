@@ -1,20 +1,18 @@
-"""Main file to host the website"""
-######################################################################
-__author__ = "Benjamin G., Nic H., Jesse K."
-__credits__ = ["Benjamin G., Nic H., Jesse K."]
-__license__ = "GPL"
-__version__ = "1.0.0"
-__maintainer__ = "Benjamin G., Nic H., Jesse K."
-__status__ = "Release/Production"
-######################################################################
-
+"""Main file to host the website\n
+######################################################################\n
+__author__ = "Benjamin G., Nic H., Jesse K."\n
+__license__ = "GPL"\n
+__version__ = "1.0.0"\n
+__maintainer__ = "Benjamin G., Nic H., Jesse K."\n
+__status__ = "Release/Production"\n
+######################################################################\n
+"""
 from dash import Dash, html, dcc
 import dash
 #from dash.dependencies import Output, Input
 
-# author: Jesse Kuhn
 """ Configuration for the page
-
+__author__ = "Jesse Kuhn"
 Returns:
     _type_: _description_
 """
@@ -25,9 +23,8 @@ app = Dash(__name__, use_pages=True, suppress_callback_exceptions=False,
 )
 app.title = 'Cyber-Radar'
 
-# author: Jesse Kuhn
 """ The blueprint of the banner and the menu that is displayed on all pages
-
+__author__ = "Jesse Kuhn"
 Returns:
     _type_: _description_
 """

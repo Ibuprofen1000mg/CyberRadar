@@ -1,4 +1,7 @@
-"""File for the generation of the historic CVE data"""
+"""
+File for the generation of the historic CVE data\n
+__Author__ = "Nic Holzapfel"\n
+"""
 import datetime
 import requests
 from bs4 import BeautifulSoup

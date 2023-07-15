@@ -1,5 +1,5 @@
 """This File contains elements and functions to connect to the Reddit API and retrieve Data
-__author__: Nic Holzapfel
+__Author__: Nic Holzapfel
 """
 #########Imports#########
 import configparser
@@ -17,26 +17,25 @@ client = praw.Reddit(
     client_id=own_script,
     client_secret=secret,
     user_agent="android:com.example.cyberradar:v1.2.3"
-    )
+)
 
-#Function to check if API Access with Tokens is working
-def check_api_function() -> None:
-    """_summary_
+def check_api_function() -> str:
+    """Function to check if API Access with Tokens are working
 
     Returns:
-        _type_: _description_
+        str: Returns string regarding user information from the API
     """
     return client.read_only
 
-def check_last_new_in_subreddit(subreddit_name:str, amount_of_posts:int):
-    """_summary_
+def check_last_new_in_subreddit(subreddit_name:str, amount_of_posts:int) -> str:
+    """Checks the latest posts from a given subreddit
 
     Args:
-        subreddit_name (str): _description_
-        amount_of_posts (int): _description_
+        subreddit_name (str): name of subreddit (e.g. homelab)
+        amount_of_posts (int): the amount of latests posts
 
     Returns:
-        _type_: _description_
+        str: Latests found posts from subreddits
     """
     return client.subreddit(subreddit_name).new(limit=amount_of_posts)
 
@@ -44,11 +43,11 @@ def get_cve_in_reddit(reddit_response:str, global_cve_list:list)->list:
     """Returns CVE REGEX found in an array of reddits
 
     Args:
-        reddit_response (str): _description_
-        global_cve_list (list): _description_
+        reddit_response (str): Input string to check for the CVE-Regex Pattern
+        global_cve_list (list): Global list to append the found patterns to
 
     Returns:
-        list: _description_
+        list: All found CVEs
     """
     check_cve_regex = re.search('CVE-\\d{4}-\\d{4,7}', reddit_response, re.IGNORECASE)
     if check_cve_regex is not None:
@@ -56,10 +55,10 @@ def get_cve_in_reddit(reddit_response:str, global_cve_list:list)->list:
     return global_cve_list
 
 def retrieve_reddit_cve_list() -> list:
-    """_summary_
+    """Loops through all subreddits to retrieve latests posts from Reddit
 
     Returns:
-        list: _description_
+        list: List of all found CVEs
     """
     cve_list = []
     try:
@@ -73,14 +72,14 @@ def retrieve_reddit_cve_list() -> list:
     except FileNotFoundError:
         print("File Error!")
 
-def retrieve_cve_count(cve_string:str):
-    """_summary_
+def retrieve_cve_count(cve_string:list) -> str:
+    """Check how often each CVE is named inside the a list
 
     Args:
-        cve_string (str): _description_
+        cve_string (list): Input list of all CVEs 
 
     Returns:
-        _type_: _description_
+        str: amount of each CVE
     """
     try:
         return Counter(retrieve_reddit_cve_list())[cve_string]
