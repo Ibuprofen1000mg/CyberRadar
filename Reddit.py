@@ -10,8 +10,6 @@ import praw
 from prawcore.exceptions import Forbidden
 ##########################
 
-# author: Nic Holzapfel ?
-
 config = configparser.ConfigParser(interpolation=None)
 config.read(os.path.dirname(os.path.abspath(__file__))+"/Configuration/Creds.ini")
 own_script = config['reddit']['OwnScript']
@@ -31,12 +29,28 @@ def check_api_function() -> None:
     """
     return client.read_only
 
-def check_last_new_in_subreddit(subreddit_name:str, amount_of_posts):
-    """MISSING!!!"""
+def check_last_new_in_subreddit(subreddit_name:str, amount_of_posts:int):
+    """_summary_
+
+    Args:
+        subreddit_name (str): _description_
+        amount_of_posts (int): _description_
+
+    Returns:
+        _type_: _description_
+    """
     return client.subreddit(subreddit_name).new(limit=amount_of_posts)
 
-def get_cve_in_reddit(reddit_response, global_cve_list)->list:
-    '''Returns CVE REGEX found in an array of reddits'''
+def get_cve_in_reddit(reddit_response:str, global_cve_list:list)->list:
+    """Returns CVE REGEX found in an array of reddits
+
+    Args:
+        reddit_response (str): _description_
+        global_cve_list (list): _description_
+
+    Returns:
+        list: _description_
+    """
     check_cve_regex = re.search('CVE-\\d{4}-\\d{4,7}', reddit_response, re.IGNORECASE)
     if check_cve_regex is not None:
         global_cve_list.append(check_cve_regex.group().upper())
