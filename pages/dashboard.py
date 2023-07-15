@@ -54,9 +54,9 @@ values = [0, 0, 0, 0]
 severity_map = {'MEDIUM': 0, 'HIGH': 1, 'N/A': 2, 'CRITICAL': 3}
 
 # Current Security-Level
-sum_score = 0
-sum_personal_score = 0
-relevant_cve = 0
+SUM_SCORE = 0
+SUM_PERSONAL_SCORE = 0
+RELEVANT_CVE = 0
 
 
 # Author: Nic Holzapfel
@@ -85,14 +85,14 @@ except:
 def reddit_data():
     file_dir = os.path.dirname(os.path.realpath('__file__'))
     file_name = os.path.join(file_dir, 'Textfiles\Reddit_data.txt')
-    lastRedditPosts = Reddit.retrieve_reddit_cve_list()
+    last_reddit_posts = Reddit.retrieve_reddit_cve_list()
     with open (file_name, "w+", encoding="utf-8") as reddit_file:
         try:
-            reddit_file.write(str(list(Counter(lastRedditPosts).keys())))
+            reddit_file.write(str(list(Counter(last_reddit_posts).keys())))
             reddit_file.write("\n")
-            reddit_file.write(str(list(Counter(lastRedditPosts).values())))
-        except Exception as e:
-            print(e)
+            reddit_file.write(str(list(Counter(last_reddit_posts).values())))
+        except Exception as exc:
+            print(exc)
             print("Error Cannot Read File or File empty (Reddit)")
 
 #Reddit thread Daemon
@@ -119,9 +119,9 @@ for x in unfiltered_cve:
     personal_score = rating.rate(cve_info, counter)
     personal_rating.append(personal_score)
     if score > 0:
-        sum_score += score
-        relevant_cve += 1
-        sum_personal_score += personal_score
+        SUM_SCORE += score
+        RELEVANT_CVE += 1
+        SUM_PERSONAL_SCORE += personal_score
     filtered_score.append(cve_info[0])
     severity = cve_info[1]
     filtered_severity.append(cve_info[1])
@@ -134,10 +134,10 @@ for x in unfiltered_cve:
 Returns:
     _type_: _description_
 """
-def aktuelle_sicherheitslage(sum):
+def aktuelle_sicherheitslage(sum:float):
     """Wertet aktuelle Sicheheitslage aus"""
     # meiste_werte = max(values)
-    value = sum / relevant_cve
+    value = sum / RELEVANT_CVE
     sec_lvl = "LOW"
 
     if value < 2:
@@ -230,10 +230,10 @@ layout = dash.html.Div(
                         dash.html.Center(
                             style={'height': '50%', 'align-items': 'center'},
                             children= [
-                                dash.html.H2("General Securitylevel", 
+                                dash.html.H2("General Securitylevel",
                                     style={'text-decoration': 'underline', 'height': '25%'}),
                                 dash.html.P(
-                                    aktuelle_sicherheitslage(sum_score),
+                                    aktuelle_sicherheitslage(SUM_SCORE),
                                     style={"color": "red", 'height': '25%'}
                                 ),
                             ],
@@ -244,7 +244,7 @@ layout = dash.html.Div(
                                     dash.html.H2("Personal Securitylevel",
                                         style={'text-decoration': 'underline', 'height': '25%'}),
                                     dash.html.P(
-                                        aktuelle_sicherheitslage(sum_personal_score),
+                                        aktuelle_sicherheitslage(SUM_PERSONAL_SCORE),
                                         style={"color": "red", 'height': '25%'}
                                     )
                             ]
