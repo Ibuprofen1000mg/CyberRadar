@@ -107,7 +107,8 @@
 <a id="Reddit"></a>
   <div class="doc doc-contents first">
   
-      <p>File Description</p>
+      <p>This File contains elements and functions to connect to the Reddit API and retrieve Data
+<strong>author</strong>: Nic Holzapfel</p>
 
   
 
@@ -133,12 +134,38 @@
 
   <div class="doc doc-contents ">
   
-      <p>MISSING!!!</p>
+      <p><em>summary</em></p>
 
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+<b>_type_</b>(                <code>None</code>
+)            –
+            <div class="doc-md-description">
+              <p><em>description</em></p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
       <details class="quote">
         <summary>Source code in <code>Reddit.py</code></summary>
         <pre class="highlight"><code class="language-python">def check_api_function() -&gt; None:
-    """MISSING!!!"""
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     return client.read_only</code></pre>
       </details>
   </div>
@@ -161,7 +188,7 @@
 
       <details class="quote">
         <summary>Source code in <code>Reddit.py</code></summary>
-        <pre class="highlight"><code class="language-python">def check_last_new_in_subreddit(subreddit_name, amount_of_posts):
+        <pre class="highlight"><code class="language-python">def check_last_new_in_subreddit(subreddit_name:str, amount_of_posts):
     """MISSING!!!"""
     return client.subreddit(subreddit_name).new(limit=amount_of_posts)</code></pre>
       </details>
@@ -208,12 +235,63 @@
 
   <div class="doc doc-contents ">
   
-      <p>MISSING!!!</p>
+      <p><em>summary</em></p>
 
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b>cve_string</b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p><em>description</em></p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+<b>_type_</b>            –
+            <div class="doc-md-description">
+              <p><em>description</em></p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
       <details class="quote">
         <summary>Source code in <code>Reddit.py</code></summary>
-        <pre class="highlight"><code class="language-python">def retrieve_cve_count(cve_string):
-    """MISSING!!!"""
+        <pre class="highlight"><code class="language-python">def retrieve_cve_count(cve_string:str):
+    """_summary_
+
+    Args:
+        cve_string (str): _description_
+
+    Returns:
+        _type_: _description_
+    """
     try:
         return Counter(retrieve_reddit_cve_list())[cve_string]
     except TypeError:
@@ -235,12 +313,38 @@
 
   <div class="doc doc-contents ">
   
-      <p>MISSING!!!</p>
+      <p><em>summary</em></p>
 
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+<b>list</b>(                <code>list</code>
+)            –
+            <div class="doc-md-description">
+              <p><em>description</em></p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
       <details class="quote">
         <summary>Source code in <code>Reddit.py</code></summary>
         <pre class="highlight"><code class="language-python">def retrieve_reddit_cve_list() -&gt; list:
-    """MISSING!!!"""
+    """_summary_
+
+    Returns:
+        list: _description_
+    """
     cve_list = []
     try:
         with open("Textfiles/Subreddits.txt", "r", encoding="utf-8") as reddit_file:

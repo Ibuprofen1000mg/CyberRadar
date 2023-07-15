@@ -106,6 +106,8 @@
 
 <a id="Historic"></a>
   <div class="doc doc-contents first">
+  
+      <p>File for the generation of the historic CVE data</p>
 
   
 
@@ -123,15 +125,15 @@
 
 
 
-<h2 id="Historic.dates_array" class="doc doc-heading">
-<code class="highlight language-python">dates_array()</code>
+<h2 id="Historic.data_array" class="doc doc-heading">
+<code class="highlight language-python">data_array()</code>
 
 </h2>
 
 
   <div class="doc doc-contents ">
   
-      <p>Returns a list containing Years from 1999 until today</p>
+      <p>Returns a list removing tabs and newline character feeds</p>
 
 <table class="field-list">
   <colgroup>
@@ -147,7 +149,58 @@
 <b>list</b>(                <code>list</code>
 )            –
             <div class="doc-md-description">
-              <p>List containing years</p>
+              
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+      <details class="quote">
+        <summary>Source code in <code>Historic.py</code></summary>
+        <pre class="highlight"><code class="language-python">def data_array() -&gt; list:
+    """Returns a list removing tabs and newline character feeds
+
+    Returns:
+        list: 
+    """
+    strip_list = [ x.replace('\t', '').replace('\n', '') for x in cve_data ]
+    return strip_list</code></pre>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="Historic.dates_array" class="doc doc-heading">
+<code class="highlight language-python">dates_array()</code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Returns a list of years from 1999 up to today</p>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+<b>list</b>(                <code>list</code>
+)            –
+            <div class="doc-md-description">
+              <p>Years from 1999 to today</p>
             </div>
           </li>
       </ul>
@@ -158,10 +211,9 @@
       <details class="quote">
         <summary>Source code in <code>Historic.py</code></summary>
         <pre class="highlight"><code class="language-python">def dates_array() -&gt; list:
-    """Returns a list containing Years from 1999 until today
-
+    """Returns a list of years from 1999 up to today
     Returns:
-        list: List containing years
+        list: Years from 1999 to today
     """
     return datasets</code></pre>
       </details>
