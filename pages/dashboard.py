@@ -58,13 +58,8 @@ SUM_SCORE = 0
 SUM_PERSONAL_SCORE = 0
 RELEVANT_CVE = 0
 
-
 # Author: Nic Holzapfel
-""" TWITTER DATA
-
-Returns:
-    _type_: _description_
-"""
+#TWITTER DATA
 try:
     last100Tweets = Tweety.get_cve_in_tweets(Tweety.get_tweets("#cve -from:RedPacketSec", 50))
     unfiltered_cve = list(Counter(last100Tweets).keys())
@@ -83,6 +78,8 @@ except:
 
 # REDDIT DATA
 def reddit_data():
+    """Renders the Reddit data from the API. This part saves the reddit data into a textfile for faster loading of the Dashboard
+    """
     file_dir = os.path.dirname(os.path.realpath('__file__'))
     file_name = os.path.join(file_dir, 'Textfiles\Reddit_data.txt')
     last_reddit_posts = Reddit.retrieve_reddit_cve_list()
@@ -106,9 +103,6 @@ def reddit_data():
 
 # Author: Nic Holzapfel, Benjamin Götz, Jesse Kuhn
 """ Pulling data from the CVE database and configuring variables that can be used for the diagrams
-
-Returns:
-    _type_: _description_
 """
 counter = len(unfiltered_cve)
 for x in unfiltered_cve:
@@ -128,15 +122,15 @@ for x in unfiltered_cve:
     cve_descriptions.append(cve_info[2])
     values[severity_map.get(severity, 2)] += 1
 
-# Author: Nic Holzapfel, Benjamin Götz
-""" desc...
+def aktuelle_sicherheitslage(sum:float) -> str:
+    """Calculates current security levels
 
-Returns:
-    _type_: _description_
-"""
-def aktuelle_sicherheitslage(sum:float):
-    """Wertet aktuelle Sicheheitslage aus"""
-    # meiste_werte = max(values)
+    Args:
+        sum (float): input of CVSS score from a CVE
+
+    Returns:
+        sec_lvl(str): Returns the current security level string
+    """
     value = sum / RELEVANT_CVE
     sec_lvl = "LOW"
 
@@ -154,10 +148,8 @@ def aktuelle_sicherheitslage(sum:float):
     return sec_lvl
 
 # Author: Benjamin Götz
-""" DATAFRAME
-
-Returns:
-    _type_: _description_
+"""
+DATAFRAME
 """
 df = pd.DataFrame({'CVE': [x for x in unfiltered_cve],
             'Score': [x for x in filtered_score],
