@@ -115,7 +115,8 @@
 <a id="pages.news"></a>
   <div class="doc doc-contents first">
   
-      <p>MISSING!!!</p>
+      <p>File for the generation of the news CVE datasheet</p>
+<p><strong>Author</strong>: Nic Holzapfel</p>
 
   
 
@@ -128,6 +129,111 @@
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="pages.news.update_cve_details" class="doc doc-heading">
+<code class="highlight language-python">update_cve_details(timer, div_children)</code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Fetches newest CVE numbers from cvedetails</p>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b>timer</b>
+                  (<code>_type_</code>)
+              –
+              <div class="doc-md-description">
+                <p>Timer Interval for updating the Website</p>
+              </div>
+            </li>
+            <li>
+              <b>div_children</b>
+                  (<code>_type_</code>)
+              –
+              <div class="doc-md-description">
+                <p>Dash-Datatype from which child the Table will be appended to</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+<b>_type_</b>            –
+            <div class="doc-md-description">
+              <p>Dash Datatype returns (children datatype) containing the newest cve table</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+      <details class="quote">
+        <summary>Source code in <code>pages\news.py</code></summary>
+        <pre class="highlight"><code class="language-python">@callback(
+    Output(component_id="news_page", component_property="children"),
+    Input(component_id="timer", component_property="n_intervals"),
+    State(component_id="news_page", component_property="children")
+)
+def update_cve_details(timer, div_children):
+    """Fetches newest CVE numbers from cvedetails
+
+    Args:
+        timer (_type_): Timer Interval for updating the Website
+        div_children (_type_): Dash-Datatype from which child the Table will be appended to
+
+    Returns:
+        _type_: Dash Datatype returns (children datatype) containing the newest cve table
+    """
+    res = requests.get("http://www.cvedetails.com/json-feed.php?numrows=30&amp;vendor_id=0&amp;product_id=0&amp;version_id=0&amp;hasexp=0&amp;opec=0&amp;opov=0&amp;opcsrf=0&amp;opfileinc=0&amp;opgpriv=0&amp;opsqli=0&amp;opxss=0&amp;opdirt=0&amp;opmemc=0&amp;ophttprs=0&amp;opbyp=0&amp;opginf=0&amp;opdos=0&amp;orderby=3&amp;cvssscoremin=0")
+    df = json.loads(res.content)
+    dd = defaultdict(list)
+    for d in (df): 
+        for key, value in d.items():
+            dd[key].append(value)
+    temp_dict = dict(dd)
+    temp_dataframe = pd.DataFrame.from_dict(temp_dict)
+    div_child = dash_table.DataTable(
+            temp_dataframe.to_dict('records'),
+            id="table",
+            style_cell={'minWidth': 95, 'maxWidth': 500, 'width': 'auto', 'textAlign': 'center'},
+            style_data={'whiteSpace': 'normal','height': 'auto','lineHeight': '15px'},
+            style_table={'overflowX': 'auto'}
+        ),
+
+    return div_child    </code></pre>
+      </details>
+  </div>
+
+</div>
 
 
 
