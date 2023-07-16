@@ -14,6 +14,7 @@ import Historic
 import rating
 import RSS
 import WebCrawl
+import threading
 
 # Author: Jesse Kuhn
 """ Registrating the page in the registry of the app; The page can be called and routing is enabled
@@ -93,13 +94,12 @@ def reddit_data():
             print("Error Cannot Read File or File empty (Reddit)")
 
 #Reddit thread Daemon
-# try:
-#     print("No Exception")
-#     #thread_reddit_fetch = threading.Thread(target=reddit_data())
-#     #thread_reddit_fetch.daemon = True
-#     #thread_reddit_fetch.start()
-# except:
-#     print("Reddit API Error!")
+try:
+    thread_reddit_fetch = threading.Thread(target=reddit_data())
+    thread_reddit_fetch.daemon = True
+    thread_reddit_fetch.start()
+except:
+    print("Reddit API Error/Faulty Credentials: Using Textfile Data")
 
 # Author: Nic Holzapfel, Benjamin Götz, Jesse Kuhn
 """ Pulling data from the CVE database and configuring variables that can be used for the diagrams
