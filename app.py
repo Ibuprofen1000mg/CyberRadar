@@ -13,8 +13,6 @@ import dash
 
 """ Configuration for the page
 __author__ = "Jesse Kuhn"
-Returns:
-    _type_: _description_
 """
 app = Dash(__name__, use_pages=True, suppress_callback_exceptions=False,
     meta_tags=[
@@ -25,8 +23,6 @@ app.title = 'Cyber-Radar'
 
 """ The blueprint of the banner and the menu that is displayed on all pages
 __author__ = "Jesse Kuhn"
-Returns:
-    _type_: _description_
 """
 app.layout = html.Div([
 	html.Div(
