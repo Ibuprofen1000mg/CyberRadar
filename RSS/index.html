@@ -259,14 +259,12 @@
     """Main code function to tun through all websites
     """
     with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
-        cve_array = []
         for line in rss_file.readlines():
-            #print(line)
             single_feed = feedparser.parse(line)
             for entry in single_feed.entries:
                 get_cve_in_rss(entry.title)
                 get_cve_in_rss(entry.summary)
-    return cve_array</code></pre>
+    return cve_list</code></pre>
       </details>
   </div>
 
@@ -293,63 +291,6 @@
     """
     with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
         print(rss_file.read())</code></pre>
-      </details>
-  </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-
-<h2 id="RSS.remove_website" class="doc doc-heading">
-<code class="highlight language-python">remove_website(*website_string)</code>
-
-</h2>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Remove website from RSS-Websites file</p>
-
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b>website_string</b>
-                  (<code>str</code>)
-              –
-              <div class="doc-md-description">
-                <p>Enter all Website strings to be removed from the Textfile</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
-      <details class="quote">
-        <summary>Source code in <code>RSS.py</code></summary>
-        <pre class="highlight"><code class="language-python">def remove_website(*website_string:str):
-    """Remove website from RSS-Websites file
-
-    Args:
-        website_string (str): Enter all Website strings to be removed from the Textfile
-    """
-    with open(RSS_FILE_NAME, "r", encoding="utf-8") as rss_file:
-        lines = rss_file.readlines()
-
-    with open("sample.txt", "w", encoding="utf-8") as rss_file:
-        for line in lines:
-            if line.strip("\n") != website_string:
-                rss_file.write(line)</code></pre>
       </details>
   </div>
 
