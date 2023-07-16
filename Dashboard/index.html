@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Tweety - Cyber-Radar Documentation</title>
+    <title>Dashboard - Cyber-Radar Documentation</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Tweety";
-        var mkdocs_page_input_path = "Tweety.md";
+        var mkdocs_page_name = "Dashboard";
+        var mkdocs_page_input_path = "Dashboard.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -49,8 +49,10 @@
                 <li class="toctree-l1"><a class="reference internal" href="../Cve_ds/">Cve ds</a>
                 </li>
               </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../Dashboard/">Dashboard</a>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Dashboard</a>
+    <ul class="current">
+    </ul>
                 </li>
               </ul>
               <ul>
@@ -73,10 +75,8 @@
                 <li class="toctree-l1"><a class="reference internal" href="../Reddit/">Reddit</a>
                 </li>
               </ul>
-              <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Tweety</a>
-    <ul class="current">
-    </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Tweety/">Tweety</a>
                 </li>
               </ul>
               <ul>
@@ -97,7 +97,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
-      <li>Tweety</li>
+      <li>Dashboard</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -106,17 +106,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="tweety">Tweety</h2>
+                <h2 id="dashboard">Dashboard</h2>
 
 
 <div class="doc doc-object doc-module">
 
 
-<a id="Tweety"></a>
+<a id="pages.dashboard"></a>
   <div class="doc doc-contents first">
   
-      <p>This File contains elements and functions to connect to the Twitter API and retrieve Data</p>
-<p><strong>Author</strong>: Nic Holzapfel</p>
+      <p>File for the implementation of the dashboard --&gt; Frontend and data processing
+<strong>author</strong>: Nic Holzapfel, Benjamin Götz, Jesse Kuhn</p>
 
   
 
@@ -128,45 +128,24 @@
 
 
 
-
-
-<div class="doc doc-object doc-function">
+<div class="doc doc-object doc-attribute">
 
 
 
-<h2 id="Tweety.get_cve_in_tweets" class="doc doc-heading">
-<code class="highlight language-python">get_cve_in_tweets(tweets_response)</code>
+<h2 id="pages.dashboard.RELEVANT_CVE" class="doc doc-heading">
+<code class="highlight language-python">RELEVANT_CVE = 0</code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
 
 </h2>
 
 
   <div class="doc doc-contents ">
   
-      <p>Returns CVE REGEX found in an array of tweets</p>
+      <p>TWITTER DATA</p>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b>tweets_response</b>
-                  (<code>_type_</code>)
-              –
-              <div class="doc-md-description">
-                <p>Enter the Tweet Queries to be searched for a CVE Regex Pattern</p>
-              </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
 <table class="field-list">
   <colgroup>
     <col class="field-name" />
@@ -178,34 +157,97 @@
     <td class="field-body">
       <ul class="first simple">
           <li>
-<b>list</b>(                <code>list</code>
-)            –
+<b>_type_</b>            –
             <div class="doc-md-description">
-              <p>Found CVEs inside the Tweets</p>
+              <p><em>description</em></p>
             </div>
           </li>
       </ul>
     </td>
     </tr>
   </tbody>
-</table>
+</table>  </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="pages.dashboard.df" class="doc doc-heading">
+<code class="highlight language-python">df = pd.DataFrame({'CVE': [xfor x in unfiltered_cve], 'Score': [xfor x in filtered_score], 'Personal Rating': [xfor x in personal_rating], 'Severity': [xfor x in filtered_severity], 'Description': [xfor x in cve_descriptions]}, index=[*range(0, len(unfiltered_cve), 1)])</code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Configurations for the pie chart about severity distribution</p>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="pages.dashboard.fig" class="doc doc-heading">
+<code class="highlight language-python">fig = go.Figure(data=[go.Pie(labels=labels, values=values)], layout={'title': 'Severity Distribution'})</code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>The blueprint of the webpage, coded with python dash which enables html and css properties</p>
+  </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="pages.dashboard.aktuelle_sicherheitslage" class="doc doc-heading">
+<code class="highlight language-python">aktuelle_sicherheitslage(sum)</code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Wertet aktuelle Sicheheitslage aus</p>
+
       <details class="quote">
-        <summary>Source code in <code>Tweety.py</code></summary>
-        <pre class="highlight"><code class="language-python">def get_cve_in_tweets(tweets_response)-&gt;list:
-    """Returns CVE REGEX found in an array of tweets
+        <summary>Source code in <code>pages\dashboard.py</code></summary>
+        <pre class="highlight"><code class="language-python">def aktuelle_sicherheitslage(sum:float):
+    """Wertet aktuelle Sicheheitslage aus"""
+    # meiste_werte = max(values)
+    value = sum / RELEVANT_CVE
+    sec_lvl = "LOW"
 
-    Args:
-        tweets_response (_type_): Enter the Tweet Queries to be searched for a CVE Regex Pattern
+    if value &lt; 2:
+        sec_lvl = "LOW"
+    elif value &lt; 4:
+        sec_lvl = "GUARDED"
+    elif value &lt; 6:
+        sec_lvl = "ELEVATED"
+    elif value &lt; 8:
+        sec_lvl = "HIGH"
+    else:
+        sec_lvl = "SEVERE"
 
-    Returns:
-        list: Found CVEs inside the Tweets
-    """
-    list_found_cves_in_tweets = []
-    for tweets in tweets_response.data:
-        check_cve_regex = re.search('CVE-\\d{4}-\\d{4,7}', tweets.text)
-        if check_cve_regex is not None:
-            list_found_cves_in_tweets.append(check_cve_regex.group())
-    return list_found_cves_in_tweets</code></pre>
+    return sec_lvl</code></pre>
       </details>
   </div>
 
@@ -215,15 +257,15 @@
 
 
 
-<h2 id="Tweety.get_tweets" class="doc doc-heading">
-<code class="highlight language-python">get_tweets(query_string, number_of_tweets)</code>
+<h2 id="pages.dashboard.update_reddit_data" class="doc doc-heading">
+<code class="highlight language-python">update_reddit_data(timer, div_children)</code>
 
 </h2>
 
 
   <div class="doc doc-contents ">
   
-      <p>Returns Tweets given a number of tweets and a query-string</p>
+      <p>Updates Reddit Data as Thread Daemon</p>
 
 <table class="field-list">
   <colgroup>
@@ -236,19 +278,17 @@
       <td class="field-body">
         <ul class="first simple">
             <li>
-              <b>query_string</b>
-                  (<code>str</code>)
+              <b>timer</b>
               –
               <div class="doc-md-description">
-                <p>The query-string for tweets to be searched</p>
+                <p>Set timer interval to update the data from reddit</p>
               </div>
             </li>
             <li>
-              <b>number_of_tweets</b>
-                  (<code>int</code>)
+              <b>div_children</b>
               –
               <div class="doc-md-description">
-                <p>The amount of tweets to be returned</p>
+                <p>input where to append a div-child to</p>
               </div>
             </li>
         </ul>
@@ -267,10 +307,9 @@
     <td class="field-body">
       <ul class="first simple">
           <li>
-<b>list</b>(                <code>list</code>
-)            –
+<b>_type_</b>            –
             <div class="doc-md-description">
-              <p>Found amount of tweets based on the requested query</p>
+              <p>returns a full html div component with reddit data as a graph</p>
             </div>
           </li>
       </ul>
@@ -279,26 +318,54 @@
   </tbody>
 </table>
       <details class="quote">
-        <summary>Source code in <code>Tweety.py</code></summary>
-        <pre class="highlight"><code class="language-python">def get_tweets(query_string: str, number_of_tweets: int) -&gt; list:
-    """Returns Tweets given a number of tweets and a query-string
+        <summary>Source code in <code>pages\dashboard.py</code></summary>
+        <pre class="highlight"><code class="language-python">@dash.callback(
+    dash.Output(component_id="reddit_card", component_property="children"),
+    dash.Input(component_id="reddit_timer", component_property="n_intervals"),
+    dash.State(component_id="reddit_page", component_property="children")
+)
+def update_reddit_data(timer, div_children):
+    """Updates Reddit Data as Thread Daemon
 
     Args:
-        query_string (str): The query-string for tweets to be searched
-        number_of_tweets (int): The amount of tweets to be returned
+        timer: Set timer interval to update the data from reddit
+        div_children: input where to append a div-child to
 
     Returns:
-        list: Found amount of tweets based on the requested query
+        _type_: returns a full html div component with reddit data as a graph
     """
+    reddit_cve = []
+    reddit_cve_counter = []
     try:
-        get_tweets_by_x = client.search_recent_tweets(
-            query=str(query_string),
-            tweet_fields=['context_annotations'],
-            max_results=int(number_of_tweets)
-            )
-        return get_tweets_by_x
+        file_dir = os.path.dirname(os.path.realpath('__file__'))
+        file_name = os.path.join(file_dir, 'Textfiles\Reddit_data.txt')
+        with open(file_name, "r") as reddit_file:
+            reddit_cve = reddit_file.readline().replace("[","").replace("]","")
+            reddit_cve_counter = reddit_file.readline().replace("[","").replace("]","")
     except:
-        print("Twitter API Error/Faulty Credentials: Using Textfile Data")</code></pre>
+        print("Error cannot read File or File empty in update_reddit_data")
+    div_child = dash.dcc.Graph(
+        id="numbers-chart",
+        config={"displayModeBar": False},
+        figure={
+            "data": [
+                {
+                    'y': reddit_cve_counter.split(),
+                    'x': reddit_cve.split(),
+                    'type': 'bar'
+                },
+            ],
+            'layout': {
+                'title': {
+                    'text': 'CVEs on Reddit',
+                    'x': 0.1,
+                    'xanchor': 'down'
+                },
+                'colorway': ['#E12D39']
+            }
+        },
+    )
+    return div_child</code></pre>
       </details>
   </div>
 
@@ -315,8 +382,8 @@
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../Reddit/" class="btn btn-neutral float-left" title="Reddit"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../WebCrawl/" class="btn btn-neutral float-right" title="WebCrawl">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../Cve_ds/" class="btn btn-neutral float-left" title="Cve ds"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Historic/" class="btn btn-neutral float-right" title="Historic">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -339,10 +406,10 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../Reddit/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../Cve_ds/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../WebCrawl/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../Historic/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
