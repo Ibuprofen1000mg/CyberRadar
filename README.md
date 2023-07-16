@@ -11,6 +11,8 @@ pip install -r requirements.txt
 ```
 ## Usage
 
+Prior to usage, you should generate API Tokens from Reddit and Twitter and modify the Configuration/Creds.ini File
+
 ```python
 python app.py
 ```
